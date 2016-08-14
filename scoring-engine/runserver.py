@@ -9,8 +9,9 @@ from parsers.pmml.gpr import GaussianProcessParser
 
 parser = GaussianProcessParser()
 
-model1 = parser.parse('examples/tool-condition.pmml')
-model2 = parser.parse('examples/energy-prediction.pmml')
+root = os.path.dirname(os.path.realpath(__file__))
+model1 = parser.parse(os.path.join(root,'examples/pmml/tool-condition.pmml'))
+model2 = parser.parse(os.path.join(root,'examples/pmml/energy-prediction.pmml'))
 
 
 ##############################

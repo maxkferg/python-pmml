@@ -17,7 +17,7 @@ class GaussianProcessParser():
         xTrain,yTrain = self._parse_training_values(GPM)
         xTrain = np.array(xTrain)
         yTrain = np.array(yTrain)
-        return GaussianProcessModel(gamma=gamma,nugget=nugget,k_lambda=k_lambda,
+        return GaussianProcessModel(gamma=gamma,beta=0,nugget=nugget,k_lambda=k_lambda,
             kernelName=kernelName,xTrain=xTrain,yTrain=yTrain)
 
 
@@ -36,12 +36,12 @@ class GaussianProcessParser():
         """parse MiningSchema for features and targets"""
         # Will get a list of target name and feature name
         tagname = "MiningSchema".lower();
-        MS=GPM.find(self.nsp+tagname)
-        targetName=[]
-        featureName=[]
+        MS = GPM.find(self.nsp+tagname)
+        targetName = []
+        featureName = []
         for MF in MS:
-            MF_name=MF.attrib["name"]
-            MF_type=MF.attrib["usagetype"]
+            MF_name = MF.attrib["name"]
+            MF_type = MF.attrib["usagetype"]
             if MF_type == "active":
                 featureName.append(MF_name)
             elif MF_type == "predicted":
@@ -87,7 +87,7 @@ class GaussianProcessParser():
         inlinetable = traininginstances.find(self.nsp+"inlinetable")
         instancefields = traininginstances.find(self.nsp+"instancefields")
 
-        [features,targets] = parse_name(self.nsp,GPM)
+        [features,targets] = self._parse_name(GPM)
 
         nrows = int(traininginstances.attrib['recordcount'])
         fcols = len(features)
