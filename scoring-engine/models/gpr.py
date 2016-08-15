@@ -22,14 +22,27 @@ class GaussianProcessModel:
         yTrain: Numpy array containing y training values
 
         """
-        self.xTrain=xTrain
-        self.yTrain=yTrain
-        self.k_lambda=k_lambda
-        self.beta=beta
-        self.gamma=gamma
-        self.nugget=nugget
-        self.kernelName=kernelName
-
+        self.xTrain = xTrain
+        self.yTrain = yTrain
+        self.k_lambda = k_lambda
+        self.beta = beta
+        self.gamma = gamma
+        self.nugget = nugget
+        self.kernelName = kernelName
+        
+        # Setup the regressor as if gp.fit had been called
+        # See https://github.com/scikit-learn/scikit-learn/master/sklearn/gaussian_process/gpr.py
+        kernel = self._getKernel()
+        gp = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=0)
+        gp.K = kernel(xTrain);
+        gp.X_train_ = xTrain;
+        gp.y_train_ = yTrain;
+        gp.L_ = cholesky(gp.K, lower=True)
+        gp.alpha_ = cho_solve((gp.L_, True), yTrain)
+        gp.fit(xTrain,yTrain)
+        gp.kernel_ = kernel
+        self.gp = gp
+        self.kernel = kernel
 
     def score(self,xNew):
         """
@@ -38,24 +51,24 @@ class GaussianProcessModel:
         Return the predicted mean and standard deviation [mu,s]
         @param{Array} xNew. An array of x values where each row corrosponds to a point
         @output{Array} mu. A column vector containing predicted mean values
-        @output{Array} s. A column vector containign predicted standard deviations
+        @output{Array} s. A column vector containing predicted standard deviations
         """
-        kernel = self._getKernel()
-        gp = GaussianProcessRegressor(kernel=kernel,n_restarts_optimizer=0)
-        # Setup the regressor as if gp.fit had been called
-        # See https://github.com/scikit-learn/scikit-learn/master/sklearn/gaussian_process/gpr.py
-        gp.K = kernel(self.xTrain);
-        gp.X_train_ = self.xTrain;
-        gp.y_train_ = self.yTrain;
-        gp.L_ = cholesky(gp.K, lower=True)
-        gp.alpha_ = cho_solve((gp.L_, True), self.yTrain)
-        gp.fit(self.xTrain,self.yTrain)
-        gp.kernel_ = kernel;
-        return gp.predict(xNew,return_std=True)
+        self._validate_xnew(xNew)
+        xNew = np.array(xNew).reshape((1, -1));
+        mu,sd = self.gp.predict(xNew,return_std=True)
+        return {'mu':mu.tolist(), 'sd':sd.tolist()}
 
     def valid(self):
         """Check that all of the parameters are valid. Throw error on failure"""
         pass
+
+
+    def _validate_xnew(self,xNew):
+        """Ensure that the size of xnew matches the expected length"""
+        if len(self.k_lambda) != len(xNew):
+            raise ValueError('The number of elements in xNew does not match the model')
+
+
 
     def _toPMML(self,filename):
         """Write the trained model to PMML. Return PMML as string"""
@@ -87,7 +100,7 @@ class GaussianProcessModel:
         """Get the right kernel according to the kernelName parameter"""
         if self.kernelName=="RadialBasisKernel":
             raise Exception('RadialBasisKernel not implimented yet')
-        elif self.kernelName=="ARDSquaredExponentialKernelType":
+        elif self.kernelName=="ARDSquaredExponentialKernel":
             return self.gamma * RBF(self.k_lambda) + WhiteKernel(noise_level=self.nugget)
         elif self.kernelName=="AbsoluteExponentialKernel":
             raise Exception('AbsoluteExponentialKernel not implimented yet')

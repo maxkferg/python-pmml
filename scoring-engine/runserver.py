@@ -1,54 +1,57 @@
 import os
 import sys
+import glob
 import numpy as np
 import heapq
 import base64
 import cStringIO
+import timeit
 from flask import Flask, jsonify, abort, request
 from parsers.pmml.gpr import GaussianProcessParser
 
-parser = GaussianProcessParser()
+def load_examples():
+	"""Load example PMML files"""
+	models = dict();
+	parser = GaussianProcessParser()
+	root = os.path.dirname(os.path.realpath(__file__))
+	examples = os.path.join(root,'examples','pmml')
+	pattern = examples + '/*.pmml'
 
-root = os.path.dirname(os.path.realpath(__file__))
-model1 = parser.parse(os.path.join(root,'examples/pmml/tool-condition.pmml'))
-model2 = parser.parse(os.path.join(root,'examples/pmml/energy-prediction.pmml'))
-
+	for filepath in glob.iglob(pattern):
+		print 'Loading ' + os.path.basename(filepath)
+		name = os.path.basename(filepath)
+		models[name] = parser.parse(filepath)
+	return models
 
 ##############################
-# Set up Rest Flask server
+# Set up REST Flask server
 ##############################
 app = Flask(__name__)
+models = load_examples()
 
 
+@app.route('/predict/<model>',methods=['POST'])
+def predict_score(model):
+	if not model in models:
+		message = "Unknown model "+model 
+		return jsonify(status=404, error=message);
 
-@app.route('/examples/tool-condition', methods=['POST'])
-def predict_score_condition():
 	data = request.get_json()
 	if not data:
-		print 'Aborting, no form data'
-		abort(400)
+		message = "Request does not contain form data" 
+		return jsonify(status=404, error=message);
 
 	if 'xnew' not in data:
-		print 'Aborting, no new observation'
-		abort(400)
+		message = "Request does not contain xnew" 
+		return jsonify(status=404, error=message);
 
-	scores = model1.score(data['xnew'])
-	return jsonify(status=200, **scores)
-
-
-
-@app.route('/examples/energy-prediction', methods=['POST'])
-def predict_score_energy():
-	data = request.get_json()
-	if not data:
-		print 'Aborting, no form data'
-		abort(400)
-
-	if 'xnew' not in data:
-		print 'Aborting, no new observation'
-		abort(400)
-
-	scores = model1.score(data['xnew'])
+	try:
+		t = timeit.Timer('char in text', setup='text = "sample string"; char = "g"')
+		scores = models[model].score(data['xnew'])
+		print 'Total prediction duration %f ms'%(1000*t.timeit())
+	except ValueError as e: 
+		return jsonify(status=200, error=e.message)
+	
 	return jsonify(status=200, **scores)
 
 

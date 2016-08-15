@@ -6,12 +6,12 @@ class TestServer():
 
 	def test(self):
 		headers = {'Content-Type': 'application/json', 'Accept':'application/json'}
-		payload = {'xnew': [1,2,3,4,5,6,7,8,9]}
+		payload = {'xnew': [1,2,3,4,5]}
 
-		r = requests.post('http://localhost:5000/examples/tool-condition',json=payload, headers=headers)
-		print r.text
+		#r = requests.post('http://localhost:5000/examples/tool-condition.pmml',json=payload, headers=headers)
+		#print r.text
 
-		r = requests.post('http://localhost:5000/examples/energy-prediction',json=payload, headers=headers)
+		r = requests.post('http://localhost:5000/predict/energy-prediction-1.pmml',json=payload, headers=headers)
 		print r.text
 
 
