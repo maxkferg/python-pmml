@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" version="4.3">
+   <Header copyright="DMG.org"/>
+   <DataDictionary numberOfFields="2">
+      <DataField dataType="double" name="x1" optype="continuous"/>
+      <DataField dataType="double" name="y1" optype="continuous"/>
+   </DataDictionary>
+   <GaussianProcessModel functionName="regression" modelName="Gaussian Process Model">
+      <MiningSchema>
+         <MiningField name="x1" usageType="active"/>
+         <MiningField name="y1" usageType="predicted"/>
+      </MiningSchema>
+      <Output>
+         <OutputField dataType="double" feature="predictedValue" name="MeanValue" optype="continuous"/>
+         <OutputField dataType="double" feature="predictedValue" name="StandardDeviation" optype="continuous"/>
+      </Output>
+      <ARDSquaredExponentialKernel gamma="457.798" noiseVariance="220.1537">
+         <Lambda>
+            <array n="1" type="real">10079.531443</array>
+         </Lambda>
+      </ARDSquaredExponentialKernel>
+      <TrainingInstances fieldCount="2" isTransformed="false" recordCount="24">
+         <InstanceFields>
+            <InstanceField column="x1" field="x1"/>
+            <InstanceField column="y1" field="y1"/>
+         </InstanceFields>
+         <InlineTable>
+            <row>
+               <x1>24.9647</x1>
+               <y1>32.98</y1>
+            </row>
+            <row>
+               <x1>24.9844</x1>
+               <y1>24.76</y1>
+            </row>
+            <row>
+               <x1>24.9654</x1>
+               <y1>60.14</y1>
+            </row>
+            <row>
+               <x1>24.9719</x1>
+               <y1>57.46</y1>
+            </row>
+            <row>
+               <x1>24.9294</x1>
+               <y1>31.84</y1>
+            </row>
+            <row>
+               <x1>24.9321</x1>
+               <y1>16.06</y1>
+            </row>
+            <row>
+               <x1>23.5975</x1>
+               <y1>24.92</y1>
+            </row>
+            <row>
+               <x1>24.9349</x1>
+               <y1>27.72</y1>
+            </row>
+            <row>
+               <x1>23.6475</x1>
+               <y1>16.5</y1>
+            </row>
+            <row>
+               <x1>24.9595</x1>
+               <y1>17.57</y1>
+            </row>
+            <row>
+               <x1>24.7508</x1>
+               <y1>19.21</y1>
+            </row>
+            <row>
+               <x1>24.2614</x1>
+               <y1>23.77</y1>
+            </row>
+            <row>
+               <x1>23.8057</x1>
+               <y1>17.01</y1>
+            </row>
+            <row>
+               <x1>24.158</x1>
+               <y1>27.35</y1>
+            </row>
+            <row>
+               <x1>24.0762</x1>
+               <y1>33.41</y1>
+            </row>
+            <row>
+               <x1>24.9659</x1>
+               <y1>7.2375</y1>
+            </row>
+            <row>
+               <x1>24.2909</x1>
+               <y1>4.87</y1>
+            </row>
+            <row>
+               <x1>24.9785</x1>
+               <y1>8.5525</y1>
+            </row>
+            <row>
+               <x1>24.2993</x1>
+               <y1>8.52</y1>
+            </row>
+            <row>
+               <x1>24.9746</x1>
+               <y1>8.9175</y1>
+            </row>
+            <row>
+               <x1>24.981</x1>
+               <y1>3.9525</y1>
+            </row>
+            <row>
+               <x1>24.4395</x1>
+               <y1>8.1</y1>
+            </row>
+            <row>
+               <x1>24.5787</x1>
+               <y1>8.265</y1>
+            </row>
+            <row>
+               <x1>24.9657</x1>
+               <y1>29.5133</y1>
+            </row>
+         </InlineTable>
+      </TrainingInstances>
+   </GaussianProcessModel>
+</PMML>

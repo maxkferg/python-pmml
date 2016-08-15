@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" version="4.3">
+   <Header copyright="DMG.org"/>
+   <DataDictionary numberOfFields="4">
+      <DataField dataType="double" name="x1" optype="continuous"/>
+      <DataField dataType="double" name="x2" optype="continuous"/>
+      <DataField dataType="double" name="x3" optype="continuous"/>
+      <DataField dataType="double" name="y1" optype="continuous"/>
+   </DataDictionary>
+   <GaussianProcessModel functionName="regression" modelName="Gaussian Process Model">
+      <MiningSchema>
+         <MiningField name="x1" usageType="active"/>
+         <MiningField name="x2" usageType="active"/>
+         <MiningField name="x3" usageType="active"/>
+         <MiningField name="y1" usageType="predicted"/>
+      </MiningSchema>
+      <Output>
+         <OutputField dataType="double" feature="predictedValue" name="MeanValue" optype="continuous"/>
+         <OutputField dataType="double" feature="predictedValue" name="StandardDeviation" optype="continuous"/>
+      </Output>
+      <ARDSquaredExponentialKernel gamma="52.9776" noiseVariance="1.0717">
+         <Lambda>
+            <array n="3" type="real">224.758303 6.000000 3.000000</array>
+         </Lambda>
+      </ARDSquaredExponentialKernel>
+      <TrainingInstances fieldCount="4" isTransformed="false" recordCount="16">
+         <InstanceFields>
+            <InstanceField column="x1" field="x1"/>
+            <InstanceField column="x2" field="x2"/>
+            <InstanceField column="x3" field="x3"/>
+            <InstanceField column="y1" field="y1"/>
+         </InstanceFields>
+         <InlineTable>
+            <row>
+               <x1>77.895</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>8.061</y1>
+            </row>
+            <row>
+               <x1>77.8953</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>8.3737</y1>
+            </row>
+            <row>
+               <x1>77.8953</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>7.3665</y1>
+            </row>
+            <row>
+               <x1>77.2107</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>8.1248</y1>
+            </row>
+            <row>
+               <x1>98.3735</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>5.3269</y1>
+            </row>
+            <row>
+               <x1>98.3538</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>5.4106</y1>
+            </row>
+            <row>
+               <x1>98.052</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>6.6605</y1>
+            </row>
+            <row>
+               <x1>98.555</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>6.9178</y1>
+            </row>
+            <row>
+               <x1>124.4804</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>6.5559</y1>
+            </row>
+            <row>
+               <x1>129.7111</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>6.2965</y1>
+            </row>
+            <row>
+               <x1>121.6998</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>5.1627</y1>
+            </row>
+            <row>
+               <x1>125.9847</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>5.8865</y1>
+            </row>
+            <row>
+               <x1>143.9692</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>6.332</y1>
+            </row>
+            <row>
+               <x1>155.5691</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>2.6075</y1>
+            </row>
+            <row>
+               <x1>155.5738</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>5.9618</y1>
+            </row>
+            <row>
+               <x1>141.7975</x1>
+               <x2>0</x2>
+               <x3>0</x3>
+               <y1>4.5676</y1>
+            </row>
+         </InlineTable>
+      </TrainingInstances>
+   </GaussianProcessModel>
+</PMML>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" version="4.3">
+   <Header copyright="DMG.org"/>
+   <DataDictionary numberOfFields="5">
+      <DataField dataType="double" name="x1" optype="continuous"/>
+      <DataField dataType="double" name="x2" optype="continuous"/>
+      <DataField dataType="double" name="x3" optype="continuous"/>
+      <DataField dataType="double" name="x4" optype="continuous"/>
+      <DataField dataType="double" name="y1" optype="continuous"/>
+   </DataDictionary>
+   <GaussianProcessModel functionName="regression" modelName="Gaussian Process Model">
+      <MiningSchema>
+         <MiningField name="x1" usageType="active"/>
+         <MiningField name="x2" usageType="active"/>
+         <MiningField name="x3" usageType="active"/>
+         <MiningField name="x4" usageType="active"/>
+         <MiningField name="y1" usageType="predicted"/>
+      </MiningSchema>
+      <Output>
+         <OutputField dataType="double" feature="predictedValue" name="MeanValue" optype="continuous"/>
+         <OutputField dataType="double" feature="predictedValue" name="StandardDeviation" optype="continuous"/>
+      </Output>
+      <ARDSquaredExponentialKernel gamma="191.7182" noiseVariance="9.2418">
+         <Lambda>
+            <array n="4" type="real">797956.844086 5460.735170 6.000000 3.000000</array>
+         </Lambda>
+      </ARDSquaredExponentialKernel>
+      <TrainingInstances fieldCount="5" isTransformed="false" recordCount="18">
+         <InstanceFields>
+            <InstanceField column="x1" field="x1"/>
+            <InstanceField column="x2" field="x2"/>
+            <InstanceField column="x3" field="x3"/>
+            <InstanceField column="x4" field="x4"/>
+            <InstanceField column="y1" field="y1"/>
+         </InstanceFields>
+         <InlineTable>
+            <row>
+               <x1>103.7132</x1>
+               <x2>1500.4618</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>19.91</y1>
+            </row>
+            <row>
+               <x1>152.5626</x1>
+               <x2>1500.0197</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>16.5275</y1>
+            </row>
+            <row>
+               <x1>245.9878</x1>
+               <x2>1501.072</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>18.6863</y1>
+            </row>
+            <row>
+               <x1>104.9128</x1>
+               <x2>1500.4493</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>14.8012</y1>
+            </row>
+            <row>
+               <x1>144.8599</x1>
+               <x2>1500.8429</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>13.6463</y1>
+            </row>
+            <row>
+               <x1>165.1901</x1>
+               <x2>1500.2743</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>11.605</y1>
+            </row>
+            <row>
+               <x1>142.9238</x1>
+               <x2>2997.2298</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>11.605</y1>
+            </row>
+            <row>
+               <x1>106.8254</x1>
+               <x2>2997.2399</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>9.3425</y1>
+            </row>
+            <row>
+               <x1>153.131</x1>
+               <x2>2997.3852</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>16.7575</y1>
+            </row>
+            <row>
+               <x1>186.7654</x1>
+               <x2>2997.4786</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>14.5437</y1>
+            </row>
+            <row>
+               <x1>124.8394</x1>
+               <x2>2997.1419</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>8.5738</y1>
+            </row>
+            <row>
+               <x1>188.8454</x1>
+               <x2>2996.4868</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>6.255</y1>
+            </row>
+            <row>
+               <x1>363.5128</x1>
+               <x2>4499.335</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>8.9637</y1>
+            </row>
+            <row>
+               <x1>55.647</x1>
+               <x2>4500.7016</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>7.7825</y1>
+            </row>
+            <row>
+               <x1>810.1034</x1>
+               <x2>4500.4967</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>8.1575</y1>
+            </row>
+            <row>
+               <x1>473.3261</x1>
+               <x2>4500.6107</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>4.7462</y1>
+            </row>
+            <row>
+               <x1>150.8393</x1>
+               <x2>4500.9281</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>5.6162</y1>
+            </row>
+            <row>
+               <x1>424.8173</x1>
+               <x2>4500.3704</x2>
+               <x3>0</x3>
+               <x4>0</x4>
+               <y1>4.255</y1>
+            </row>
+         </InlineTable>
+      </TrainingInstances>
+   </GaussianProcessModel>
+</PMML>
