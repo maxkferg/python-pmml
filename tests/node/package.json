@@ -1,0 +1,17 @@
+{
+  "name": "scoring-engine-load-test",
+  "version": "1.0.0",
+  "description": "Throughput vs response time load test for pmml scoring engine",
+  "main": "load.js",
+  "dependencies": {
+    "json2csv": "^3.6.2",
+    "request": "^2.74.0",
+    "throttled-request": "^0.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
