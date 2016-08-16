@@ -44,28 +44,28 @@ class GaussianProcessModel:
         self.gp = gp
         self.kernel = kernel
 
-    def score(self,xNew):
+    def score(self,xnew):
         """
         Generate scores for new x values
         xNew should be an array-like object where each row represents a test point
         Return the predicted mean and standard deviation [mu,s]
-        @param{Array} xNew. An array of x values where each row corrosponds to a point
-        @output{Array} mu. A column vector containing predicted mean values
-        @output{Array} s. A column vector containing predicted standard deviations
+        @param{np.Array} xnew. An numpy array where each row corrosponds to an observation
+        @output{Array} mu. A list containing predicted mean values
+        @output{Array} s. A list containing predicted standard deviations
         """
-        self._validate_xnew(xNew)
-        xNew = np.array(xNew).reshape((1, -1));
-        mu,sd = self.gp.predict(xNew,return_std=True)
-        return {'mu':mu.tolist(), 'sd':sd.tolist()}
+        self._validate_xnew(xnew)
+        mu,sd = self.gp.predict(xnew,return_std=True)
+        return {'mu':mu.T.tolist()[0], 'sd':sd.tolist()}
 
     def valid(self):
         """Check that all of the parameters are valid. Throw error on failure"""
         pass
 
 
-    def _validate_xnew(self,xNew):
+    def _validate_xnew(self,xnew):
         """Ensure that the size of xnew matches the expected length"""
-        if len(self.k_lambda) != len(xNew):
+        rows,cols = xnew.shape;
+        if len(self.k_lambda) != cols:
             raise ValueError('The number of elements in xNew does not match the model')
 
 
