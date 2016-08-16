@@ -64,9 +64,10 @@ class GaussianProcessModel:
 
     def _validate_xnew(self,xnew):
         """Ensure that the size of xnew matches the expected length"""
-        rows,cols = xnew.shape;
-        if len(self.k_lambda) != cols:
-            raise ValueError('The number of elements in xNew does not match the model')
+        rows,cols = xnew.shape
+        nparams = len(self.k_lambda)
+        if nparams != cols:
+            raise ValueError("Expected %i elements in xNew, not %i"%(nparams,cols))
 
 
 
