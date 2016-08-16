@@ -5,8 +5,8 @@ Scoring engine for PMML models implemented using python. The PMML scoring engine
 ```sh
 sudo apt-get python-dev
 sudo apt-get python-pip
-sudo apt-get install libxml2-dev libxslt1-dev
-sudo apt-get libopenblas-dev # Optional faster LAPACK
+sudo apt-get install libxml2-dev libxslt1-dev # XML requirements
+sudo apt-get install libblas-dev liblapack-dev libatlas-base-dev gfortran # Numpy requirements
 pip install lxml
 pip install Cython
 ```
