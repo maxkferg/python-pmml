@@ -1,12 +1,20 @@
 # PMML Scoring Engine
 Scoring engine for PMML models implemented using python. The PMML scoring engine exposes predictive machine learning models as REST endpoints. Clients can send new observations to the scoring engine in the JSON file format. The scoring engine returns a JSON response containing the new scores
 
+## Binary Dependencies
+```sh
+sudo apt-get python-dev
+sudo apt-get python-pip
+sudo apt-get install libxml2-dev libxslt1-dev
+pip install lxml
+pip install Cython
+```
+
 ## Installation
 `pmml-scoring-engine` requires the development version of ScikitLearn for 
 the GaussianProcessRegressor class. Install the development version from Github:
 
 ```sh
-pip install Cython
 git clone https://github.com/scikit-learn/scikit-learn.git
 cd scikit-learn
 python setup.py build
