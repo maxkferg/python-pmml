@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pmml xmlns="http://www.dmg.org/PMML-4_3" version="4.3">
+   <header copyright="DMG.org"/>
+   <DataDictionary numberoffields="9">
+      <DataField dataType="double" name="x1" opType="continuous"/>
+      <DataField dataType="double" name="x2" opType="continuous"/>
+      <DataField dataType="double" name="y1" opType="continuous"/>
+   </DataDictionary>
+   <GaussianProcessModel functionName="regression" modelname="Gaussian Process Model">
+      <MiningSchema>
+         <MiningField name="x1" usageType="active"/>
+         <MiningField name="x2" usageType="active"/>
+         <MiningField name="y1" usageType="predicted"/>
+      </MiningSchema>
+      <Output>
+         <OutputField dataType="double" feature="predictedValue" name="MeanValue" opType="continuous"/>
+         <OutputField dataType="double" feature="predictedValue" name="StandardDeviation" opType="continuous"/>
+      </Output>
+      <ARDSquaredExponentialKernel gamma="2.4890" noiseVariance="0.0110">
+         <Lambda>
+            <array n="2" type="real">1.5164 59.3113</array>
+         </Lambda>
+      </ARDSquaredExponentialKernel>
+      <TrainingInstances fieldCount="3" isTransformed="false" recordCount="2">
+         <InstanceFields>
+            <InstanceField column="x1" field="x1"/>
+            <InstanceField column="x2" field="x2"/>
+            <InstanceField column="y1" field="y1"/>
+         </InstanceFields>
+         <InlineTable>
+            <row>
+               <x1>1</x1>
+               <x2>3</x2>
+               <y1>1</y1>
+            </row>
+            <row>
+               <x1>2</x1>
+               <x2>6</x2>
+               <y1>2</y1>
+            </row>
+         </InlineTable>
+      </TrainingInstances>
+   </GaussianProcessModel>
+</pmml>

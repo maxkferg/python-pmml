@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <pmml xmlns="http://www.dmg.org/PMML-4_3" version="4.3">
    <header copyright="DMG.org"/>
-   <datadictionary numberoffields="9">
-      <datafield datatype="double" name="x1" optype="continuous"/>
-      <datafield datatype="double" name="x2" optype="continuous"/>
-      <datafield datatype="double" name="x3" optype="continuous"/>
-      <datafield datatype="double" name="x4" optype="continuous"/>
-      <datafield datatype="double" name="x5" optype="continuous"/>
-      <datafield datatype="double" name="x6" optype="continuous"/>
-      <datafield datatype="double" name="x7" optype="continuous"/>
-      <datafield datatype="double" name="x8" optype="continuous"/>
-      <datafield datatype="double" name="y1" optype="continuous"/>
-   </datadictionary>
-   <gaussianprocessmodel functionname="regression" modelname="Gaussian Process Model">
-      <miningschema>
-         <miningfield name="x1" usagetype="active"/>
-         <miningfield name="x2" usagetype="active"/>
-         <miningfield name="x3" usagetype="active"/>
-         <miningfield name="x4" usagetype="active"/>
-         <miningfield name="x5" usagetype="active"/>
-         <miningfield name="x6" usagetype="active"/>
-         <miningfield name="x7" usagetype="active"/>
-         <miningfield name="x8" usagetype="active"/>
-         <miningfield name="y1" usagetype="predicted"/>
-      </miningschema>
-      <output>
-         <outputfield datatype="double" feature="predictedValue" name="MeanValue" optype="continuous"/>
-         <outputfield datatype="double" feature="predictedValue" name="StandardDeviation" optype="continuous"/>
-      </output>
-      <ardsquaredexponentialkernel gamma="0.10144" noisevariance="6.4178e-05">
-         <lambda>
+   <DataDictionary numberoffields="9">
+      <DataField dataType="double" name="x1" opType="continuous"/>
+      <DataField dataType="double" name="x2" opType="continuous"/>
+      <DataField dataType="double" name="x3" opType="continuous"/>
+      <DataField dataType="double" name="x4" opType="continuous"/>
+      <DataField dataType="double" name="x5" opType="continuous"/>
+      <DataField dataType="double" name="x6" opType="continuous"/>
+      <DataField dataType="double" name="x7" opType="continuous"/>
+      <DataField dataType="double" name="x8" opType="continuous"/>
+      <DataField dataType="double" name="y1" opType="continuous"/>
+   </DataDictionary>
+   <GaussianProcessModel functionName="regression" modelname="Gaussian Process Model">
+      <MiningSchema>
+         <MiningField name="x1" usageType="active"/>
+         <MiningField name="x2" usageType="active"/>
+         <MiningField name="x3" usageType="active"/>
+         <MiningField name="x4" usageType="active"/>
+         <MiningField name="x5" usageType="active"/>
+         <MiningField name="x6" usageType="active"/>
+         <MiningField name="x7" usageType="active"/>
+         <MiningField name="x8" usageType="active"/>
+         <MiningField name="y1" usageType="predicted"/>
+      </MiningSchema>
+      <Output>
+         <OutputField dataType="double" feature="predictedValue" name="MeanValue" opType="continuous"/>
+         <OutputField dataType="double" feature="predictedValue" name="StandardDeviation" opType="continuous"/>
+      </Output>
+      <ARDSquaredExponentialKernel gamma="0.10144" noiseVariance="6.4178e-05">
+         <Lambda>
             <array n="8" type="real">4.476133 7.617121 5.194691 308.827689 5.811846 2.424982 1.491893 0.405211</array>
-         </lambda>
-      </ardsquaredexponentialkernel>
-      <traininginstances fieldcount="9" istransformed="false" recordcount="250">
-         <instancefields>
-            <instancefield column="x1" field="x1"/>
-            <instancefield column="x2" field="x2"/>
-            <instancefield column="x3" field="x3"/>
-            <instancefield column="x4" field="x4"/>
-            <instancefield column="x5" field="x5"/>
-            <instancefield column="x6" field="x6"/>
-            <instancefield column="x7" field="x7"/>
-            <instancefield column="x8" field="x8"/>
-            <instancefield column="y1" field="y1"/>
-         </instancefields>
-         <inlinetable>
+         </Lambda>
+      </ARDSquaredExponentialKernel>
+      <TrainingInstances fieldCount="9" isTransformed="false" recordCount="250">
+         <InstanceFields>
+            <InstanceField column="x1" field="x1"/>
+            <InstanceField column="x2" field="x2"/>
+            <InstanceField column="x3" field="x3"/>
+            <InstanceField column="x4" field="x4"/>
+            <InstanceField column="x5" field="x5"/>
+            <InstanceField column="x6" field="x6"/>
+            <InstanceField column="x7" field="x7"/>
+            <InstanceField column="x8" field="x8"/>
+            <InstanceField column="y1" field="y1"/>
+         </InstanceFields>
+         <InlineTable>
             <row>
                <x1>0</x1>
                <x2>1.3125</x2>
@@ -2796,7 +2796,7 @@
                <x8>0.14997</x8>
                <y1>0.055562</y1>
             </row>
-         </inlinetable>
-      </traininginstances>
-   </gaussianprocessmodel>
+         </InlineTable>
+      </TrainingInstances>
+   </GaussianProcessModel>
 </pmml>
