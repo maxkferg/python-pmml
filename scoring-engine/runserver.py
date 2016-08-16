@@ -10,6 +10,7 @@ import tornado.ioloop
 import tornado.web
 import tornado.escape
 from parsers.pmml.gpr import GaussianProcessParser
+PORT=80
 VERSION = '0.0.0'
 
 
@@ -87,6 +88,7 @@ application = tornado.web.Application([
 
 
 if __name__ == '__main__':
-	application.listen(5000)
+        print 'Starting tornado on port %i'%PORT
+	application.listen(PORT)
 	tornado.ioloop.IOLoop.instance().start()
-
+	
