@@ -6,6 +6,7 @@ Scoring engine for PMML models implemented using python. The PMML scoring engine
 sudo apt-get python-dev
 sudo apt-get python-pip
 sudo apt-get install libxml2-dev libxslt1-dev
+sudo apt-get libopenblas-dev # Optional faster LAPACK
 pip install lxml
 pip install Cython
 ```
