@@ -12,11 +12,14 @@ var async = require('async');
 
 
 // Define throughput in req/s.
-var filename = 'results/tool-condition.csv';
-var api = "http://localhost:5000/predict/"
-var model = "tool-condition-1.pmml"
+var api = 'http://104.198.10.35/predict/'
+var filename = 'results/tool-condition-google.csv';
+//var api = "http://localhost:5000/predict/";
+//var filename = 'results/tool-condition.csv';
+
+var model = "tool-condition-1.pmml";
 var xnew = [1,4,4,2,3,1,3,5];
-var throughput = [5,6,7,8,9,10];
+var throughput = [10,15,20,25,30,35,40,45,50,55,60,65,70,75,80];
 
 
 // Run the tests
@@ -42,7 +45,12 @@ function runTest(rate,callback){
 		}
 	}
 	var max = 2*rate;
-	loadTest(options,rate,max,callback)
+	loadTest(options,rate,max,function(err,result){
+		setTimeout(function(){
+			console.log('Test ended with throughput: '+rate);
+			callback(err,result);
+		},3000);
+	});
 }
 
 
@@ -64,8 +72,10 @@ function loadTest(options,rate,max,callback){
 		// Start the actual request
 		request(options, function(error, response, body) {
 			console.log(body)
-			duration = Date.now() - start;
-			durations.push(duration);
+			if (body){
+				duration = Date.now() - start;
+				durations.push(duration);
+			}
 			finished +=1;
 			if (finished==max){
 				finishTest(rate,durations);
