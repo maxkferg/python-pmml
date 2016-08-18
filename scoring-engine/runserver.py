@@ -66,7 +66,7 @@ class PredictHandler(tornado.web.RequestHandler):
 			xnew = self._format_xnew(data['xnew'])
 			scores = models[model].score(xnew)
 			print 'Total prediction duration %f s'%(time.time()-start)
-		except ValueError as e: 
+		except ValueError as e:
 			self.set_status(500)
 			return self.finish({'error': e.message});
 
@@ -82,7 +82,7 @@ class PredictHandler(tornado.web.RequestHandler):
 
 
 # Define the tornado routes
-application = tornado.web.Application([
+app = tornado.web.Application([
 	(r"/predict/([^/]+)", PredictHandler),
 	(r"/", VersionHandler)
 ])
