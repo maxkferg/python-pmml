@@ -12,8 +12,9 @@ var async = require('async');
 
 
 // Define throughput in req/s.
-var filename = 'results/energy-prediction.csv';
-var api = "http://localhost:5000/predict/"
+//var api = "http://localhost:5000/predict/"
+var api = 'http://104.198.10.35/predict/'
+var filename = 'results/energy-prediction-google.csv';
 var model = "energy-prediction-1.pmml"
 var xnew = [1,4,4,2,3];
 var throughput = [5,6,7,8,9,10,12,14,16,18];
