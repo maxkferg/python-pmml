@@ -14,18 +14,21 @@ var async = require('async');
 // Google Cloud
 var api = 'http://104.198.10.35/predict/'
 var filename = 'results/tool-condition-google.csv';
+var throughput = [1,2,4,8,16,24,32,64,96,128,160,192,224,256];
 
 // Local Machine
 //var api = "http://localhost:5000/predict/";
 //var filename = 'results/tool-condition-macpro.csv';
+//var throughput = [1,2,4,8,16,24,32,64,96,128,160,192,224,256];
 
 // Raspberry PI
 //var api = "http://10.34.189.71/predict/";
 //var filename = 'results/tool-condition-raspberry.csv';
+//var throughput = [1,2,4,8,16,24,32,64,96];
+
 
 var model = "tool-condition-1.pmml";
 var xnew = [1,4,4,2,3,1,3,5];
-var throughput = [1,2,4,8,12,16,20,24,28,32,36,40,44,48,52];
 
 
 // Run the tests
