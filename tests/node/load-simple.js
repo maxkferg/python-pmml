@@ -12,9 +12,9 @@ var async = require('async');
 
 
 // Google Cloud
-//var api = 'http://104.198.10.35/predict/'
-//var filename = 'results/simple-google.csv';
-//var throughput = [1,10,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500,520,540,560,580,600];
+var api = 'http://104.198.10.35/predict/'
+var filename = 'results/simple-google.csv';
+var throughput = [1,10,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500];
 
 // Local Machine
 //var api = "http://localhost:5000/predict/";
@@ -22,9 +22,9 @@ var async = require('async');
 //var throughput = [1,10,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500]
 
 // Raspberry PI
-var api = "http://10.34.189.71/predict/";
-var filename = 'results/simple-raspberry.csv';
-var throughput = [1,10,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500,520,540,560,580,600]
+// var api = "http://10.34.189.71/predict/";
+// var filename = 'results/simple-raspberry.csv';
+// var throughput = [1,10,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500,520,540,560,580,600]
 
 
 var model = "simple-example.pmml"
