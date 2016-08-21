@@ -9,7 +9,7 @@ var fs = require('fs');
 var request = require('request');
 var json2csv = require('json2csv');
 var async = require('async');
-
+var cooling = 5000; // Cooling time
 
 // Google Cloud
 //var api = 'http://104.198.10.35/predict/'
@@ -24,7 +24,7 @@ var async = require('async');
 // Raspberry PI
 var api = "http://10.34.189.71/predict/";
 var filename = 'results/energy-prediction-raspberry-heat-2.csv';
-var throughput = [0.2,0.4,0.6,0.8];
+var throughput = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 
 var model = "energy-prediction-1.pmml"
 var xnew = [1,4,4,2,4];
@@ -53,7 +53,13 @@ function runTest(rate,callback){
 		}
 	}
 	var max = 20;
-	loadTest(options,rate,max,callback)
+	loadTest(options,rate,max,function(err,result){
+		console.log('Cooling for '+cooling+" ms");
+		setTimeout(function(){
+			console.log('Test ended with throughput: '+rate);
+			callback(err,result);
+		},cooling);
+	});
 }
 
 

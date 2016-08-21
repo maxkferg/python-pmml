@@ -12,9 +12,9 @@ var async = require('async');
 
 
 // Google Cloud
-var api = 'http://104.198.10.35/predict/'
-var filename = 'results/tool-condition-google.csv';
-var throughput = [1,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160];
+//var api = 'http://104.198.10.35/predict/'
+//var filename = 'results/tool-condition-google.csv';
+//var throughput = [1,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160];
 
 // Local Machine
 //var api = "http://localhost:5000/predict/";
@@ -22,9 +22,9 @@ var throughput = [1,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160];
 //var throughput = [1,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150]
 
 // Raspberry PI
-//var api = "http://10.34.189.71/predict/";
-//var filename = 'results/tool-condition-raspberry.csv';
-//var throughput = [1,10,20,30,40,50,60];
+var api = "http://10.34.189.71/predict/";
+var filename = 'results/tool-condition-raspberry.csv';
+var throughput = [1,5,10,15,20,25,30,35,40,45,50,55,60,65,70];
 
 
 var model = "tool-condition-1.pmml";
