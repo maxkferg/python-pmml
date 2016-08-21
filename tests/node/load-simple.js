@@ -11,12 +11,23 @@ var json2csv = require('json2csv');
 var async = require('async');
 
 
-// Define throughput in req/s.
-var filename = 'results.csv';
-var api = "http://localhost:5000/predict/"
+// Google Cloud
+var api = 'http://104.198.10.35/predict/'
+var filename = 'results/simple-google.csv';
+
+// Local Machine
+//var api = "http://localhost:5000/predict/";
+//var filename = 'results/simple-macpro.csv';
+
+// Raspberry PI
+//var api = "http://10.34.189.71/predict/";
+//var filename = 'results/simple-raspberry-1.csv';
+
 var model = "simple-example.pmml"
 var xnew = [1,4];
-var throughput = [500,600,800,1000,1500,2000];
+var throughput = [50,100,150,200,250,300]; // RP
+//var throughput = [1,2,4,8,16,32,64,128]; // Google
+var throughput = [5,10,15,20,25]; // Google
 
 
 // Run the tests
@@ -41,7 +52,7 @@ function runTest(rate,callback){
 			xnew: xnew
 		}
 	}
-	var max = 2*rate;
+	var max = 10*rate;
 	loadTest(options,rate,max,callback)
 }
 
@@ -63,7 +74,7 @@ function loadTest(options,rate,max,callback){
 		var start = Date.now();
 		// Start the actual request
 		request(options, function(error, response, body) {
-			//console.log(body)
+			console.log(body)
 			duration = Date.now() - start;
 			durations.push(duration);
 			finished +=1;
@@ -79,6 +90,8 @@ function loadTest(options,rate,max,callback){
 		}
 	}, interval);
 }
+
+
 
 
 /* finishTest

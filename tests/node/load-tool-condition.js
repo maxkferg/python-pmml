@@ -11,15 +11,21 @@ var json2csv = require('json2csv');
 var async = require('async');
 
 
-// Define throughput in req/s.
-var api = 'http://104.198.10.35/predict/'
-var filename = 'results/tool-condition-google.csv';
+// Google Cloud
+var api = 'http://104.198.10.35/'
+var filename = 'results/tool-condition-google-rate.csv';
+
+// Local Machine
 //var api = "http://localhost:5000/predict/";
-//var filename = 'results/tool-condition.csv';
+//var filename = 'results/tool-condition-macpro.csv';
+
+// Raspberry PI
+//var api = "http://10.34.189.71/predict/";
+//var filename = 'results/tool-condition-raspberry.csv';
 
 var model = "tool-condition-1.pmml";
 var xnew = [1,4,4,2,3,1,3,5];
-var throughput = [10,15,20,25,30,35,40,45,50,55,60,65,70,75,80];
+var throughput = [1,2,4,8,12,16,20,24,28,32,36,40,44,48,52];
 
 
 // Run the tests
@@ -39,12 +45,12 @@ async.mapSeries(throughput, runTest, function(err, results){
 function runTest(rate,callback){
 	var options = {
 		url: api+model,
-		method: 'post',
+		method: 'get',
 		json: {
 			xnew: xnew
 		}
 	}
-	var max = 2*rate;
+	var max = 5*rate;
 	loadTest(options,rate,max,function(err,result){
 		setTimeout(function(){
 			console.log('Test ended with throughput: '+rate);

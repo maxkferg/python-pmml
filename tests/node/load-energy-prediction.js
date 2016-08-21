@@ -11,13 +11,22 @@ var json2csv = require('json2csv');
 var async = require('async');
 
 
-// Define throughput in req/s.
-//var api = "http://localhost:5000/predict/"
-var api = 'http://104.198.10.35/predict/'
-var filename = 'results/energy-prediction-google.csv';
+// Google Cloud
+//var api = 'http://104.198.10.35/predict/'
+//var filename = 'results/energy-prediction-google-x.csv';
+
+// Local Machine
+//var api = "http://localhost:5000/predict/";
+//var filename = 'results/energy-prediction-macpro.csv';
+
+// Raspberry PI
+var api = "http://10.34.189.71/predict/";
+var filename = 'results/energy-prediction-raspberry-heat-2.csv';
+var throughput = [0.2,0.4,0.6,0.8];
+
 var model = "energy-prediction-1.pmml"
-var xnew = [1,4,4,2,3];
-var throughput = [5,6,7,8,9,10,12,14,16,18];
+var xnew = [1,4,4,2,4];
+//var throughput = [3,4,6,8,10];
 
 
 // Run the tests
@@ -42,7 +51,7 @@ function runTest(rate,callback){
 			xnew: xnew
 		}
 	}
-	var max = 2*rate;
+	var max = 20;
 	loadTest(options,rate,max,callback)
 }
 
@@ -65,17 +74,19 @@ function loadTest(options,rate,max,callback){
 		// Start the actual request
 		request(options, function(error, response, body) {
 			console.log(body)
-			duration = Date.now() - start;
-			durations.push(duration);
+			if (!error){
+				duration = Date.now() - start;
+				durations.push(duration);
+			}
 			finished +=1;
-			if (finished==max){
+			if (finished>=max){
 				finishTest(rate,durations);
 				callback(undefined,mean(durations));
 			}
 		});
 		// Have we started enough?
 		started+=1;
-		if (started==max){
+		if (started>=max){
 			clearInterval(comp)
 		}
 	}, interval);
