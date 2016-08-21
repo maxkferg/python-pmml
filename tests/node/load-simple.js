@@ -13,8 +13,8 @@ var async = require('async');
 
 // Google Cloud
 var api = 'http://104.198.10.35/predict/'
-var filename = 'results/simple-google.csv';
-var throughput = [1,2,4,8,16,24,32,64,96,128,160,192,224,256];
+var filename = 'results/simple-google-xxx.csv';
+var throughput = [8192];
 
 // Local Machine
 //var api = "http://localhost:5000/predict/";
@@ -52,7 +52,7 @@ function runTest(rate,callback){
 			xnew: xnew
 		}
 	}
-	var max = 10*rate;
+	var max = 5*rate;
 	loadTest(options,rate,max,callback)
 }
 
