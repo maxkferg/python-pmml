@@ -9,10 +9,11 @@ import time
 import tornado.ioloop
 import tornado.web
 import tornado.escape
+import tornado.httpserver
 from parsers.pmml.gpr import GaussianProcessParser
 PORT=80
 VERSION = '0.0.0'
-
+PROCESSES = 4
 
 
 def load_models():
@@ -65,7 +66,7 @@ class PredictHandler(tornado.web.RequestHandler):
 			xnew = self._format_xnew(data['xnew'])
 			scores = models[model].score(xnew)
 			print 'Total prediction duration %f s'%(time.time()-start)
-		except ValueError as e: 
+		except ValueError as e:
 			self.set_status(500)
 			return self.finish({'error': e.message});
 
@@ -81,7 +82,7 @@ class PredictHandler(tornado.web.RequestHandler):
 
 
 # Define the tornado routes
-application = tornado.web.Application([
+app = tornado.web.Application([
 	(r"/predict/([^/]+)", PredictHandler),
 	(r"/", VersionHandler)
 ])
@@ -89,6 +90,7 @@ application = tornado.web.Application([
 
 if __name__ == '__main__':
         print 'Starting tornado on port %i'%PORT
-	application.listen(PORT)
-	tornado.ioloop.IOLoop.instance().start()
-	
+	server = tornado.httpserver.HTTPServer(app)
+	server.bind(PORT)
+	server.start(PROCESSES)
+	tornado.ioloop.IOLoop.current().start()
