@@ -23,7 +23,7 @@ var cooling = 5000; // Cooling time
 
 // Raspberry PI
 var api = "http://10.34.189.71/predict/";
-var filename = 'results/energy-prediction-raspberry-heat-2.csv';
+var filename = 'results/energy-prediction-raspberry.csv';
 var throughput = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8];
 
 var model = "energy-prediction-1.pmml"

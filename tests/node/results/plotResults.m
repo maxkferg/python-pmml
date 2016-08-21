@@ -14,7 +14,7 @@ function plotResults(file1,file2)
     ylabel('Average Prediction Response Time [ms]');
     legend({'Raspberry Pi','Google Compute Engine'});
     set(gca,'fontSize',12)
-    ylim([0,200])
+    ylim([0,400])
 end
 
 % plotResults('energy-prediction.csv', 'energy-prediction-google.csv')
