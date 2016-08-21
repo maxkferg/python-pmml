@@ -12,8 +12,8 @@ var async = require('async');
 
 
 // Google Cloud
-var api = 'http://104.198.10.35/'
-var filename = 'results/tool-condition-google-rate.csv';
+var api = 'http://104.198.10.35/predict/'
+var filename = 'results/tool-condition-google.csv';
 
 // Local Machine
 //var api = "http://localhost:5000/predict/";
@@ -45,7 +45,7 @@ async.mapSeries(throughput, runTest, function(err, results){
 function runTest(rate,callback){
 	var options = {
 		url: api+model,
-		method: 'get',
+		method: 'post',
 		json: {
 			xnew: xnew
 		}
