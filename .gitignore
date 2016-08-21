@@ -1,3 +1,4 @@
 *.pyc
 tests/node/results/*.png
+tests/node/results/*.fig
 tests/node/node_modules/*
