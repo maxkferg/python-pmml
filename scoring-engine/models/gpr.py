@@ -44,6 +44,11 @@ class GaussianProcessModel:
         self.gp = gp
         self.kernel = kernel
 
+        # Calculate the matrix inverses once. Save time later
+        # This is only used for own own implimentation of the scoring engine
+        self.L_inv = solve_triangular(self.L_.T, np.eye(self.L_.shape[0]))
+        self.K_inv = L_inv.dot(L_inv.T)
+
     def score(self,xnew):
         """
         Generate scores for new x values
@@ -54,8 +59,27 @@ class GaussianProcessModel:
         @output{Array} s. A list containing predicted standard deviations
         """
         self._validate_xnew(xnew)
-        mu,sd = self.gp.predict(xnew,return_std=True)
-        return {'mu':mu.T.tolist()[0], 'sd':sd.tolist()}
+        #mu,sd = self.gp.predict(xnew,return_std=True)
+        #return {'mu':mu.T.tolist()[0], 'sd':sd.tolist()}
+
+        #K_trans = self.kernel(X, self.xTrain)
+        #y_mean = K_trans.dot(self.alpha_)  # Line 4 (y_mean = f_star)
+        #y_mean = self.y_train_mean + y_mean  # undo normal.
+
+
+        # Compute variance of predictive distribution
+        #y_var = self.kernel_.diag(X)
+        #y_var -= np.einsum("ki,kj,ij->k", K_trans, K_trans, K_inv)
+
+        # Check if any of the variances is negative because of
+        # numerical issues. If yes: set the variance to 0.
+        #y_var_negative = y_var < 0
+        #if np.any(y_var_negative):
+        #    warnings.warn("Predicted variances smaller than 0. "
+        #                  "Setting those variances to 0.")
+        #    y_var[y_var_negative] = 0.0
+        #return y_mean, np.sqrt(y_var)
+
 
     def valid(self):
         """Check that all of the parameters are valid. Throw error on failure"""
