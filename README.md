@@ -43,6 +43,11 @@ r = HTTP.get('/pmml/some-pmml-filename.pmml',{xnew:[1,4,5,3,5,7,8,4,3,6,7,1]})
 r.response # -> {mu:1.45324344,sd:3.2214342}
 ```
 
+## Contributors
+
+* Max Ferguson (@maxkferg)[https://github.com/maxkferg]
+* Stanford EIG (eil.stanford.edu)[http://eil.stanford.edu/index.html]
+
 
 ## License 
 MIT
