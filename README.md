@@ -45,8 +45,8 @@ r.response # -> {mu:1.45324344,sd:3.2214342}
 
 ## Contributors
 
-* Max Ferguson (@maxkferg)[https://github.com/maxkferg]
-* Stanford EIG (eil.stanford.edu)[http://eil.stanford.edu/index.html]
+* Max Ferguson [@maxkferg](https:/github.com/maxkferg)
+* Stanford EIG [eil.stanford.edu](http://eil.stanford.edu/index.html)
 
 
 ## License 
