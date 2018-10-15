@@ -2,3 +2,4 @@
 tests/node/results/*.png
 tests/node/results/*.fig
 tests/node/node_modules/*
+scoring-engine/deepnn/models/*/*.h5

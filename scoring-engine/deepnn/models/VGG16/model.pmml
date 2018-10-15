@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Header copyright="Copyright (c) 2018 NIST" description="VGG-16 Deep Neural Network Model">
+  <DataDictionary numberOfFields="1">
+    <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
+  </DataDictionary>
+  <DeepNeuralNetwork modelname="Deep Neural Network" functionname="regression">
+    <Layer name="input_1" type="InputLayer">
+      <InputSize>
+        <Array n="3" type="int">224 224 3</Array>
+      </InputSize>
+    </Layer>
+    <Layer activation="relu" inbound_node="input_1" name="block1_conv1" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="64">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer activation="relu" inbound_node="block1_conv1" name="block1_conv2" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="64">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer name="block1_pool" type="MaxPooling2D">
+      <PoolSize>
+        <Array n="2" type="int">2 2</Array>
+      </PoolSize>
+      <Strides>
+        <Array n="2" type="int">2 2</Array>
+      </Strides>
+    </Layer>
+    <Layer activation="relu" inbound_node="block1_pool" name="block2_conv1" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="128">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer activation="relu" inbound_node="block2_conv1" name="block2_conv2" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="128">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer name="block2_pool" type="MaxPooling2D">
+      <PoolSize>
+        <Array n="2" type="int">2 2</Array>
+      </PoolSize>
+      <Strides>
+        <Array n="2" type="int">2 2</Array>
+      </Strides>
+    </Layer>
+    <Layer activation="relu" inbound_node="block2_pool" name="block3_conv1" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="256">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer activation="relu" inbound_node="block3_conv1" name="block3_conv2" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="256">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer activation="relu" inbound_node="block3_conv2" name="block3_conv3" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="256">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer name="block3_pool" type="MaxPooling2D">
+      <PoolSize>
+        <Array n="2" type="int">2 2</Array>
+      </PoolSize>
+      <Strides>
+        <Array n="2" type="int">2 2</Array>
+      </Strides>
+    </Layer>
+    <Layer activation="relu" inbound_node="block3_pool" name="block4_conv1" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer activation="relu" inbound_node="block4_conv1" name="block4_conv2" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer activation="relu" inbound_node="block4_conv2" name="block4_conv3" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer name="block4_pool" type="MaxPooling2D">
+      <PoolSize>
+        <Array n="2" type="int">2 2</Array>
+      </PoolSize>
+      <Strides>
+        <Array n="2" type="int">2 2</Array>
+      </Strides>
+    </Layer>
+    <Layer activation="relu" inbound_node="block4_pool" name="block5_conv1" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer activation="relu" inbound_node="block5_conv1" name="block5_conv2" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer activation="relu" inbound_node="block5_conv2" name="block5_conv3" padding="same" type="Conv2D" use_bias="True">
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer name="block5_pool" type="MaxPooling2D">
+      <PoolSize>
+        <Array n="2" type="int">2 2</Array>
+      </PoolSize>
+      <Strides>
+        <Array n="2" type="int">2 2</Array>
+      </Strides>
+    </Layer>
+    <Layer name="flatten" type="Flatten"/>
+    <Layer activation="relu" channels="4096" name="fc1" type="Dense"/>
+    <Layer activation="relu" channels="4096" name="fc2" type="Dense"/>
+    <Layer activation="softmax" channels="1000" name="predictions" type="Dense"/>
+    <Weights encoding="hdf5" href="weights.h5"/>
+  </DeepNeuralNetwork>
+</Header>

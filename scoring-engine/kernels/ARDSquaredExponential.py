@@ -1,1 +1,0 @@
-# ARD Squared Exponential Kernel
