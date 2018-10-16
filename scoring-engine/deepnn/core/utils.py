@@ -6,7 +6,7 @@ def to_bool(xml):
 		return xml
 	if xml.lower()=="true":
 		return True
-	return False 
+	return False
 
 
 def read_array(Element):

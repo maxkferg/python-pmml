@@ -4,11 +4,11 @@ Serves as an intermediate between PMML and DL frameworks like Keras
 """
 import os
 import keras
-import layers
 import datetime
 from lxml import etree
-from utils import read_array
-from layers import InputLayer, get_layer_class_by_name
+from . import layers
+from .utils import read_array
+from .layers import InputLayer, get_layer_class_by_name
 DEBUG = False
 
 class PMML_Model():

@@ -5,7 +5,7 @@ Each layer can be converted to PMML or the corrosponding Keras layer
 import keras.layers as k
 import lxml.etree as et
 from lxml import etree
-from utils import Array, to_bool
+from .utils import Array, to_bool
 DEBUG = False
 
 

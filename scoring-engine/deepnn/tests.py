@@ -1,9 +1,9 @@
 import json
 import keras
 import numpy as np
-from conversion import convert
-from intermediate import DeepNeuralNetwork
-from layers import Conv2D, MaxPooling2D, Flatten, Dense
+from core.conversion import convert
+from core.intermediate import DeepNeuralNetwork
+from core.layers import Conv2D, MaxPooling2D, Flatten, Dense
 from keras.applications.vgg16 import VGG16
 from keras.applications.vgg19 import VGG19
 from keras.applications.resnet50 import ResNet50
