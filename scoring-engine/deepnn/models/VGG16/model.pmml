@@ -9,7 +9,10 @@
         <Array n="3" type="int">224 224 3</Array>
       </InputSize>
     </Layer>
-    <Layer activation="relu" inbound_node="input_1" name="block1_conv1" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block1_conv1" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">input_1</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="64">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -22,7 +25,10 @@
         </KernelStride>
       </ConvolutionalKernel>
     </Layer>
-    <Layer activation="relu" inbound_node="block1_conv1" name="block1_conv2" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block1_conv2" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block1_conv1</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="64">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -36,6 +42,9 @@
       </ConvolutionalKernel>
     </Layer>
     <Layer name="block1_pool" type="MaxPooling2D">
+      <InboundNodes>
+        <Array n="1" type="string">block1_conv2</Array>
+      </InboundNodes>
       <PoolSize>
         <Array n="2" type="int">2 2</Array>
       </PoolSize>
@@ -43,7 +52,10 @@
         <Array n="2" type="int">2 2</Array>
       </Strides>
     </Layer>
-    <Layer activation="relu" inbound_node="block1_pool" name="block2_conv1" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block2_conv1" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block1_pool</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="128">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -56,7 +68,10 @@
         </KernelStride>
       </ConvolutionalKernel>
     </Layer>
-    <Layer activation="relu" inbound_node="block2_conv1" name="block2_conv2" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block2_conv2" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block2_conv1</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="128">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -70,6 +85,9 @@
       </ConvolutionalKernel>
     </Layer>
     <Layer name="block2_pool" type="MaxPooling2D">
+      <InboundNodes>
+        <Array n="1" type="string">block2_conv2</Array>
+      </InboundNodes>
       <PoolSize>
         <Array n="2" type="int">2 2</Array>
       </PoolSize>
@@ -77,7 +95,10 @@
         <Array n="2" type="int">2 2</Array>
       </Strides>
     </Layer>
-    <Layer activation="relu" inbound_node="block2_pool" name="block3_conv1" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block3_conv1" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block2_pool</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="256">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -90,7 +111,10 @@
         </KernelStride>
       </ConvolutionalKernel>
     </Layer>
-    <Layer activation="relu" inbound_node="block3_conv1" name="block3_conv2" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block3_conv2" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block3_conv1</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="256">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -103,7 +127,10 @@
         </KernelStride>
       </ConvolutionalKernel>
     </Layer>
-    <Layer activation="relu" inbound_node="block3_conv2" name="block3_conv3" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block3_conv3" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block3_conv2</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="256">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -117,6 +144,9 @@
       </ConvolutionalKernel>
     </Layer>
     <Layer name="block3_pool" type="MaxPooling2D">
+      <InboundNodes>
+        <Array n="1" type="string">block3_conv3</Array>
+      </InboundNodes>
       <PoolSize>
         <Array n="2" type="int">2 2</Array>
       </PoolSize>
@@ -124,7 +154,10 @@
         <Array n="2" type="int">2 2</Array>
       </Strides>
     </Layer>
-    <Layer activation="relu" inbound_node="block3_pool" name="block4_conv1" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block4_conv1" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block3_pool</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="512">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -137,7 +170,10 @@
         </KernelStride>
       </ConvolutionalKernel>
     </Layer>
-    <Layer activation="relu" inbound_node="block4_conv1" name="block4_conv2" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block4_conv2" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block4_conv1</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="512">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -150,7 +186,10 @@
         </KernelStride>
       </ConvolutionalKernel>
     </Layer>
-    <Layer activation="relu" inbound_node="block4_conv2" name="block4_conv3" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block4_conv3" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block4_conv2</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="512">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -164,6 +203,9 @@
       </ConvolutionalKernel>
     </Layer>
     <Layer name="block4_pool" type="MaxPooling2D">
+      <InboundNodes>
+        <Array n="1" type="string">block4_conv3</Array>
+      </InboundNodes>
       <PoolSize>
         <Array n="2" type="int">2 2</Array>
       </PoolSize>
@@ -171,7 +213,10 @@
         <Array n="2" type="int">2 2</Array>
       </Strides>
     </Layer>
-    <Layer activation="relu" inbound_node="block4_pool" name="block5_conv1" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block5_conv1" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block4_pool</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="512">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -184,7 +229,10 @@
         </KernelStride>
       </ConvolutionalKernel>
     </Layer>
-    <Layer activation="relu" inbound_node="block5_conv1" name="block5_conv2" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block5_conv2" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block5_conv1</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="512">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -197,7 +245,10 @@
         </KernelStride>
       </ConvolutionalKernel>
     </Layer>
-    <Layer activation="relu" inbound_node="block5_conv2" name="block5_conv3" padding="same" type="Conv2D" use_bias="True">
+    <Layer activation="relu" name="block5_conv3" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">block5_conv2</Array>
+      </InboundNodes>
       <ConvolutionalKernel channels="512">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
@@ -211,6 +262,9 @@
       </ConvolutionalKernel>
     </Layer>
     <Layer name="block5_pool" type="MaxPooling2D">
+      <InboundNodes>
+        <Array n="1" type="string">block5_conv3</Array>
+      </InboundNodes>
       <PoolSize>
         <Array n="2" type="int">2 2</Array>
       </PoolSize>
@@ -218,10 +272,26 @@
         <Array n="2" type="int">2 2</Array>
       </Strides>
     </Layer>
-    <Layer name="flatten" type="Flatten"/>
-    <Layer activation="relu" channels="4096" name="fc1" type="Dense"/>
-    <Layer activation="relu" channels="4096" name="fc2" type="Dense"/>
-    <Layer activation="softmax" channels="1000" name="predictions" type="Dense"/>
+    <Layer name="flatten" type="Flatten">
+      <InboundNodes>
+        <Array n="1" type="string">block5_pool</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="relu" channels="4096" name="fc1" type="Dense">
+      <InboundNodes>
+        <Array n="1" type="string">flatten</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="relu" channels="4096" name="fc2" type="Dense">
+      <InboundNodes>
+        <Array n="1" type="string">fc1</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="softmax" channels="1000" name="predictions" type="Dense">
+      <InboundNodes>
+        <Array n="1" type="string">fc2</Array>
+      </InboundNodes>
+    </Layer>
     <Weights encoding="hdf5" href="weights.h5"/>
   </DeepNeuralNetwork>
 </Header>

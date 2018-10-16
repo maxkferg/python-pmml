@@ -11,7 +11,9 @@ DEBUG = False
 
 class Layer():
 
-	def __init__(self,**kwarfs):
+	def __init__(self,inbound_nodes,**kwargs):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
 		self.name = name
 
 	def to_pmml(self):
@@ -26,6 +28,27 @@ class Layer():
 		"""
 		pass
 
+	def _get_inbound_nodes_element(self):
+		"""
+		Return an Element representing the inbound nodes
+		"""
+		inbound_nodes = etree.Element("InboundNodes")
+		inbound_nodes.append(Array(children=self.inbound_nodes, dtype="string"))
+		return inbound_nodes
+
+	def _get_inbound_nodes_from_graph(self, graph):
+		"""
+		Return the inbound nodes for this layer
+		The return value is a list of tensors with the same number of elements as self.inbound_nodes
+		Raise KeyError if the inbound node does not exist in the graph
+		"""
+		inbound_nodes = []
+		for node in self.inbound_nodes:
+			if node not in graph:
+				raise KeyError("Could not find node %s in graph"%inbound_node)
+			inbound_nodes.append(graph[node])
+		return inbound_nodes
+
 
 
 class Flatten(Layer):
@@ -33,15 +56,18 @@ class Flatten(Layer):
 	A 2D Convolutional Layer
 	"""
 
-	def __init__(self,name=None):
+	def __init__(self, inbound_nodes, name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
 		self.name = name
 
 
 	def to_pmml(self):
 		"""
-		Return an elemenTree item corrosponding to this 
+		Return an elementTree item corrosponding to this
 		"""
 		layer =  et.Element("Layer", type="Flatten", name=self.name)
+		layer.append(self._get_inbound_nodes_element())
 		return layer
 
 
@@ -51,8 +77,8 @@ class Flatten(Layer):
 		}
 		if DEBUG:
 			print("Creating Flatten layer with config",config)
-		prev_layer = graph["prev_layer"]
-		return k.Flatten(**config)(prev_layer)
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.Flatten(**config)(inbound_node)
 
 
 class Activation(Layer):
@@ -60,19 +86,22 @@ class Activation(Layer):
 	An activation layer
 	"""
 
-	def __init__(self, activation="relu", name=None):
+	def __init__(self, inbound_nodes, activation="relu", name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
 		self.name = name
 		self.activation = activation
 
 	def to_pmml(self):
 		"""
-		Return an elemenTree item corrosponding to this 
+		Return an elemenTree item corrosponding to this
 		"""
 		attrib = {
 			"name": self.name,
 			"activation": self.activation
 		}
 		layer =  et.Element("Layer", type="Activation", attrib=attrib)
+		layer.append(self._get_inbound_nodes_element())
 		return layer
 
 	def to_keras(self, graph):
@@ -82,15 +111,15 @@ class Activation(Layer):
 		}
 		if DEBUG:
 			print("Creating Activation layer with config",config)
-		prev_layer = graph["prev_layer"]
-		return k.Activation(**config)(prev_layer)
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.Activation(**config)(inbound_node)
 
 
 class Merge(Layer):
 	"""
 	An activation layer
 	"""
-	def __init__(self, operator="add", inbound_nodes=[], name=None):
+	def __init__(self, inbound_nodes, operator="add", name=None):
 		self.name = name
 		self.operator = operator
 		self.inbound_nodes = inbound_nodes
@@ -103,32 +132,24 @@ class Merge(Layer):
 
 	def to_pmml(self):
 		"""
-		Return an elemenTree item corrosponding to this 
+		Return an elemenTree item corrosponding to this
 		"""
 		attrib = {
 			"name": self.name,
 			"operator": self.operator,
 		}
 		layer =  et.Element("Layer", type="Merge", attrib=attrib)
-
-		# Strides Element with array Subelement
-		inputs = etree.SubElement(layer, "Inputs")
-		inputs.append(Array(children=self.inbound_nodes, dtype="string"))
-
+		layer.append(self._get_inbound_nodes_element())
 		return layer
 
 
 	def to_keras(self, graph):
 		# Find the input tensors in the graph
-		inbound_layers = []
-		for inbound_node in self.inbound_nodes:
-			if inbound_node not in graph:
-				raise ValueError("Could not find layer %s in graph"%inbound_node)
-			inbound_layers.append(graph[inbound_node])
 		operator = self._get_keras_operator()
 		if DEBUG:
 			print("Creating Merge({}) layer with inbound {}".format(self.operator, inbound_layers))
-		return operator(inbound_layers, name=self.name)
+		inbound_nodes = self._get_inbound_nodes_from_graph(graph)
+		return operator(inbound_nodes, name=self.name)
 
 
 	def _get_keras_operator(self):
@@ -146,13 +167,15 @@ class Merge(Layer):
 		return keras_map[self.operator]
 
 
- 
+
 class BatchNormalization(Layer):
 	"""
 	A BatchNormalization
 	"""
 
-	def __init__(self, axis=-1, momentum=0.99, epsilon=0.001, center=True, name=None):
+	def __init__(self, inbound_nodes, axis=-1, momentum=0.99, epsilon=0.001, center=True, name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
 		self.axis = axis
 		self.momentum = momentum
 		self.epsilon = epsilon
@@ -161,7 +184,7 @@ class BatchNormalization(Layer):
 
 	def to_pmml(self):
 		"""
-		Return an elementTree item corrosponding to this 
+		Return an elementTree item corrosponding to this
 		"""
 		attrib = {
 			"name": self.name,
@@ -171,6 +194,7 @@ class BatchNormalization(Layer):
 		}
 
 		layer = etree.Element("Layer", type="BatchNormalization", attrib=attrib)
+		layer.append(self._get_inbound_nodes_element())
 		return layer
 
 	def to_keras(self, graph):
@@ -187,8 +211,8 @@ class BatchNormalization(Layer):
 
 		if DEBUG:
 			print("Creating BatchNormalization layer with config:\n",config)
-		prev_layer = graph["prev_layer"]
-		return k.BatchNormalization(**config)(prev_layer)
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.BatchNormalization(**config)(inbound_node)
 
 
 class GlobalAveragePooling2D(Layer):
@@ -196,14 +220,17 @@ class GlobalAveragePooling2D(Layer):
 	A GlobalAveragePooling2D layer
 	"""
 
-	def __init__(self, name=None):
+	def __init__(self, inbound_nodes, name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
 		self.name = name
 
 	def to_pmml(self):
 		"""
-		Return an elementTree item corrosponding to this 
+		Return an elementTree item corrosponding to this
 		"""
 		layer = etree.Element("Layer", type="GlobalAveragePooling2D", name=self.name)
+		layer.append(self._get_inbound_nodes_element())
 		return layer
 
 	def to_keras(self, graph):
@@ -213,8 +240,8 @@ class GlobalAveragePooling2D(Layer):
 		config = {}
 		if DEBUG:
 			print("Creating GlobalAveragePooling2D layer with config:\n",config)
-		prev_layer = graph["prev_layer"]
-		return k.GlobalAveragePooling2D(**config)(prev_layer)
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.GlobalAveragePooling2D(**config)(inbound_node)
 
 
 class InputLayer(Layer):
@@ -228,13 +255,13 @@ class InputLayer(Layer):
 
 	def to_pmml(self):
 		"""
-		Return an elementTree item corrosponding to this 
+		Return an elementTree item corrosponding to this
 		"""
 		layer = etree.Element("Layer", type="InputLayer", name=self.name)
 
 		# PoolSize Element with array Subelement
 		input_size = etree.SubElement(layer, "InputSize")
-		input_size.append(Array(children=self.input_size)) 
+		input_size.append(Array(children=self.input_size))
 
 		return layer
 
@@ -256,20 +283,23 @@ class MaxPooling2D(Layer):
 	A MaxPoolingLayer
 	"""
 
-	def __init__(self, pool_size=(3,3), strides=(1,1), name=None):
+	def __init__(self, inbound_nodes, pool_size=(3,3), strides=(1,1), name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
 		self.pool_size = pool_size
 		self.strides = strides
 		self.name = name
 
 	def to_pmml(self):
 		"""
-		Return an elementTree item corrosponding to this 
+		Return an elementTree item corrosponding to this
 		"""
 		layer = etree.Element("Layer", type="MaxPooling2D", name=self.name)
+		layer.append(self._get_inbound_nodes_element())
 
 		# PoolSize Element with array Subelement
 		pool_size = etree.SubElement(layer, "PoolSize")
-		pool_size.append(Array(children=self.pool_size)) 
+		pool_size.append(Array(children=self.pool_size))
 
 		# Strides Element with array Subelement
 		strides = etree.SubElement(layer, "Strides")
@@ -288,8 +318,8 @@ class MaxPooling2D(Layer):
 		}
 		if DEBUG:
 			print("Creating MaxPooling2D layer with config:\n",config)
-		prev_layer = graph["prev_layer"]
-		return k.MaxPooling2D(**config)(prev_layer)
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.MaxPooling2D(**config)(inbound_node)
 
 
 
@@ -298,20 +328,23 @@ class AveragePooling2D(Layer):
 	An AveragePooling2D layer
 	"""
 
-	def __init__(self, pool_size=(3,3), strides=(1,1), name=None):
+	def __init__(self, inbound_nodes, pool_size=(3,3), strides=(1,1), name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
 		self.pool_size = pool_size
 		self.strides = strides
 		self.name = name
 
 	def to_pmml(self):
 		"""
-		Return an elementTree item corrosponding to this 
+		Return an elementTree item corrosponding to this
 		"""
 		layer = etree.Element("Layer", type="AveragePooling2D", name=self.name)
+		layer.append(self._get_inbound_nodes_element())
 
 		# PoolSize Element with array Subelement
 		pool_size = etree.SubElement(layer, "PoolSize")
-		pool_size.append(Array(children=self.pool_size)) 
+		pool_size.append(Array(children=self.pool_size))
 
 		# Strides Element with array Subelement
 		strides = etree.SubElement(layer, "Strides")
@@ -330,8 +363,8 @@ class AveragePooling2D(Layer):
 		}
 		if DEBUG:
 			print("Creating AveragePooling2D layer with config:\n",config)
-		prev_layer = graph["prev_layer"]
-		return k.AveragePooling2D(**config)(prev_layer)
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.AveragePooling2D(**config)(inbound_node)
 
 
 
@@ -339,15 +372,18 @@ class ZeroPadding2D(Layer):
 	"""
 	A zero padding layer
 	"""
-	def __init__(self, padding=(3,3), name=None):
+	def __init__(self, inbound_nodes, padding=(3,3), name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
 		self.padding = padding
 		self.name = name
 
 	def to_pmml(self):
 		"""
-		Return an elemenTree item corrosponding to this 
+		Return an elemenTree item corrosponding to this
 		"""
 		layer = etree.Element("Layer", type="ZeroPadding2D", name=self.name)
+		layer.append(self._get_inbound_nodes_element())
 
 		# Padding size Element with array Subelement
 		if type(self.padding) is int:
@@ -359,7 +395,7 @@ class ZeroPadding2D(Layer):
 		elif type(self.padding[0]) is tuple:
 			children = self.padding[0] + self.padding[1]
 			pool_size = etree.SubElement(layer, "Padding")
-			pool_size.append(Array(children=children)) 
+			pool_size.append(Array(children=children))
 		else:
 			raise ValueError("Unknown padding format"+str(self.padding))
 
@@ -375,12 +411,12 @@ class ZeroPadding2D(Layer):
 		}
 		if input_shape is not None:
 			config['input_shape'] = input_shape
-		
+
 		if DEBUG:
 			print("Creating ZeroPadding2D layer with config:\n",config)
-		
-		prev_layer = graph["prev_layer"]
-		return k.ZeroPadding2D(**config)(prev_layer)
+
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.ZeroPadding2D(**config)(inbound_node)
 
 
 
@@ -389,7 +425,9 @@ class Conv2D(Layer):
 	A 2D Convolutional Layer
 	"""
 
-	def __init__(self, channels, kernel_size, strides, padding, activation='relu', dilation_rate=1, use_bias=True, inbound_node=None, name=None):
+	def __init__(self, inbound_nodes, channels, kernel_size, strides, padding, activation='relu', dilation_rate=1, use_bias=True, name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
 		self.channels = channels
 		self.kernel_size = kernel_size
 		self.strides = strides
@@ -397,7 +435,6 @@ class Conv2D(Layer):
 		self.dilation_rate = dilation_rate
 		self.padding = padding
 		self.name = name
-		self.inbound_node = inbound_node
 		self.use_bias = to_bool(use_bias)
 
 		# Enforce types
@@ -415,19 +452,20 @@ class Conv2D(Layer):
 
 	def to_pmml(self):
 		"""
-		Return an elementTree item corrosponding to this 
+		Return an elementTree item corrosponding to this
 		"""
 		attrib = {
 			"type": "Conv2D",
 			"activation": self.activation,
 			"padding": self.padding,
 			"use_bias": str(self.use_bias),
-			"inbound_node": str(self.inbound_node)
 		}
 		if self.name is not None:
 			attrib['name'] = self.name
 
 		layer = et.Element("Layer", attrib)
+		layer.append(self._get_inbound_nodes_element())
+
 		kernel = et.SubElement(layer, "ConvolutionalKernel",
 			attrib={
 				"channels": str(self.channels)
@@ -454,24 +492,21 @@ class Conv2D(Layer):
 			"name": self.name,
 			"filters": self.channels,
 			"kernel_size": self.kernel_size,
-			"strides": self.strides, 
-			"padding": self.padding, 
+			"strides": self.strides,
+			"padding": self.padding,
 			"activation": self.activation,
-			"dilation_rate": self.dilation_rate, 
+			"dilation_rate": self.dilation_rate,
 			"use_bias": to_bool(self.use_bias),
 		}
-		
+
 		if input_shape is not None:
 			config['input_shape'] = input_shape
-		
+
 		if DEBUG:
 			print("Creating Conv2D layer with config:\n", config)
 
-		prev_layer = graph["prev_layer"]
-		if self.inbound_node is not None:
-			prev_layer = graph[self.inbound_node]
-
-		return k.Conv2D(**config)(prev_layer)
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.Conv2D(**config)(inbound_node)
 
 
 
@@ -480,7 +515,9 @@ class Dense(Layer):
 	A 2D Convolutional Layer
 	"""
 
-	def __init__(self, channels=128, activation='relu', use_bias=True, name=None):
+	def __init__(self, inbound_nodes, channels=128, activation='relu', use_bias=True, name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
 		self.channels = int(channels)
 		self.activation = activation
 		self.use_bias = to_bool(use_bias)
@@ -489,15 +526,17 @@ class Dense(Layer):
 
 	def to_pmml(self):
 		"""
-		Return an elemenTree item corrosponding to this 
+		Return an elemenTree item corrosponding to this
 		"""
-		layer =  etree.Element("Layer",
-			attrib={
+		attrib = {
 				"name": self.name,
 				"type": "Dense",
 				"channels": str(self.channels),
 				"activation": str(self.activation),
-			})
+		}
+		layer =  etree.Element("Layer", attrib=attrib)
+		layer.append(self._get_inbound_nodes_element())
+
 		return layer
 
 
@@ -512,8 +551,8 @@ class Dense(Layer):
 		}
 		if DEBUG:
 			print("Creating Dense layer with config:\n", config)
-		prev_layer = graph["prev_layer"]
-		return k.Dense(**config)(prev_layer)
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.Dense(**config)(inbound_node)
 
 
 def get_layer_class_by_name(layer_type):

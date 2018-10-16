@@ -33,26 +33,25 @@ def test_convert_keras_to_pmml():
 	pmml = convert(keras_model, description="VGG-16 Deep Neural Network Model")
 	pmml.save_pmml(VGG_16_MODEL)
 
-	#keras_model = VGG19()
-	#pmml = convert(keras_model, description="VGG-19 Deep Neural Network Model")
-	#pmml.save_pmml(VGG_19_MODEL)
+	keras_model = VGG19()
+	pmml = convert(keras_model, description="VGG-19 Deep Neural Network Model")
+	pmml.save_pmml(VGG_19_MODEL)
 
 	keras_model = ResNet50()
 	pmml = convert(keras_model, description="ResNet50 Deep Neural Network Model")
 	pmml.save_pmml(RESNET50_MODEL)
 
-	#keras_model = DenseNet201()
-	#pmml = convert(keras_model, description="DenseNet201")
-	#pmml.save_pmml(DENSENET201_MODEL)
+	keras_model = DenseNet121()
+	pmml = convert(keras_model, description="DenseNet121")
+	pmml.save_pmml(DENSENET121_MODEL)
 
 
-	
 
 def test_pmml_to_intermediate():
 	"""
 	Load an PMML file to an intermediate form
 	"""
-	print("--- Test PMML to intermediate ---")
+	print("\n--- Test PMML to intermediate ---")
 	intermediate = DeepNeuralNetwork(filename=VGG_16_MODEL)
 	assert(intermediate.description=="VGG-16 Deep Neural Network Model")
 	assert(len(intermediate.layers)==23)
@@ -62,7 +61,7 @@ def test_intermediate_to_keras_vgg():
 	"""
 	Test conversion between intermediate form and keras
 	"""
-	print("--- Test Intermediate to Keras ---")
+	print("\n--- Test Intermediate to Keras ---")
 	intermediate = DeepNeuralNetwork(filename=VGG_19_MODEL)
 	model = intermediate.get_keras_model()
 
@@ -71,16 +70,16 @@ def test_intermediate_to_keras_resnet():
 	"""
 	Test conversion between intermediate form and keras
 	"""
-	print("--- Test Intermediate to Keras (ResNet50) ---")
+	print("\n--- Test Intermediate to Keras (ResNet50) ---")
 	intermediate = DeepNeuralNetwork(filename=RESNET50_MODEL)
 	model = intermediate.get_keras_model()
 
 
 def test_cat_classification(model):
-	print("--- Test cat classification (%s) ---"%model)
+	print("\n--- Test cat classification (%s) ---"%model)
 	intermediate = DeepNeuralNetwork(filename=model)
 	model = intermediate.get_keras_model()
-	filename = "assets/leopard.jpg"
+	filename = "assets/cat.jpg"
 	cat = imread(filename)
 	batch = cat[None,:]
 	result = model.predict(batch)
@@ -89,11 +88,11 @@ def test_cat_classification(model):
 	class_name = class_map[class_id]
 	print("Model selected class '{0}' for image {1}".format(class_name, filename))
 
-	
+
 if __name__=="__main__":
-	test_convert_keras_to_pmml()
+	#test_convert_keras_to_pmml()
 	#test_pmml_to_intermediate()
-	#est_intermediate_to_keras_vgg()
+	#test_intermediate_to_keras_vgg()
 	#test_intermediate_to_keras_resnet()
 	test_cat_classification(VGG_16_MODEL)
 	test_cat_classification(VGG_19_MODEL)

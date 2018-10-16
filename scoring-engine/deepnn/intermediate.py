@@ -69,7 +69,7 @@ class DeepNeuralNetwork(PMML_Model):
         tree = etree.parse(filename)
         root = tree.getroot()
         DNN = root.find("DeepNeuralNetwork")
-        layers = DNN.findall("Layer") 
+        layers = DNN.findall("Layer")
         if "description" in root.attrib:
             self.description = root.attrib["description"]
         if "copyright" in root.attrib["copyright"]:
@@ -89,24 +89,24 @@ class DeepNeuralNetwork(PMML_Model):
             padding = layer_element.find("Padding")
             pool_size = layer_element.find("PoolSize")
             convolutional_kernel = layer_element.find("ConvolutionalKernel")
-            inbound_nodes = layer_element.find("Inputs")
+            inbound_nodes = layer_element.find("InboundNodes")
             input_size = layer_element.find("InputSize")
             if convolutional_kernel is not None:
                 kernel_size = convolutional_kernel.find("KernelSize")
                 kernel_strides = convolutional_kernel.find("KernelStride")
                 dilation_rate = convolutional_kernel.find("DilationRate")
                 config["channels"] = int(convolutional_kernel.attrib["channels"])
-                config["kernel_size"] = read_array(kernel_size)   
+                config["kernel_size"] = read_array(kernel_size)
                 config["strides"] = read_array(kernel_strides)
                 config["dilation_rate"] = read_array(dilation_rate)
                 if len(config["dilation_rate"])==1:
                     config["dilation_rate"] = config["dilation_rate"][0]
             if input_size is not None:
-                config["input_size"] = read_array(input_size)                 
+                config["input_size"] = read_array(input_size)
             if pool_size is not None:
                 config["pool_size"] = read_array(pool_size)
             if strides is not None:
-                config["strides"] = read_array(strides)    
+                config["strides"] = read_array(strides)
             if inbound_nodes is not None:
                 config["inbound_nodes"] = read_array(inbound_nodes)
             if padding is not None:
@@ -123,6 +123,9 @@ class DeepNeuralNetwork(PMML_Model):
                 assert("strides" in config)
             if layer_type=="ZeroPadding2D":
                 assert("padding" in config)
+            if layer_type!="InputLayer":
+                if "inbound_nodes" not in config:
+                    raise ValueError("Layer type %s requires argument inbound_nodes"%layer_type)
             # Create the intermediate class representation
             layer_class = get_layer_class_by_name(layer_type)
             new_layer = layer_class(**config)
@@ -164,7 +167,7 @@ class DeepNeuralNetwork(PMML_Model):
 
 
     def predict(self, input_img):
-        """ 
+        """
         Generate prediction using PMML representation
         """
         if self.keras_model is None:
@@ -190,18 +193,18 @@ class DeepNeuralNetwork(PMML_Model):
             graph[layer.name] = keras_tensor
             graph["prev_layer"] = keras_tensor
             if type(layer) is InputLayer:
-                graph["input_layer"] = keras_tensor    
+                graph["input_layer"] = keras_tensor
 
         # Build the keras model
         inputs = graph["input_layer"]
         outputs = graph["prev_layer"]
         keras_model = keras.models.Model(inputs=inputs, outputs=outputs)
-        print("Completed building keras model")
+        print("Completed building keras model: %s"%self.description)
 
         if DEBUG:
             print(keras_model.summary())
-        
-        print("Loading weights from %s..."%self.weights_file)
+
+        print("Loading weights from %s... "%self.weights_file, end="", flush=True)
         keras_model.load_weights(self.weights_file, by_name=True)
         print("Done")
 

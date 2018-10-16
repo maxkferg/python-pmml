@@ -6,7 +6,7 @@ from intermediate import DeepNeuralNetwork
 from layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Merge, Activation
 
 
-def get_input_nodes(layer_inbound_nodes):
+def get_inbound_nodes(layer_inbound_nodes):
 	return [node[0] for node in layer_inbound_nodes[0]]
 
 
@@ -35,14 +35,14 @@ def convert(keras_model, description="Neural Network Model"):
 		elif layer_class is "Conv2D":
 			pmml._append_layer(Conv2D(
 				name=layer_config['name'],
-				channels=layer_config['filters'], 
-				kernel_size=layer_config['kernel_size'], 
+				channels=layer_config['filters'],
+				kernel_size=layer_config['kernel_size'],
 				dilation_rate=layer_config['dilation_rate'],
 				use_bias=layer_config['use_bias'],
-				activation=layer_config['activation'], 
+				activation=layer_config['activation'],
 				strides=layer_config['strides'],
 				padding=layer_config['padding'],
-				inbound_node=get_input_nodes(layer_inbound_nodes)[0]
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		# MaxPooling
 		elif layer_class is "MaxPooling2D":
@@ -50,21 +50,25 @@ def convert(keras_model, description="Neural Network Model"):
 				name=layer_config['name'],
 				pool_size=layer_config['pool_size'],
 				strides=layer_config['strides'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		elif layer_class is "AveragePooling2D":
 			pmml._append_layer(AveragePooling2D(
 				name=layer_config['name'],
 				pool_size=layer_config['pool_size'],
 				strides=layer_config['strides'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		elif layer_class is "GlobalAveragePooling2D":
 			pmml._append_layer(GlobalAveragePooling2D(
 				name=layer_config['name'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		# Flatten
 		elif layer_class is "Flatten":
 			pmml._append_layer(Flatten(
-				name=layer_config['name']
+				name=layer_config['name'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		# Dense
 		elif layer_class is "Dense":
@@ -72,13 +76,15 @@ def convert(keras_model, description="Neural Network Model"):
 				name=layer_config['name'],
 				channels=layer_config['units'],
 				use_bias=layer_config['use_bias'],
-				activation=layer_config['activation'], 
+				activation=layer_config['activation'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		# Zero padding layer
 		elif layer_class is "ZeroPadding2D":
 			pmml._append_layer(ZeroPadding2D(
 				name=layer_config['name'],
 				padding=layer_config['padding'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		# Batch Normalization
 		elif layer_class is "BatchNormalization":
@@ -87,35 +93,37 @@ def convert(keras_model, description="Neural Network Model"):
 				axis=layer_config['axis'],
 				momentum=layer_config['momentum'],
 				epsilon=layer_config['epsilon'],
-				center=layer_config['center']
+				center=layer_config['center'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		elif layer_class is "Add":
 			pmml._append_layer(Merge(
 				name=layer_config['name'],
-				inbound_nodes=get_input_nodes(layer_inbound_nodes)
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes)
 			))
 		elif layer_class is "Subtract":
 			pmml._append_layer(Merge(
 				name=layer_config['name'],
 				operator='subtract',
-				inbound_nodes=get_input_nodes(layer_inbound_nodes)
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes)
 			))
 		elif layer_class is "Dot":
 			pmml._append_layer(Merge(
 				name=layer_config['name'],
 				operator='dot',
-				inbound_nodes=get_input_nodes(layer_inbound_nodes)
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes)
 			))
 		elif layer_class is "Concatenate":
 			pmml._append_layer(Merge(
 				name=layer_config['name'],
 				operator='concatenate',
-				inbound_nodes=get_input_nodes(layer_inbound_nodes)
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes)
 			))
 		elif layer_class is "Activation":
 			pmml._append_layer(Activation(
 				name=layer_config['name'],
-				activation=layer_config['activation']
+				activation=layer_config['activation'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		# Unknown layer
 		else:
