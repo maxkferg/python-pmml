@@ -10,14 +10,15 @@ def get_inbound_nodes(layer_inbound_nodes):
 	return [node[0] for node in layer_inbound_nodes[0]]
 
 
-def convert(keras_model, description="Neural Network Model"):
+def convert(keras_model, class_map, description="Neural Network Model"):
 	"""
 	Convert a keras model to PMML
 	@model. The keras model object
+	@class_map. A map in the form {class_id: class_name}
 	@description. A short description of the model
 	Returns a DeepNeuralNetwork object which can be exported to PMML
 	"""
-	pmml = DeepNeuralNetwork(description=description)
+	pmml = DeepNeuralNetwork(description=description, class_map=class_map)
 	pmml.keras_model = keras_model
 	config = keras_model.get_config()
 

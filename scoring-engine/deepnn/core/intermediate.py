@@ -5,6 +5,7 @@ Serves as an intermediate between PMML and DL frameworks like Keras
 import os
 import keras
 import datetime
+import numpy as np
 from lxml import etree
 from . import layers
 from .utils import read_array
@@ -13,16 +14,18 @@ DEBUG = False
 
 class PMML_Model():
 
-    def __init__(self, filename=None, description=None, copyright=None, username="NIST"):
+    def __init__(self, filename=None, class_map={}, description=None, copyright=None, username="NIST"):
         """
         Create a new DeepNeuralNetwork
         Optionally load layers from a PMML file
+        @class_map: A map in the form {class_id: class_name} 
         """
         self.layers = []
         self.description = description
         self.copyright = copyright
         self.keras_model = None
         self.weights_file = None
+        self.class_map = class_map
 
         if filename is not None:
             self.load_pmml(filename)
@@ -52,12 +55,14 @@ class PMML_Model():
 
     def generate_data_dictionary(self):
         """Generate the data dictionary which describes the input"""
-        attrib = {'numberOfFields': str(1)}
+        attrib = {'numberOfFields': str(1+len(self.class_map))}
         dictionary = etree.Element("DataDictionary", attrib=attrib)
         image = etree.SubElement(dictionary, "DataField", dataType="image", name="I", height="300", width="300", channels="3")
+        # Add the categorical output variables
+        categorical = etree.SubElement(dictionary, "DataField", dataType="string", name="class", optype="categorical")
+        for class_id in sorted(self.class_map.keys()):
+            etree.SubElement(categorical, "Value", value=self.class_map[class_id])
         return dictionary
-
-
 
 
 class DeepNeuralNetwork(PMML_Model):
@@ -130,6 +135,11 @@ class DeepNeuralNetwork(PMML_Model):
             layer_class = get_layer_class_by_name(layer_type)
             new_layer = layer_class(**config)
             self.layers.append(new_layer)
+        # Load the categorical output variables
+        elements = root.findall("./DataDictionary/DataField[@optype='categorical']/Value")
+        for i,element in enumerate(elements):
+            self.class_map[i] = element.attrib['value']
+
         # Load the weights file
         dirname = os.path.dirname(filename)
         weights_file = DNN.find("Weights").attrib['href']
@@ -171,8 +181,12 @@ class DeepNeuralNetwork(PMML_Model):
         Generate prediction using PMML representation
         """
         if self.keras_model is None:
-            self.model = self.get_keras_model()
-        return self.keras_model.predict(input_img)
+            self.keras_model = self.get_keras_model()
+        batch = input_img[None,:]
+        scores = self.keras_model.predict(batch)
+        class_id = np.argmax(scores)
+        class_name = self.class_map[class_id]
+        return class_name
 
 
     def _append_layer(self,layer):

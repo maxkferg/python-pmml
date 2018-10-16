@@ -30,21 +30,21 @@ def load_imagenet_classes():
 def test_convert_keras_to_pmml():
 	print("--- Test Keras to PMML ---")
 	keras_model = VGG16()
-	pmml = convert(keras_model, description="VGG-16 Deep Neural Network Model")
+	class_map = load_imagenet_classes()
+	pmml = convert(keras_model, class_map=class_map, description="VGG-16 Deep Neural Network Model")
 	pmml.save_pmml(VGG_16_MODEL)
 
 	keras_model = VGG19()
-	pmml = convert(keras_model, description="VGG-19 Deep Neural Network Model")
+	pmml = convert(keras_model, class_map=class_map, description="VGG-19 Deep Neural Network Model")
 	pmml.save_pmml(VGG_19_MODEL)
 
 	keras_model = ResNet50()
-	pmml = convert(keras_model, description="ResNet50 Deep Neural Network Model")
+	pmml = convert(keras_model, class_map=class_map,  description="ResNet50 Deep Neural Network Model")
 	pmml.save_pmml(RESNET50_MODEL)
 
 	keras_model = DenseNet121()
-	pmml = convert(keras_model, description="DenseNet121")
+	pmml = convert(keras_model, class_map=class_map,  description="DenseNet121")
 	pmml.save_pmml(DENSENET121_MODEL)
-
 
 
 def test_pmml_to_intermediate():
@@ -77,23 +77,17 @@ def test_intermediate_to_keras_resnet():
 
 def test_cat_classification(model):
 	print("\n--- Test cat classification (%s) ---"%model)
-	intermediate = DeepNeuralNetwork(filename=model)
-	model = intermediate.get_keras_model()
 	filename = "assets/cat.jpg"
-	cat = imread(filename)
-	batch = cat[None,:]
-	result = model.predict(batch)
-	class_id = np.argmax(result)
-	class_map = load_imagenet_classes()
-	class_name = class_map[class_id]
+	intermediate = DeepNeuralNetwork(filename=model)
+	class_name = intermediate.predict(imread(filename))
 	print("Model selected class '{0}' for image {1}".format(class_name, filename))
 
 
 if __name__=="__main__":
-	#test_convert_keras_to_pmml()
-	#test_pmml_to_intermediate()
-	#test_intermediate_to_keras_vgg()
-	#test_intermediate_to_keras_resnet()
+	test_convert_keras_to_pmml()
+	test_pmml_to_intermediate()
+	test_intermediate_to_keras_vgg()
+	test_intermediate_to_keras_resnet()
 	test_cat_classification(VGG_16_MODEL)
 	test_cat_classification(VGG_19_MODEL)
 	test_cat_classification(RESNET50_MODEL)
