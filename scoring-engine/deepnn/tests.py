@@ -24,6 +24,7 @@ def diff_config(old_config, new_config, strict=False):
             before = diff[key][changed_key]["new_value"]
             after = diff[key][changed_key]["old_value"]
             if before=="Activation" and after=="ReLU":
+                del diff[key][changed_key]
             if not strict and type(before) is str and type(after) is str and before.rstrip(nums) == after.rstrip(nums):
                 del diff[key][changed_key]
     return diff
