@@ -1006,14 +1006,14 @@
     </DataField>
   </DataDictionary>
   <DeepNeuralNetwork modelname="Deep Neural Network" functionname="regression">
-    <Layer name="input_3" type="InputLayer">
+    <Layer name="input_2" type="InputLayer">
       <InputSize>
         <Array n="3" type="int">224 224 3</Array>
       </InputSize>
     </Layer>
     <Layer name="conv1_pad" type="ZeroPadding2D">
       <InboundNodes>
-        <Array n="1" type="string">input_3</Array>
+        <Array n="1" type="string">input_2</Array>
       </InboundNodes>
       <Padding>
         <Array n="4" type="int">3 3 3 3</Array>

@@ -86,11 +86,14 @@ class Activation(Layer):
 	An activation layer
 	"""
 
-	def __init__(self, inbound_nodes, activation="relu", name=None):
+	def __init__(self, inbound_nodes, activation="relu", threshold=None, max_value=None, negative_slope=None, name=None):
 		assert(len(inbound_nodes)==1)
 		self.inbound_nodes = inbound_nodes
 		self.name = name
 		self.activation = activation
+		self.threshold = threshold
+		self.max_value = max_value
+		self.negative_slope = negative_slope
 
 	def to_pmml(self):
 		"""
@@ -100,6 +103,14 @@ class Activation(Layer):
 			"name": self.name,
 			"activation": self.activation
 		}
+
+		if self.threshold is not None:
+			attrib["threshold"] = str(self.threshold)
+		if self.max_value is not None:
+			attrib["max_value"] = str(self.max_value)
+		if self.negative_slope is not None:
+			attrib["negative_slope"] = str(self.negative_slope)
+
 		layer =  et.Element("Layer", type="Activation", attrib=attrib)
 		layer.append(self._get_inbound_nodes_element())
 		return layer
@@ -109,9 +120,26 @@ class Activation(Layer):
 			"name": self.name,
 			"activation": self.activation
 		}
+		# Decide whether to use Relu layer
+		use_relu = False
+
+		if self.threshold is not None:
+			config["threshold"] = self.threshold
+			use_relu = True
+		if self.max_value is not None:
+			config["max_value"] = self.max_value
+			use_relu = True
+		if self.negative_slope is not None:
+			config["negative_slope"] = self.negative_slope
+			use_relu = True
+
 		if DEBUG:
 			print("Creating Activation layer with config",config)
 		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+
+		if self.activation.lower()=='relu' and use_relu:
+			config.pop('activation')
+			return k.ReLU(**config)(inbound_node)
 		return k.Activation(**config)(inbound_node)
 
 
@@ -119,9 +147,10 @@ class Merge(Layer):
 	"""
 	An activation layer
 	"""
-	def __init__(self, inbound_nodes, operator="add", name=None):
+	def __init__(self, inbound_nodes, operator="add", axis=None, name=None):
 		self.name = name
 		self.operator = operator
+		self.axis = axis
 		self.inbound_nodes = inbound_nodes
 		operators = ["add","subtract","dot","concatenate"]
 		if operator not in operators:
@@ -138,6 +167,8 @@ class Merge(Layer):
 			"name": self.name,
 			"operator": self.operator,
 		}
+		if self.axis is not None:
+			attrib["axis"] = str(self.axis)
 		layer =  et.Element("Layer", type="Merge", attrib=attrib)
 		layer.append(self._get_inbound_nodes_element())
 		return layer
@@ -149,6 +180,8 @@ class Merge(Layer):
 		if DEBUG:
 			print("Creating Merge({}) layer with inbound {}".format(self.operator, inbound_layers))
 		inbound_nodes = self._get_inbound_nodes_from_graph(graph)
+		if self.axis is not None:
+			return operator(inbound_nodes, axis=self.axis, name=self.name)	
 		return operator(inbound_nodes, name=self.name)
 
 
@@ -189,6 +222,7 @@ class BatchNormalization(Layer):
 		attrib = {
 			"name": self.name,
 			"momentum": str(self.momentum),
+			"epsilon": str(self.epsilon),
 			"center": str(self.center),
 			"axis": str(self.axis)
 		}
@@ -204,6 +238,7 @@ class BatchNormalization(Layer):
 		config = {
 			"name": self.name,
 			"momentum": self.momentum,
+			"epsilon": self.epsilon,
 			"center": self.center,
 			"axis": self.axis,
 			"name": self.name
@@ -237,7 +272,10 @@ class GlobalAveragePooling2D(Layer):
 		"""
 		Return the equivalent keras layer
 		"""
-		config = {}
+		config = {
+			'name': self.name,
+		}
+
 		if DEBUG:
 			print("Creating GlobalAveragePooling2D layer with config:\n",config)
 		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
@@ -682,7 +720,7 @@ class Dropout(Layer):
 	def __init__(self, inbound_nodes, name=None):
 		self.inbound_nodes = inbound_nodes
 		self.name = name
-		self.rate = 0
+		self.rate = 0.001
 
 
 	def to_pmml(self):

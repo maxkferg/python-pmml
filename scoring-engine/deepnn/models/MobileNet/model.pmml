@@ -1006,14 +1006,14 @@
     </DataField>
   </DataDictionary>
   <DeepNeuralNetwork modelname="Deep Neural Network" functionname="regression">
-    <Layer name="input_1" type="InputLayer">
+    <Layer name="input_3" type="InputLayer">
       <InputSize>
         <Array n="3" type="int">224 224 3</Array>
       </InputSize>
     </Layer>
     <Layer name="conv1_pad" type="ZeroPadding2D">
       <InboundNodes>
-        <Array n="1" type="string">input_1</Array>
+        <Array n="1" type="string">input_3</Array>
       </InboundNodes>
       <Padding>
         <Array n="4" type="int">0 1 0 1</Array>
@@ -1040,7 +1040,7 @@
         <Array n="1" type="string">conv1</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv1_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv1_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv1_bn</Array>
       </InboundNodes>
@@ -1063,7 +1063,7 @@
         <Array n="1" type="string">conv_dw_1</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_1_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_1_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_1_bn</Array>
       </InboundNodes>
@@ -1089,7 +1089,7 @@
         <Array n="1" type="string">conv_pw_1</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_1_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_1_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_1_bn</Array>
       </InboundNodes>
@@ -1120,7 +1120,7 @@
         <Array n="1" type="string">conv_dw_2</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_2_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_2_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_2_bn</Array>
       </InboundNodes>
@@ -1146,7 +1146,7 @@
         <Array n="1" type="string">conv_pw_2</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_2_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_2_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_2_bn</Array>
       </InboundNodes>
@@ -1169,7 +1169,7 @@
         <Array n="1" type="string">conv_dw_3</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_3_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_3_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_3_bn</Array>
       </InboundNodes>
@@ -1195,7 +1195,7 @@
         <Array n="1" type="string">conv_pw_3</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_3_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_3_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_3_bn</Array>
       </InboundNodes>
@@ -1226,7 +1226,7 @@
         <Array n="1" type="string">conv_dw_4</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_4_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_4_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_4_bn</Array>
       </InboundNodes>
@@ -1252,7 +1252,7 @@
         <Array n="1" type="string">conv_pw_4</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_4_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_4_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_4_bn</Array>
       </InboundNodes>
@@ -1275,7 +1275,7 @@
         <Array n="1" type="string">conv_dw_5</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_5_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_5_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_5_bn</Array>
       </InboundNodes>
@@ -1301,7 +1301,7 @@
         <Array n="1" type="string">conv_pw_5</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_5_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_5_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_5_bn</Array>
       </InboundNodes>
@@ -1332,7 +1332,7 @@
         <Array n="1" type="string">conv_dw_6</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_6_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_6_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_6_bn</Array>
       </InboundNodes>
@@ -1358,7 +1358,7 @@
         <Array n="1" type="string">conv_pw_6</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_6_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_6_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_6_bn</Array>
       </InboundNodes>
@@ -1381,7 +1381,7 @@
         <Array n="1" type="string">conv_dw_7</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_7_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_7_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_7_bn</Array>
       </InboundNodes>
@@ -1407,7 +1407,7 @@
         <Array n="1" type="string">conv_pw_7</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_7_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_7_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_7_bn</Array>
       </InboundNodes>
@@ -1430,7 +1430,7 @@
         <Array n="1" type="string">conv_dw_8</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_8_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_8_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_8_bn</Array>
       </InboundNodes>
@@ -1456,7 +1456,7 @@
         <Array n="1" type="string">conv_pw_8</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_8_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_8_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_8_bn</Array>
       </InboundNodes>
@@ -1479,7 +1479,7 @@
         <Array n="1" type="string">conv_dw_9</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_9_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_9_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_9_bn</Array>
       </InboundNodes>
@@ -1505,7 +1505,7 @@
         <Array n="1" type="string">conv_pw_9</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_9_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_9_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_9_bn</Array>
       </InboundNodes>
@@ -1528,7 +1528,7 @@
         <Array n="1" type="string">conv_dw_10</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_10_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_10_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_10_bn</Array>
       </InboundNodes>
@@ -1554,7 +1554,7 @@
         <Array n="1" type="string">conv_pw_10</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_10_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_10_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_10_bn</Array>
       </InboundNodes>
@@ -1577,7 +1577,7 @@
         <Array n="1" type="string">conv_dw_11</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_11_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_11_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_11_bn</Array>
       </InboundNodes>
@@ -1603,7 +1603,7 @@
         <Array n="1" type="string">conv_pw_11</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_11_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_11_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_11_bn</Array>
       </InboundNodes>
@@ -1634,7 +1634,7 @@
         <Array n="1" type="string">conv_dw_12</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_12_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_12_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_12_bn</Array>
       </InboundNodes>
@@ -1660,7 +1660,7 @@
         <Array n="1" type="string">conv_pw_12</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_12_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_12_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_12_bn</Array>
       </InboundNodes>
@@ -1683,7 +1683,7 @@
         <Array n="1" type="string">conv_dw_13</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_dw_13_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_13_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_dw_13_bn</Array>
       </InboundNodes>
@@ -1709,7 +1709,7 @@
         <Array n="1" type="string">conv_pw_13</Array>
       </InboundNodes>
     </Layer>
-    <Layer type="Activation" activation="relu" name="conv_pw_13_relu">
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_13_relu" negative_slope="0.0" threshold="0.0">
       <InboundNodes>
         <Array n="1" type="string">conv_pw_13_bn</Array>
       </InboundNodes>

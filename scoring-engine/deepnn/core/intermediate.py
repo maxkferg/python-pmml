@@ -77,7 +77,7 @@ class DeepNeuralNetwork(PMML_Model):
         layers = DNN.findall("Layer")
         if "description" in root.attrib:
             self.description = root.attrib["description"]
-        if "copyright" in root.attrib["copyright"]:
+        if "copyright" in root.attrib:
             self.copyright = root.attrib["copyright"]
         for layer_element in layers:
             config = dict(layer_element.attrib)
@@ -85,6 +85,8 @@ class DeepNeuralNetwork(PMML_Model):
             # Convert config into correct datatype
             if "momentum" in config:
                 config["momentum"] = float(config["momentum"])
+            if "epsilon" in config:
+                config["epsilon"] = float(config["epsilon"])
             if "axis" in config:
                 config["axis"] = int(config["axis"])
             if "channels" in config:
@@ -92,7 +94,13 @@ class DeepNeuralNetwork(PMML_Model):
             if "depth_multiplier" in config:
                 config["depth_multiplier"] = int(config["depth_multiplier"])
             if "center" in config:
-                config["center"] = to_bool(config["center"])                
+                config["center"] = to_bool(config["center"])   
+            if "threshold" in config:
+                config["threshold"] = float(config["threshold"])   
+            if "max_value" in config:
+                config["max_value"] = float(config["max_value"])   
+            if "negative_slope" in config:
+                config["negative_slope"] = float(config["negative_slope"])                
             # Read Attributes
             strides = layer_element.find("Strides")
             padding = layer_element.find("Padding")
@@ -231,7 +239,7 @@ class DeepNeuralNetwork(PMML_Model):
             print(keras_model.summary())
 
         print("Loading weights from %s... "%self.weights_file, end="", flush=True)
-        keras_model.load_weights(self.weights_file, by_name=True)
+        keras_model.load_weights(self.weights_file)
         print("Done")
 
         return keras_model

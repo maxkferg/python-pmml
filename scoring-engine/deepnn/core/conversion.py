@@ -20,6 +20,7 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 	"""
 	pmml = DeepNeuralNetwork(description=description, class_map=class_map)
 	pmml.keras_model = keras_model
+	pmml.model_name = keras_model.name
 	config = keras_model.get_config()
 
 	for layer in config['layers']:
@@ -141,6 +142,7 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 		elif layer_class is "Concatenate":
 			pmml._append_layer(Merge(
 				name=layer_config['name'],
+				axis=layer_config['axis'],
 				operator='concatenate',
 				inbound_nodes=get_inbound_nodes(layer_inbound_nodes)
 			))
@@ -154,6 +156,9 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 			pmml._append_layer(Activation(
 				name=layer_config['name'],
 				activation='relu',
+				threshold = layer_config['threshold'],
+				max_value = layer_config['max_value'],
+				negative_slope = layer_config['negative_slope'],
 				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		# Unknown layer
