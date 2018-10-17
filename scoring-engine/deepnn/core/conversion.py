@@ -3,7 +3,7 @@ Convert Keras models to PMML
 """
 import keras
 from .intermediate import DeepNeuralNetwork
-from .layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Merge, Activation
+from .layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Dropout, Reshape, DepthwiseConv2D, Merge, Activation
 
 
 def get_inbound_nodes(layer_inbound_nodes):
@@ -39,6 +39,18 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 				channels=layer_config['filters'],
 				kernel_size=layer_config['kernel_size'],
 				dilation_rate=layer_config['dilation_rate'],
+				use_bias=layer_config['use_bias'],
+				activation=layer_config['activation'],
+				strides=layer_config['strides'],
+				padding=layer_config['padding'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
+			))
+		# DepthwiseConv2D
+		elif layer_class is "DepthwiseConv2D":
+			pmml._append_layer(DepthwiseConv2D(
+				name=layer_config['name'],
+				kernel_size=layer_config['kernel_size'],
+				depth_multiplier=layer_config['depth_multiplier'],
 				use_bias=layer_config['use_bias'],
 				activation=layer_config['activation'],
 				strides=layer_config['strides'],
@@ -87,6 +99,18 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 				padding=layer_config['padding'],
 				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
+		# Reshape layer
+		elif layer_class is "Reshape":
+			pmml._append_layer(Reshape(
+				name=layer_config['name'],
+				target_shape=layer_config['target_shape'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
+			))
+		elif layer_class is "Dropout":
+			pmml._append_layer(Dropout(
+				name=layer_config['name'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
+			))
 		# Batch Normalization
 		elif layer_class is "BatchNormalization":
 			pmml._append_layer(BatchNormalization(
@@ -124,6 +148,12 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 			pmml._append_layer(Activation(
 				name=layer_config['name'],
 				activation=layer_config['activation'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
+			))
+		elif layer_class is "ReLU":
+			pmml._append_layer(Activation(
+				name=layer_config['name'],
+				activation='relu',
 				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		# Unknown layer

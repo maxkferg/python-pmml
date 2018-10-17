@@ -8,7 +8,7 @@ import datetime
 import numpy as np
 from lxml import etree
 from . import layers
-from .utils import read_array
+from .utils import read_array, to_bool
 from .layers import InputLayer, get_layer_class_by_name
 DEBUG = False
 
@@ -89,6 +89,10 @@ class DeepNeuralNetwork(PMML_Model):
                 config["axis"] = int(config["axis"])
             if "channels" in config:
                 config["channels"] = int(config["channels"])
+            if "depth_multiplier" in config:
+                config["depth_multiplier"] = int(config["depth_multiplier"])
+            if "center" in config:
+                config["center"] = to_bool(config["center"])                
             # Read Attributes
             strides = layer_element.find("Strides")
             padding = layer_element.find("Padding")
@@ -96,16 +100,22 @@ class DeepNeuralNetwork(PMML_Model):
             convolutional_kernel = layer_element.find("ConvolutionalKernel")
             inbound_nodes = layer_element.find("InboundNodes")
             input_size = layer_element.find("InputSize")
+            target_shape = layer_element.find("TargetShape")
+            
             if convolutional_kernel is not None:
                 kernel_size = convolutional_kernel.find("KernelSize")
                 kernel_strides = convolutional_kernel.find("KernelStride")
                 dilation_rate = convolutional_kernel.find("DilationRate")
-                config["channels"] = int(convolutional_kernel.attrib["channels"])
                 config["kernel_size"] = read_array(kernel_size)
                 config["strides"] = read_array(kernel_strides)
-                config["dilation_rate"] = read_array(dilation_rate)
-                if len(config["dilation_rate"])==1:
-                    config["dilation_rate"] = config["dilation_rate"][0]
+                if dilation_rate is not None:
+                    config["dilation_rate"] = read_array(dilation_rate)
+                    if len(config["dilation_rate"])==1:
+                        config["dilation_rate"] = config["dilation_rate"][0]
+                if "channels" in convolutional_kernel.attrib:
+                    config["channels"] = int(convolutional_kernel.attrib["channels"])
+            if target_shape is not None:
+                config["target_shape"] = read_array(target_shape)
             if input_size is not None:
                 config["input_size"] = read_array(input_size)
             if pool_size is not None:
@@ -206,6 +216,8 @@ class DeepNeuralNetwork(PMML_Model):
             keras_tensor = layer.to_keras(graph)
             graph[layer.name] = keras_tensor
             graph["prev_layer"] = keras_tensor
+            if keras_tensor is None:
+                raise ValueError("%s layer returned None"%layer.name)
             if type(layer) is InputLayer:
                 graph["input_layer"] = keras_tensor
 

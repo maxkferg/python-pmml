@@ -253,6 +253,9 @@ class InputLayer(Layer):
 		self.input_size = input_size
 		self.name = name
 
+		if self.input_size[0] is None:
+			raise ValueError("Model must specify input size")
+
 	def to_pmml(self):
 		"""
 		Return an elementTree item corrosponding to this
@@ -419,6 +422,47 @@ class ZeroPadding2D(Layer):
 		return k.ZeroPadding2D(**config)(inbound_node)
 
 
+class Reshape(Layer):
+	"""
+	A reshape layer
+	"""
+	def __init__(self, inbound_nodes, target_shape, name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
+		self.target_shape = target_shape
+		self.name = name
+
+	def to_pmml(self):
+		"""
+		Return an elemenTree item corrosponding to this
+		"""
+		layer = etree.Element("Layer", type="Reshape", name=self.name)
+		layer.append(self._get_inbound_nodes_element())
+
+		# Padding size Element with array Subelement
+		target_shape = etree.SubElement(layer, "TargetShape")
+		target_shape.append(Array(children=self.target_shape))
+
+		return layer
+
+	def to_keras(self, graph, input_shape=None):
+		"""
+		Return the equivalent keras layer
+		"""
+		config = {
+			'name': self.name,
+			'target_shape': self.target_shape,
+		}
+		if input_shape is not None:
+			config['input_shape'] = input_shape
+
+		if DEBUG:
+			print("Creating ZeroPadding2D layer with config:\n",config)
+
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.Reshape(**config)(inbound_node)
+
+
 
 class Conv2D(Layer):
 	"""
@@ -509,10 +553,85 @@ class Conv2D(Layer):
 		return k.Conv2D(**config)(inbound_node)
 
 
+class DepthwiseConv2D(Layer):
+	"""
+	A 2D DepthwiseConv2D Layer
+	"""
+
+	def __init__(self, inbound_nodes, kernel_size, strides, padding, depth_multiplier, activation='relu', use_bias=True, name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
+		self.kernel_size = kernel_size
+		self.strides = strides
+		self.activation = activation
+		self.depth_multiplier = depth_multiplier
+		self.padding = padding
+		self.name = name
+		self.use_bias = to_bool(use_bias)
+
+		# Enforce types
+		if type(self.kernel_size) is list:
+			self.kernel_size = tuple(self.kernel_size)
+
+		if type(self.strides) is list:
+			self.strides = tuple(self.strides)
+
+		if type(self.padding) is list:
+			self.padding = tuple(self.padding)
+
+
+	def to_pmml(self):
+		"""
+		Return an elementTree item corrosponding to this
+		"""
+		attrib = {
+			"type": "DepthwiseConv2D",
+			"activation": self.activation,
+			"padding": self.padding,
+			"use_bias": str(self.use_bias),
+			"depth_multiplier": str(self.depth_multiplier)
+		}
+		if self.name is not None:
+			attrib['name'] = self.name
+
+		layer = et.Element("Layer", attrib)
+		layer.append(self._get_inbound_nodes_element())
+
+		kernel = et.SubElement(layer, "ConvolutionalKernel")
+		kernel_size = etree.SubElement(kernel, "KernelSize")
+		kernel_size.append(Array(children=self.kernel_size))
+		kernel_stride = etree.SubElement(kernel, "KernelStride")
+		kernel_stride.append(Array(children=self.strides))
+
+		return layer
+
+
+	def to_keras(self, graph, input_shape=None):
+		config = {
+			"name": self.name,
+			"kernel_size": self.kernel_size,
+			"strides": self.strides,
+			"padding": self.padding,
+			"activation": self.activation,
+			"depth_multiplier": self.depth_multiplier,
+			"use_bias": to_bool(self.use_bias),
+		}
+
+		if input_shape is not None:
+			config['input_shape'] = input_shape
+
+		if DEBUG:
+			print("Creating DepthwiseConv2D layer with config:\n", config)
+
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.DepthwiseConv2D(**config)(inbound_node)
+
+
+
 
 class Dense(Layer):
 	"""
-	A 2D Convolutional Layer
+	A Dense Layer
 	"""
 
 	def __init__(self, inbound_nodes, channels=128, activation='relu', use_bias=True, name=None):
@@ -555,13 +674,56 @@ class Dense(Layer):
 		return k.Dense(**config)(inbound_node)
 
 
+class Dropout(Layer):
+	"""
+	A Dropout Layer
+	"""
+
+	def __init__(self, inbound_nodes, name=None):
+		self.inbound_nodes = inbound_nodes
+		self.name = name
+		self.rate = 0
+
+
+	def to_pmml(self):
+		"""
+		Return an elemenTree item corrosponding to this
+		"""
+		attrib = {
+				"name": self.name,
+				"type": "Dropout",
+		}
+		layer =  etree.Element("Layer", attrib=attrib)
+		layer.append(self._get_inbound_nodes_element())
+
+		return layer
+
+
+	def to_keras(self,graph):
+		"""
+		Return the keras representation
+		"""
+		config = {
+			"rate": self.rate,
+			"name": self.name,
+		}
+		if DEBUG:
+			print("Creating Dropout layer with config:\n", config)
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.Dropout(**config)(inbound_node)
+
+
+
 def get_layer_class_by_name(layer_type):
 	type_map = {
 		"InputLayer": InputLayer,
 		"Conv2D": Conv2D,
+		"DepthwiseConv2D": DepthwiseConv2D,
 		"Merge": Merge,
 		"Activation": Activation,
+		"Dropout": Dropout,
 		"Dense": Dense,
+		"Reshape": Reshape,
 		"Flatten": Flatten,
 		"BatchNormalization": BatchNormalization,
 		"MaxPooling2D": MaxPooling2D,
