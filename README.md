@@ -1,5 +1,23 @@
-# PMML Scoring Engine
-Scoring engine for PMML models implemented using python. The PMML scoring engine exposes predictive machine learning models as REST endpoints. Clients can send new observations to the scoring engine in the JSON file format. The scoring engine returns a JSON response containing the new scores
+# Python PMML
+
+Generate and Evaluation PMML in Python.
+Currently, this pacakge supports the Gaussian Process Regression and DeepNeuralNetwork model types.
+
+# Installation
+All code is written in Python 3. First install the required packages
+```sh
+pip3 install -r requirements.txt
+```
+Then run the tests to make sure everything is working
+```sh
+python tests.py
+```
+If all the tests pass, then you are good to start using the package.
+
+# Command line interface 
+
+
+
 
 ## Binary Dependencies
 ```sh

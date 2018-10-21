@@ -1,0 +1,1766 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Header copyright="Copyright (c) 2018 NIST" description="MobileNet ImageNet Model">
+  <DataDictionary numberOfFields="1001">
+    <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
+    <DataField dataType="string" name="class" optype="categorical">
+      <Value value="tench, Tinca tinca"/>
+      <Value value="goldfish, Carassius auratus"/>
+      <Value value="great white shark, white shark, man-eater, man-eating shark, Carcharodon carcharias"/>
+      <Value value="tiger shark, Galeocerdo cuvieri"/>
+      <Value value="hammerhead, hammerhead shark"/>
+      <Value value="electric ray, crampfish, numbfish, torpedo"/>
+      <Value value="stingray"/>
+      <Value value="cock"/>
+      <Value value="hen"/>
+      <Value value="ostrich, Struthio camelus"/>
+      <Value value="brambling, Fringilla montifringilla"/>
+      <Value value="goldfinch, Carduelis carduelis"/>
+      <Value value="house finch, linnet, Carpodacus mexicanus"/>
+      <Value value="junco, snowbird"/>
+      <Value value="indigo bunting, indigo finch, indigo bird, Passerina cyanea"/>
+      <Value value="robin, American robin, Turdus migratorius"/>
+      <Value value="bulbul"/>
+      <Value value="jay"/>
+      <Value value="magpie"/>
+      <Value value="chickadee"/>
+      <Value value="water ouzel, dipper"/>
+      <Value value="kite"/>
+      <Value value="bald eagle, American eagle, Haliaeetus leucocephalus"/>
+      <Value value="vulture"/>
+      <Value value="great grey owl, great gray owl, Strix nebulosa"/>
+      <Value value="European fire salamander, Salamandra salamandra"/>
+      <Value value="common newt, Triturus vulgaris"/>
+      <Value value="eft"/>
+      <Value value="spotted salamander, Ambystoma maculatum"/>
+      <Value value="axolotl, mud puppy, Ambystoma mexicanum"/>
+      <Value value="bullfrog, Rana catesbeiana"/>
+      <Value value="tree frog, tree-frog"/>
+      <Value value="tailed frog, bell toad, ribbed toad, tailed toad, Ascaphus trui"/>
+      <Value value="loggerhead, loggerhead turtle, Caretta caretta"/>
+      <Value value="leatherback turtle, leatherback, leathery turtle, Dermochelys coriacea"/>
+      <Value value="mud turtle"/>
+      <Value value="terrapin"/>
+      <Value value="box turtle, box tortoise"/>
+      <Value value="banded gecko"/>
+      <Value value="common iguana, iguana, Iguana iguana"/>
+      <Value value="American chameleon, anole, Anolis carolinensis"/>
+      <Value value="whiptail, whiptail lizard"/>
+      <Value value="agama"/>
+      <Value value="frilled lizard, Chlamydosaurus kingi"/>
+      <Value value="alligator lizard"/>
+      <Value value="Gila monster, Heloderma suspectum"/>
+      <Value value="green lizard, Lacerta viridis"/>
+      <Value value="African chameleon, Chamaeleo chamaeleon"/>
+      <Value value="Komodo dragon, Komodo lizard, dragon lizard, giant lizard, Varanus komodoensis"/>
+      <Value value="African crocodile, Nile crocodile, Crocodylus niloticus"/>
+      <Value value="American alligator, Alligator mississipiensis"/>
+      <Value value="triceratops"/>
+      <Value value="thunder snake, worm snake, Carphophis amoenus"/>
+      <Value value="ringneck snake, ring-necked snake, ring snake"/>
+      <Value value="hognose snake, puff adder, sand viper"/>
+      <Value value="green snake, grass snake"/>
+      <Value value="king snake, kingsnake"/>
+      <Value value="garter snake, grass snake"/>
+      <Value value="water snake"/>
+      <Value value="vine snake"/>
+      <Value value="night snake, Hypsiglena torquata"/>
+      <Value value="boa constrictor, Constrictor constrictor"/>
+      <Value value="rock python, rock snake, Python sebae"/>
+      <Value value="Indian cobra, Naja naja"/>
+      <Value value="green mamba"/>
+      <Value value="sea snake"/>
+      <Value value="horned viper, cerastes, sand viper, horned asp, Cerastes cornutus"/>
+      <Value value="diamondback, diamondback rattlesnake, Crotalus adamanteus"/>
+      <Value value="sidewinder, horned rattlesnake, Crotalus cerastes"/>
+      <Value value="trilobite"/>
+      <Value value="harvestman, daddy longlegs, Phalangium opilio"/>
+      <Value value="scorpion"/>
+      <Value value="black and gold garden spider, Argiope aurantia"/>
+      <Value value="barn spider, Araneus cavaticus"/>
+      <Value value="garden spider, Aranea diademata"/>
+      <Value value="black widow, Latrodectus mactans"/>
+      <Value value="tarantula"/>
+      <Value value="wolf spider, hunting spider"/>
+      <Value value="tick"/>
+      <Value value="centipede"/>
+      <Value value="black grouse"/>
+      <Value value="ptarmigan"/>
+      <Value value="ruffed grouse, partridge, Bonasa umbellus"/>
+      <Value value="prairie chicken, prairie grouse, prairie fowl"/>
+      <Value value="peacock"/>
+      <Value value="quail"/>
+      <Value value="partridge"/>
+      <Value value="African grey, African gray, Psittacus erithacus"/>
+      <Value value="macaw"/>
+      <Value value="sulphur-crested cockatoo, Kakatoe galerita, Cacatua galerita"/>
+      <Value value="lorikeet"/>
+      <Value value="coucal"/>
+      <Value value="bee eater"/>
+      <Value value="hornbill"/>
+      <Value value="hummingbird"/>
+      <Value value="jacamar"/>
+      <Value value="toucan"/>
+      <Value value="drake"/>
+      <Value value="red-breasted merganser, Mergus serrator"/>
+      <Value value="goose"/>
+      <Value value="black swan, Cygnus atratus"/>
+      <Value value="tusker"/>
+      <Value value="echidna, spiny anteater, anteater"/>
+      <Value value="platypus, duckbill, duckbilled platypus, duck-billed platypus, Ornithorhynchus anatinus"/>
+      <Value value="wallaby, brush kangaroo"/>
+      <Value value="koala, koala bear, kangaroo bear, native bear, Phascolarctos cinereus"/>
+      <Value value="wombat"/>
+      <Value value="jellyfish"/>
+      <Value value="sea anemone, anemone"/>
+      <Value value="brain coral"/>
+      <Value value="flatworm, platyhelminth"/>
+      <Value value="nematode, nematode worm, roundworm"/>
+      <Value value="conch"/>
+      <Value value="snail"/>
+      <Value value="slug"/>
+      <Value value="sea slug, nudibranch"/>
+      <Value value="chiton, coat-of-mail shell, sea cradle, polyplacophore"/>
+      <Value value="chambered nautilus, pearly nautilus, nautilus"/>
+      <Value value="Dungeness crab, Cancer magister"/>
+      <Value value="rock crab, Cancer irroratus"/>
+      <Value value="fiddler crab"/>
+      <Value value="king crab, Alaska crab, Alaskan king crab, Alaska king crab, Paralithodes camtschatica"/>
+      <Value value="American lobster, Northern lobster, Maine lobster, Homarus americanus"/>
+      <Value value="spiny lobster, langouste, rock lobster, crawfish, crayfish, sea crawfish"/>
+      <Value value="crayfish, crawfish, crawdad, crawdaddy"/>
+      <Value value="hermit crab"/>
+      <Value value="isopod"/>
+      <Value value="white stork, Ciconia ciconia"/>
+      <Value value="black stork, Ciconia nigra"/>
+      <Value value="spoonbill"/>
+      <Value value="flamingo"/>
+      <Value value="little blue heron, Egretta caerulea"/>
+      <Value value="American egret, great white heron, Egretta albus"/>
+      <Value value="bittern"/>
+      <Value value="crane"/>
+      <Value value="limpkin, Aramus pictus"/>
+      <Value value="European gallinule, Porphyrio porphyrio"/>
+      <Value value="American coot, marsh hen, mud hen, water hen, Fulica americana"/>
+      <Value value="bustard"/>
+      <Value value="ruddy turnstone, Arenaria interpres"/>
+      <Value value="red-backed sandpiper, dunlin, Erolia alpina"/>
+      <Value value="redshank, Tringa totanus"/>
+      <Value value="dowitcher"/>
+      <Value value="oystercatcher, oyster catcher"/>
+      <Value value="pelican"/>
+      <Value value="king penguin, Aptenodytes patagonica"/>
+      <Value value="albatross, mollymawk"/>
+      <Value value="grey whale, gray whale, devilfish, Eschrichtius gibbosus, Eschrichtius robustus"/>
+      <Value value="killer whale, killer, orca, grampus, sea wolf, Orcinus orca"/>
+      <Value value="dugong, Dugong dugon"/>
+      <Value value="sea lion"/>
+      <Value value="Chihuahua"/>
+      <Value value="Japanese spaniel"/>
+      <Value value="Maltese dog, Maltese terrier, Maltese"/>
+      <Value value="Pekinese, Pekingese, Peke"/>
+      <Value value="Shih-Tzu"/>
+      <Value value="Blenheim spaniel"/>
+      <Value value="papillon"/>
+      <Value value="toy terrier"/>
+      <Value value="Rhodesian ridgeback"/>
+      <Value value="Afghan hound, Afghan"/>
+      <Value value="basset, basset hound"/>
+      <Value value="beagle"/>
+      <Value value="bloodhound, sleuthhound"/>
+      <Value value="bluetick"/>
+      <Value value="black-and-tan coonhound"/>
+      <Value value="Walker hound, Walker foxhound"/>
+      <Value value="English foxhound"/>
+      <Value value="redbone"/>
+      <Value value="borzoi, Russian wolfhound"/>
+      <Value value="Irish wolfhound"/>
+      <Value value="Italian greyhound"/>
+      <Value value="whippet"/>
+      <Value value="Ibizan hound, Ibizan Podenco"/>
+      <Value value="Norwegian elkhound, elkhound"/>
+      <Value value="otterhound, otter hound"/>
+      <Value value="Saluki, gazelle hound"/>
+      <Value value="Scottish deerhound, deerhound"/>
+      <Value value="Weimaraner"/>
+      <Value value="Staffordshire bullterrier, Staffordshire bull terrier"/>
+      <Value value="American Staffordshire terrier, Staffordshire terrier, American pit bull terrier, pit bull terrier"/>
+      <Value value="Bedlington terrier"/>
+      <Value value="Border terrier"/>
+      <Value value="Kerry blue terrier"/>
+      <Value value="Irish terrier"/>
+      <Value value="Norfolk terrier"/>
+      <Value value="Norwich terrier"/>
+      <Value value="Yorkshire terrier"/>
+      <Value value="wire-haired fox terrier"/>
+      <Value value="Lakeland terrier"/>
+      <Value value="Sealyham terrier, Sealyham"/>
+      <Value value="Airedale, Airedale terrier"/>
+      <Value value="cairn, cairn terrier"/>
+      <Value value="Australian terrier"/>
+      <Value value="Dandie Dinmont, Dandie Dinmont terrier"/>
+      <Value value="Boston bull, Boston terrier"/>
+      <Value value="miniature schnauzer"/>
+      <Value value="giant schnauzer"/>
+      <Value value="standard schnauzer"/>
+      <Value value="Scotch terrier, Scottish terrier, Scottie"/>
+      <Value value="Tibetan terrier, chrysanthemum dog"/>
+      <Value value="silky terrier, Sydney silky"/>
+      <Value value="soft-coated wheaten terrier"/>
+      <Value value="West Highland white terrier"/>
+      <Value value="Lhasa, Lhasa apso"/>
+      <Value value="flat-coated retriever"/>
+      <Value value="curly-coated retriever"/>
+      <Value value="golden retriever"/>
+      <Value value="Labrador retriever"/>
+      <Value value="Chesapeake Bay retriever"/>
+      <Value value="German short-haired pointer"/>
+      <Value value="vizsla, Hungarian pointer"/>
+      <Value value="English setter"/>
+      <Value value="Irish setter, red setter"/>
+      <Value value="Gordon setter"/>
+      <Value value="Brittany spaniel"/>
+      <Value value="clumber, clumber spaniel"/>
+      <Value value="English springer, English springer spaniel"/>
+      <Value value="Welsh springer spaniel"/>
+      <Value value="cocker spaniel, English cocker spaniel, cocker"/>
+      <Value value="Sussex spaniel"/>
+      <Value value="Irish water spaniel"/>
+      <Value value="kuvasz"/>
+      <Value value="schipperke"/>
+      <Value value="groenendael"/>
+      <Value value="malinois"/>
+      <Value value="briard"/>
+      <Value value="kelpie"/>
+      <Value value="komondor"/>
+      <Value value="Old English sheepdog, bobtail"/>
+      <Value value="Shetland sheepdog, Shetland sheep dog, Shetland"/>
+      <Value value="collie"/>
+      <Value value="Border collie"/>
+      <Value value="Bouvier des Flandres, Bouviers des Flandres"/>
+      <Value value="Rottweiler"/>
+      <Value value="German shepherd, German shepherd dog, German police dog, alsatian"/>
+      <Value value="Doberman, Doberman pinscher"/>
+      <Value value="miniature pinscher"/>
+      <Value value="Greater Swiss Mountain dog"/>
+      <Value value="Bernese mountain dog"/>
+      <Value value="Appenzeller"/>
+      <Value value="EntleBucher"/>
+      <Value value="boxer"/>
+      <Value value="bull mastiff"/>
+      <Value value="Tibetan mastiff"/>
+      <Value value="French bulldog"/>
+      <Value value="Great Dane"/>
+      <Value value="Saint Bernard, St Bernard"/>
+      <Value value="Eskimo dog, husky"/>
+      <Value value="malamute, malemute, Alaskan malamute"/>
+      <Value value="Siberian husky"/>
+      <Value value="dalmatian, coach dog, carriage dog"/>
+      <Value value="affenpinscher, monkey pinscher, monkey dog"/>
+      <Value value="basenji"/>
+      <Value value="pug, pug-dog"/>
+      <Value value="Leonberg"/>
+      <Value value="Newfoundland, Newfoundland dog"/>
+      <Value value="Great Pyrenees"/>
+      <Value value="Samoyed, Samoyede"/>
+      <Value value="Pomeranian"/>
+      <Value value="chow, chow chow"/>
+      <Value value="keeshond"/>
+      <Value value="Brabancon griffon"/>
+      <Value value="Pembroke, Pembroke Welsh corgi"/>
+      <Value value="Cardigan, Cardigan Welsh corgi"/>
+      <Value value="toy poodle"/>
+      <Value value="miniature poodle"/>
+      <Value value="standard poodle"/>
+      <Value value="Mexican hairless"/>
+      <Value value="timber wolf, grey wolf, gray wolf, Canis lupus"/>
+      <Value value="white wolf, Arctic wolf, Canis lupus tundrarum"/>
+      <Value value="red wolf, maned wolf, Canis rufus, Canis niger"/>
+      <Value value="coyote, prairie wolf, brush wolf, Canis latrans"/>
+      <Value value="dingo, warrigal, warragal, Canis dingo"/>
+      <Value value="dhole, Cuon alpinus"/>
+      <Value value="African hunting dog, hyena dog, Cape hunting dog, Lycaon pictus"/>
+      <Value value="hyena, hyaena"/>
+      <Value value="red fox, Vulpes vulpes"/>
+      <Value value="kit fox, Vulpes macrotis"/>
+      <Value value="Arctic fox, white fox, Alopex lagopus"/>
+      <Value value="grey fox, gray fox, Urocyon cinereoargenteus"/>
+      <Value value="tabby, tabby cat"/>
+      <Value value="tiger cat"/>
+      <Value value="Persian cat"/>
+      <Value value="Siamese cat, Siamese"/>
+      <Value value="Egyptian cat"/>
+      <Value value="cougar, puma, catamount, mountain lion, painter, panther, Felis concolor"/>
+      <Value value="lynx, catamount"/>
+      <Value value="leopard, Panthera pardus"/>
+      <Value value="snow leopard, ounce, Panthera uncia"/>
+      <Value value="jaguar, panther, Panthera onca, Felis onca"/>
+      <Value value="lion, king of beasts, Panthera leo"/>
+      <Value value="tiger, Panthera tigris"/>
+      <Value value="cheetah, chetah, Acinonyx jubatus"/>
+      <Value value="brown bear, bruin, Ursus arctos"/>
+      <Value value="American black bear, black bear, Ursus americanus, Euarctos americanus"/>
+      <Value value="ice bear, polar bear, Ursus Maritimus, Thalarctos maritimus"/>
+      <Value value="sloth bear, Melursus ursinus, Ursus ursinus"/>
+      <Value value="mongoose"/>
+      <Value value="meerkat, mierkat"/>
+      <Value value="tiger beetle"/>
+      <Value value="ladybug, ladybeetle, lady beetle, ladybird, ladybird beetle"/>
+      <Value value="ground beetle, carabid beetle"/>
+      <Value value="long-horned beetle, longicorn, longicorn beetle"/>
+      <Value value="leaf beetle, chrysomelid"/>
+      <Value value="dung beetle"/>
+      <Value value="rhinoceros beetle"/>
+      <Value value="weevil"/>
+      <Value value="fly"/>
+      <Value value="bee"/>
+      <Value value="ant, emmet, pismire"/>
+      <Value value="grasshopper, hopper"/>
+      <Value value="cricket"/>
+      <Value value="walking stick, walkingstick, stick insect"/>
+      <Value value="cockroach, roach"/>
+      <Value value="mantis, mantid"/>
+      <Value value="cicada, cicala"/>
+      <Value value="leafhopper"/>
+      <Value value="lacewing, lacewing fly"/>
+      <Value value="dragonfly, darning needle, devil's darning needle, sewing needle, snake feeder, snake doctor, mosquito hawk, skeeter hawk"/>
+      <Value value="damselfly"/>
+      <Value value="admiral"/>
+      <Value value="ringlet, ringlet butterfly"/>
+      <Value value="monarch, monarch butterfly, milkweed butterfly, Danaus plexippus"/>
+      <Value value="cabbage butterfly"/>
+      <Value value="sulphur butterfly, sulfur butterfly"/>
+      <Value value="lycaenid, lycaenid butterfly"/>
+      <Value value="starfish, sea star"/>
+      <Value value="sea urchin"/>
+      <Value value="sea cucumber, holothurian"/>
+      <Value value="wood rabbit, cottontail, cottontail rabbit"/>
+      <Value value="hare"/>
+      <Value value="Angora, Angora rabbit"/>
+      <Value value="hamster"/>
+      <Value value="porcupine, hedgehog"/>
+      <Value value="fox squirrel, eastern fox squirrel, Sciurus niger"/>
+      <Value value="marmot"/>
+      <Value value="beaver"/>
+      <Value value="guinea pig, Cavia cobaya"/>
+      <Value value="sorrel"/>
+      <Value value="zebra"/>
+      <Value value="hog, pig, grunter, squealer, Sus scrofa"/>
+      <Value value="wild boar, boar, Sus scrofa"/>
+      <Value value="warthog"/>
+      <Value value="hippopotamus, hippo, river horse, Hippopotamus amphibius"/>
+      <Value value="ox"/>
+      <Value value="water buffalo, water ox, Asiatic buffalo, Bubalus bubalis"/>
+      <Value value="bison"/>
+      <Value value="ram, tup"/>
+      <Value value="bighorn, bighorn sheep, cimarron, Rocky Mountain bighorn, Rocky Mountain sheep, Ovis canadensis"/>
+      <Value value="ibex, Capra ibex"/>
+      <Value value="hartebeest"/>
+      <Value value="impala, Aepyceros melampus"/>
+      <Value value="gazelle"/>
+      <Value value="Arabian camel, dromedary, Camelus dromedarius"/>
+      <Value value="llama"/>
+      <Value value="weasel"/>
+      <Value value="mink"/>
+      <Value value="polecat, fitch, foulmart, foumart, Mustela putorius"/>
+      <Value value="black-footed ferret, ferret, Mustela nigripes"/>
+      <Value value="otter"/>
+      <Value value="skunk, polecat, wood pussy"/>
+      <Value value="badger"/>
+      <Value value="armadillo"/>
+      <Value value="three-toed sloth, ai, Bradypus tridactylus"/>
+      <Value value="orangutan, orang, orangutang, Pongo pygmaeus"/>
+      <Value value="gorilla, Gorilla gorilla"/>
+      <Value value="chimpanzee, chimp, Pan troglodytes"/>
+      <Value value="gibbon, Hylobates lar"/>
+      <Value value="siamang, Hylobates syndactylus, Symphalangus syndactylus"/>
+      <Value value="guenon, guenon monkey"/>
+      <Value value="patas, hussar monkey, Erythrocebus patas"/>
+      <Value value="baboon"/>
+      <Value value="macaque"/>
+      <Value value="langur"/>
+      <Value value="colobus, colobus monkey"/>
+      <Value value="proboscis monkey, Nasalis larvatus"/>
+      <Value value="marmoset"/>
+      <Value value="capuchin, ringtail, Cebus capucinus"/>
+      <Value value="howler monkey, howler"/>
+      <Value value="titi, titi monkey"/>
+      <Value value="spider monkey, Ateles geoffroyi"/>
+      <Value value="squirrel monkey, Saimiri sciureus"/>
+      <Value value="Madagascar cat, ring-tailed lemur, Lemur catta"/>
+      <Value value="indri, indris, Indri indri, Indri brevicaudatus"/>
+      <Value value="Indian elephant, Elephas maximus"/>
+      <Value value="African elephant, Loxodonta africana"/>
+      <Value value="lesser panda, red panda, panda, bear cat, cat bear, Ailurus fulgens"/>
+      <Value value="giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca"/>
+      <Value value="barracouta, snoek"/>
+      <Value value="eel"/>
+      <Value value="coho, cohoe, coho salmon, blue jack, silver salmon, Oncorhynchus kisutch"/>
+      <Value value="rock beauty, Holocanthus tricolor"/>
+      <Value value="anemone fish"/>
+      <Value value="sturgeon"/>
+      <Value value="gar, garfish, garpike, billfish, Lepisosteus osseus"/>
+      <Value value="lionfish"/>
+      <Value value="puffer, pufferfish, blowfish, globefish"/>
+      <Value value="abacus"/>
+      <Value value="abaya"/>
+      <Value value="academic gown, academic robe, judge's robe"/>
+      <Value value="accordion, piano accordion, squeeze box"/>
+      <Value value="acoustic guitar"/>
+      <Value value="aircraft carrier, carrier, flattop, attack aircraft carrier"/>
+      <Value value="airliner"/>
+      <Value value="airship, dirigible"/>
+      <Value value="altar"/>
+      <Value value="ambulance"/>
+      <Value value="amphibian, amphibious vehicle"/>
+      <Value value="analog clock"/>
+      <Value value="apiary, bee house"/>
+      <Value value="apron"/>
+      <Value value="ashcan, trash can, garbage can, wastebin, ash bin, ash-bin, ashbin, dustbin, trash barrel, trash bin"/>
+      <Value value="assault rifle, assault gun"/>
+      <Value value="backpack, back pack, knapsack, packsack, rucksack, haversack"/>
+      <Value value="bakery, bakeshop, bakehouse"/>
+      <Value value="balance beam, beam"/>
+      <Value value="balloon"/>
+      <Value value="ballpoint, ballpoint pen, ballpen, Biro"/>
+      <Value value="Band Aid"/>
+      <Value value="banjo"/>
+      <Value value="bannister, banister, balustrade, balusters, handrail"/>
+      <Value value="barbell"/>
+      <Value value="barber chair"/>
+      <Value value="barbershop"/>
+      <Value value="barn"/>
+      <Value value="barometer"/>
+      <Value value="barrel, cask"/>
+      <Value value="barrow, garden cart, lawn cart, wheelbarrow"/>
+      <Value value="baseball"/>
+      <Value value="basketball"/>
+      <Value value="bassinet"/>
+      <Value value="bassoon"/>
+      <Value value="bathing cap, swimming cap"/>
+      <Value value="bath towel"/>
+      <Value value="bathtub, bathing tub, bath, tub"/>
+      <Value value="beach wagon, station wagon, wagon, estate car, beach waggon, station waggon, waggon"/>
+      <Value value="beacon, lighthouse, beacon light, pharos"/>
+      <Value value="beaker"/>
+      <Value value="bearskin, busby, shako"/>
+      <Value value="beer bottle"/>
+      <Value value="beer glass"/>
+      <Value value="bell cote, bell cot"/>
+      <Value value="bib"/>
+      <Value value="bicycle-built-for-two, tandem bicycle, tandem"/>
+      <Value value="bikini, two-piece"/>
+      <Value value="binder, ring-binder"/>
+      <Value value="binoculars, field glasses, opera glasses"/>
+      <Value value="birdhouse"/>
+      <Value value="boathouse"/>
+      <Value value="bobsled, bobsleigh, bob"/>
+      <Value value="bolo tie, bolo, bola tie, bola"/>
+      <Value value="bonnet, poke bonnet"/>
+      <Value value="bookcase"/>
+      <Value value="bookshop, bookstore, bookstall"/>
+      <Value value="bottlecap"/>
+      <Value value="bow"/>
+      <Value value="bow tie, bow-tie, bowtie"/>
+      <Value value="brass, memorial tablet, plaque"/>
+      <Value value="brassiere, bra, bandeau"/>
+      <Value value="breakwater, groin, groyne, mole, bulwark, seawall, jetty"/>
+      <Value value="breastplate, aegis, egis"/>
+      <Value value="broom"/>
+      <Value value="bucket, pail"/>
+      <Value value="buckle"/>
+      <Value value="bulletproof vest"/>
+      <Value value="bullet train, bullet"/>
+      <Value value="butcher shop, meat market"/>
+      <Value value="cab, hack, taxi, taxicab"/>
+      <Value value="caldron, cauldron"/>
+      <Value value="candle, taper, wax light"/>
+      <Value value="cannon"/>
+      <Value value="canoe"/>
+      <Value value="can opener, tin opener"/>
+      <Value value="cardigan"/>
+      <Value value="car mirror"/>
+      <Value value="carousel, carrousel, merry-go-round, roundabout, whirligig"/>
+      <Value value="carpenter's kit, tool kit"/>
+      <Value value="carton"/>
+      <Value value="car wheel"/>
+      <Value value="cash machine, cash dispenser, automated teller machine, automatic teller machine, automated teller, automatic teller, ATM"/>
+      <Value value="cassette"/>
+      <Value value="cassette player"/>
+      <Value value="castle"/>
+      <Value value="catamaran"/>
+      <Value value="CD player"/>
+      <Value value="cello, violoncello"/>
+      <Value value="cellular telephone, cellular phone, cellphone, cell, mobile phone"/>
+      <Value value="chain"/>
+      <Value value="chainlink fence"/>
+      <Value value="chain mail, ring mail, mail, chain armor, chain armour, ring armor, ring armour"/>
+      <Value value="chain saw, chainsaw"/>
+      <Value value="chest"/>
+      <Value value="chiffonier, commode"/>
+      <Value value="chime, bell, gong"/>
+      <Value value="china cabinet, china closet"/>
+      <Value value="Christmas stocking"/>
+      <Value value="church, church building"/>
+      <Value value="cinema, movie theater, movie theatre, movie house, picture palace"/>
+      <Value value="cleaver, meat cleaver, chopper"/>
+      <Value value="cliff dwelling"/>
+      <Value value="cloak"/>
+      <Value value="clog, geta, patten, sabot"/>
+      <Value value="cocktail shaker"/>
+      <Value value="coffee mug"/>
+      <Value value="coffeepot"/>
+      <Value value="coil, spiral, volute, whorl, helix"/>
+      <Value value="combination lock"/>
+      <Value value="computer keyboard, keypad"/>
+      <Value value="confectionery, confectionary, candy store"/>
+      <Value value="container ship, containership, container vessel"/>
+      <Value value="convertible"/>
+      <Value value="corkscrew, bottle screw"/>
+      <Value value="cornet, horn, trumpet, trump"/>
+      <Value value="cowboy boot"/>
+      <Value value="cowboy hat, ten-gallon hat"/>
+      <Value value="cradle"/>
+      <Value value="crane"/>
+      <Value value="crash helmet"/>
+      <Value value="crate"/>
+      <Value value="crib, cot"/>
+      <Value value="Crock Pot"/>
+      <Value value="croquet ball"/>
+      <Value value="crutch"/>
+      <Value value="cuirass"/>
+      <Value value="dam, dike, dyke"/>
+      <Value value="desk"/>
+      <Value value="desktop computer"/>
+      <Value value="dial telephone, dial phone"/>
+      <Value value="diaper, nappy, napkin"/>
+      <Value value="digital clock"/>
+      <Value value="digital watch"/>
+      <Value value="dining table, board"/>
+      <Value value="dishrag, dishcloth"/>
+      <Value value="dishwasher, dish washer, dishwashing machine"/>
+      <Value value="disk brake, disc brake"/>
+      <Value value="dock, dockage, docking facility"/>
+      <Value value="dogsled, dog sled, dog sleigh"/>
+      <Value value="dome"/>
+      <Value value="doormat, welcome mat"/>
+      <Value value="drilling platform, offshore rig"/>
+      <Value value="drum, membranophone, tympan"/>
+      <Value value="drumstick"/>
+      <Value value="dumbbell"/>
+      <Value value="Dutch oven"/>
+      <Value value="electric fan, blower"/>
+      <Value value="electric guitar"/>
+      <Value value="electric locomotive"/>
+      <Value value="entertainment center"/>
+      <Value value="envelope"/>
+      <Value value="espresso maker"/>
+      <Value value="face powder"/>
+      <Value value="feather boa, boa"/>
+      <Value value="file, file cabinet, filing cabinet"/>
+      <Value value="fireboat"/>
+      <Value value="fire engine, fire truck"/>
+      <Value value="fire screen, fireguard"/>
+      <Value value="flagpole, flagstaff"/>
+      <Value value="flute, transverse flute"/>
+      <Value value="folding chair"/>
+      <Value value="football helmet"/>
+      <Value value="forklift"/>
+      <Value value="fountain"/>
+      <Value value="fountain pen"/>
+      <Value value="four-poster"/>
+      <Value value="freight car"/>
+      <Value value="French horn, horn"/>
+      <Value value="frying pan, frypan, skillet"/>
+      <Value value="fur coat"/>
+      <Value value="garbage truck, dustcart"/>
+      <Value value="gasmask, respirator, gas helmet"/>
+      <Value value="gas pump, gasoline pump, petrol pump, island dispenser"/>
+      <Value value="goblet"/>
+      <Value value="go-kart"/>
+      <Value value="golf ball"/>
+      <Value value="golfcart, golf cart"/>
+      <Value value="gondola"/>
+      <Value value="gong, tam-tam"/>
+      <Value value="gown"/>
+      <Value value="grand piano, grand"/>
+      <Value value="greenhouse, nursery, glasshouse"/>
+      <Value value="grille, radiator grille"/>
+      <Value value="grocery store, grocery, food market, market"/>
+      <Value value="guillotine"/>
+      <Value value="hair slide"/>
+      <Value value="hair spray"/>
+      <Value value="half track"/>
+      <Value value="hammer"/>
+      <Value value="hamper"/>
+      <Value value="hand blower, blow dryer, blow drier, hair dryer, hair drier"/>
+      <Value value="hand-held computer, hand-held microcomputer"/>
+      <Value value="handkerchief, hankie, hanky, hankey"/>
+      <Value value="hard disc, hard disk, fixed disk"/>
+      <Value value="harmonica, mouth organ, harp, mouth harp"/>
+      <Value value="harp"/>
+      <Value value="harvester, reaper"/>
+      <Value value="hatchet"/>
+      <Value value="holster"/>
+      <Value value="home theater, home theatre"/>
+      <Value value="honeycomb"/>
+      <Value value="hook, claw"/>
+      <Value value="hoopskirt, crinoline"/>
+      <Value value="horizontal bar, high bar"/>
+      <Value value="horse cart, horse-cart"/>
+      <Value value="hourglass"/>
+      <Value value="iPod"/>
+      <Value value="iron, smoothing iron"/>
+      <Value value="jack-o'-lantern"/>
+      <Value value="jean, blue jean, denim"/>
+      <Value value="jeep, landrover"/>
+      <Value value="jersey, T-shirt, tee shirt"/>
+      <Value value="jigsaw puzzle"/>
+      <Value value="jinrikisha, ricksha, rickshaw"/>
+      <Value value="joystick"/>
+      <Value value="kimono"/>
+      <Value value="knee pad"/>
+      <Value value="knot"/>
+      <Value value="lab coat, laboratory coat"/>
+      <Value value="ladle"/>
+      <Value value="lampshade, lamp shade"/>
+      <Value value="laptop, laptop computer"/>
+      <Value value="lawn mower, mower"/>
+      <Value value="lens cap, lens cover"/>
+      <Value value="letter opener, paper knife, paperknife"/>
+      <Value value="library"/>
+      <Value value="lifeboat"/>
+      <Value value="lighter, light, igniter, ignitor"/>
+      <Value value="limousine, limo"/>
+      <Value value="liner, ocean liner"/>
+      <Value value="lipstick, lip rouge"/>
+      <Value value="Loafer"/>
+      <Value value="lotion"/>
+      <Value value="loudspeaker, speaker, speaker unit, loudspeaker system, speaker system"/>
+      <Value value="loupe, jeweler's loupe"/>
+      <Value value="lumbermill, sawmill"/>
+      <Value value="magnetic compass"/>
+      <Value value="mailbag, postbag"/>
+      <Value value="mailbox, letter box"/>
+      <Value value="maillot"/>
+      <Value value="maillot, tank suit"/>
+      <Value value="manhole cover"/>
+      <Value value="maraca"/>
+      <Value value="marimba, xylophone"/>
+      <Value value="mask"/>
+      <Value value="matchstick"/>
+      <Value value="maypole"/>
+      <Value value="maze, labyrinth"/>
+      <Value value="measuring cup"/>
+      <Value value="medicine chest, medicine cabinet"/>
+      <Value value="megalith, megalithic structure"/>
+      <Value value="microphone, mike"/>
+      <Value value="microwave, microwave oven"/>
+      <Value value="military uniform"/>
+      <Value value="milk can"/>
+      <Value value="minibus"/>
+      <Value value="miniskirt, mini"/>
+      <Value value="minivan"/>
+      <Value value="missile"/>
+      <Value value="mitten"/>
+      <Value value="mixing bowl"/>
+      <Value value="mobile home, manufactured home"/>
+      <Value value="Model T"/>
+      <Value value="modem"/>
+      <Value value="monastery"/>
+      <Value value="monitor"/>
+      <Value value="moped"/>
+      <Value value="mortar"/>
+      <Value value="mortarboard"/>
+      <Value value="mosque"/>
+      <Value value="mosquito net"/>
+      <Value value="motor scooter, scooter"/>
+      <Value value="mountain bike, all-terrain bike, off-roader"/>
+      <Value value="mountain tent"/>
+      <Value value="mouse, computer mouse"/>
+      <Value value="mousetrap"/>
+      <Value value="moving van"/>
+      <Value value="muzzle"/>
+      <Value value="nail"/>
+      <Value value="neck brace"/>
+      <Value value="necklace"/>
+      <Value value="nipple"/>
+      <Value value="notebook, notebook computer"/>
+      <Value value="obelisk"/>
+      <Value value="oboe, hautboy, hautbois"/>
+      <Value value="ocarina, sweet potato"/>
+      <Value value="odometer, hodometer, mileometer, milometer"/>
+      <Value value="oil filter"/>
+      <Value value="organ, pipe organ"/>
+      <Value value="oscilloscope, scope, cathode-ray oscilloscope, CRO"/>
+      <Value value="overskirt"/>
+      <Value value="oxcart"/>
+      <Value value="oxygen mask"/>
+      <Value value="packet"/>
+      <Value value="paddle, boat paddle"/>
+      <Value value="paddlewheel, paddle wheel"/>
+      <Value value="padlock"/>
+      <Value value="paintbrush"/>
+      <Value value="pajama, pyjama, pj's, jammies"/>
+      <Value value="palace"/>
+      <Value value="panpipe, pandean pipe, syrinx"/>
+      <Value value="paper towel"/>
+      <Value value="parachute, chute"/>
+      <Value value="parallel bars, bars"/>
+      <Value value="park bench"/>
+      <Value value="parking meter"/>
+      <Value value="passenger car, coach, carriage"/>
+      <Value value="patio, terrace"/>
+      <Value value="pay-phone, pay-station"/>
+      <Value value="pedestal, plinth, footstall"/>
+      <Value value="pencil box, pencil case"/>
+      <Value value="pencil sharpener"/>
+      <Value value="perfume, essence"/>
+      <Value value="Petri dish"/>
+      <Value value="photocopier"/>
+      <Value value="pick, plectrum, plectron"/>
+      <Value value="pickelhaube"/>
+      <Value value="picket fence, paling"/>
+      <Value value="pickup, pickup truck"/>
+      <Value value="pier"/>
+      <Value value="piggy bank, penny bank"/>
+      <Value value="pill bottle"/>
+      <Value value="pillow"/>
+      <Value value="ping-pong ball"/>
+      <Value value="pinwheel"/>
+      <Value value="pirate, pirate ship"/>
+      <Value value="pitcher, ewer"/>
+      <Value value="plane, carpenter's plane, woodworking plane"/>
+      <Value value="planetarium"/>
+      <Value value="plastic bag"/>
+      <Value value="plate rack"/>
+      <Value value="plow, plough"/>
+      <Value value="plunger, plumber's helper"/>
+      <Value value="Polaroid camera, Polaroid Land camera"/>
+      <Value value="pole"/>
+      <Value value="police van, police wagon, paddy wagon, patrol wagon, wagon, black Maria"/>
+      <Value value="poncho"/>
+      <Value value="pool table, billiard table, snooker table"/>
+      <Value value="pop bottle, soda bottle"/>
+      <Value value="pot, flowerpot"/>
+      <Value value="potter's wheel"/>
+      <Value value="power drill"/>
+      <Value value="prayer rug, prayer mat"/>
+      <Value value="printer"/>
+      <Value value="prison, prison house"/>
+      <Value value="projectile, missile"/>
+      <Value value="projector"/>
+      <Value value="puck, hockey puck"/>
+      <Value value="punching bag, punch bag, punching ball, punchball"/>
+      <Value value="purse"/>
+      <Value value="quill, quill pen"/>
+      <Value value="quilt, comforter, comfort, puff"/>
+      <Value value="racer, race car, racing car"/>
+      <Value value="racket, racquet"/>
+      <Value value="radiator"/>
+      <Value value="radio, wireless"/>
+      <Value value="radio telescope, radio reflector"/>
+      <Value value="rain barrel"/>
+      <Value value="recreational vehicle, RV, R.V."/>
+      <Value value="reel"/>
+      <Value value="reflex camera"/>
+      <Value value="refrigerator, icebox"/>
+      <Value value="remote control, remote"/>
+      <Value value="restaurant, eating house, eating place, eatery"/>
+      <Value value="revolver, six-gun, six-shooter"/>
+      <Value value="rifle"/>
+      <Value value="rocking chair, rocker"/>
+      <Value value="rotisserie"/>
+      <Value value="rubber eraser, rubber, pencil eraser"/>
+      <Value value="rugby ball"/>
+      <Value value="rule, ruler"/>
+      <Value value="running shoe"/>
+      <Value value="safe"/>
+      <Value value="safety pin"/>
+      <Value value="saltshaker, salt shaker"/>
+      <Value value="sandal"/>
+      <Value value="sarong"/>
+      <Value value="sax, saxophone"/>
+      <Value value="scabbard"/>
+      <Value value="scale, weighing machine"/>
+      <Value value="school bus"/>
+      <Value value="schooner"/>
+      <Value value="scoreboard"/>
+      <Value value="screen, CRT screen"/>
+      <Value value="screw"/>
+      <Value value="screwdriver"/>
+      <Value value="seat belt, seatbelt"/>
+      <Value value="sewing machine"/>
+      <Value value="shield, buckler"/>
+      <Value value="shoe shop, shoe-shop, shoe store"/>
+      <Value value="shoji"/>
+      <Value value="shopping basket"/>
+      <Value value="shopping cart"/>
+      <Value value="shovel"/>
+      <Value value="shower cap"/>
+      <Value value="shower curtain"/>
+      <Value value="ski"/>
+      <Value value="ski mask"/>
+      <Value value="sleeping bag"/>
+      <Value value="slide rule, slipstick"/>
+      <Value value="sliding door"/>
+      <Value value="slot, one-armed bandit"/>
+      <Value value="snorkel"/>
+      <Value value="snowmobile"/>
+      <Value value="snowplow, snowplough"/>
+      <Value value="soap dispenser"/>
+      <Value value="soccer ball"/>
+      <Value value="sock"/>
+      <Value value="solar dish, solar collector, solar furnace"/>
+      <Value value="sombrero"/>
+      <Value value="soup bowl"/>
+      <Value value="space bar"/>
+      <Value value="space heater"/>
+      <Value value="space shuttle"/>
+      <Value value="spatula"/>
+      <Value value="speedboat"/>
+      <Value value="spider web, spider's web"/>
+      <Value value="spindle"/>
+      <Value value="sports car, sport car"/>
+      <Value value="spotlight, spot"/>
+      <Value value="stage"/>
+      <Value value="steam locomotive"/>
+      <Value value="steel arch bridge"/>
+      <Value value="steel drum"/>
+      <Value value="stethoscope"/>
+      <Value value="stole"/>
+      <Value value="stone wall"/>
+      <Value value="stopwatch, stop watch"/>
+      <Value value="stove"/>
+      <Value value="strainer"/>
+      <Value value="streetcar, tram, tramcar, trolley, trolley car"/>
+      <Value value="stretcher"/>
+      <Value value="studio couch, day bed"/>
+      <Value value="stupa, tope"/>
+      <Value value="submarine, pigboat, sub, U-boat"/>
+      <Value value="suit, suit of clothes"/>
+      <Value value="sundial"/>
+      <Value value="sunglass"/>
+      <Value value="sunglasses, dark glasses, shades"/>
+      <Value value="sunscreen, sunblock, sun blocker"/>
+      <Value value="suspension bridge"/>
+      <Value value="swab, swob, mop"/>
+      <Value value="sweatshirt"/>
+      <Value value="swimming trunks, bathing trunks"/>
+      <Value value="swing"/>
+      <Value value="switch, electric switch, electrical switch"/>
+      <Value value="syringe"/>
+      <Value value="table lamp"/>
+      <Value value="tank, army tank, armored combat vehicle, armoured combat vehicle"/>
+      <Value value="tape player"/>
+      <Value value="teapot"/>
+      <Value value="teddy, teddy bear"/>
+      <Value value="television, television system"/>
+      <Value value="tennis ball"/>
+      <Value value="thatch, thatched roof"/>
+      <Value value="theater curtain, theatre curtain"/>
+      <Value value="thimble"/>
+      <Value value="thresher, thrasher, threshing machine"/>
+      <Value value="throne"/>
+      <Value value="tile roof"/>
+      <Value value="toaster"/>
+      <Value value="tobacco shop, tobacconist shop, tobacconist"/>
+      <Value value="toilet seat"/>
+      <Value value="torch"/>
+      <Value value="totem pole"/>
+      <Value value="tow truck, tow car, wrecker"/>
+      <Value value="toyshop"/>
+      <Value value="tractor"/>
+      <Value value="trailer truck, tractor trailer, trucking rig, rig, articulated lorry, semi"/>
+      <Value value="tray"/>
+      <Value value="trench coat"/>
+      <Value value="tricycle, trike, velocipede"/>
+      <Value value="trimaran"/>
+      <Value value="tripod"/>
+      <Value value="triumphal arch"/>
+      <Value value="trolleybus, trolley coach, trackless trolley"/>
+      <Value value="trombone"/>
+      <Value value="tub, vat"/>
+      <Value value="turnstile"/>
+      <Value value="typewriter keyboard"/>
+      <Value value="umbrella"/>
+      <Value value="unicycle, monocycle"/>
+      <Value value="upright, upright piano"/>
+      <Value value="vacuum, vacuum cleaner"/>
+      <Value value="vase"/>
+      <Value value="vault"/>
+      <Value value="velvet"/>
+      <Value value="vending machine"/>
+      <Value value="vestment"/>
+      <Value value="viaduct"/>
+      <Value value="violin, fiddle"/>
+      <Value value="volleyball"/>
+      <Value value="waffle iron"/>
+      <Value value="wall clock"/>
+      <Value value="wallet, billfold, notecase, pocketbook"/>
+      <Value value="wardrobe, closet, press"/>
+      <Value value="warplane, military plane"/>
+      <Value value="washbasin, handbasin, washbowl, lavabo, wash-hand basin"/>
+      <Value value="washer, automatic washer, washing machine"/>
+      <Value value="water bottle"/>
+      <Value value="water jug"/>
+      <Value value="water tower"/>
+      <Value value="whiskey jug"/>
+      <Value value="whistle"/>
+      <Value value="wig"/>
+      <Value value="window screen"/>
+      <Value value="window shade"/>
+      <Value value="Windsor tie"/>
+      <Value value="wine bottle"/>
+      <Value value="wing"/>
+      <Value value="wok"/>
+      <Value value="wooden spoon"/>
+      <Value value="wool, woolen, woollen"/>
+      <Value value="worm fence, snake fence, snake-rail fence, Virginia fence"/>
+      <Value value="wreck"/>
+      <Value value="yawl"/>
+      <Value value="yurt"/>
+      <Value value="web site, website, internet site, site"/>
+      <Value value="comic book"/>
+      <Value value="crossword puzzle, crossword"/>
+      <Value value="street sign"/>
+      <Value value="traffic light, traffic signal, stoplight"/>
+      <Value value="book jacket, dust cover, dust jacket, dust wrapper"/>
+      <Value value="menu"/>
+      <Value value="plate"/>
+      <Value value="guacamole"/>
+      <Value value="consomme"/>
+      <Value value="hot pot, hotpot"/>
+      <Value value="trifle"/>
+      <Value value="ice cream, icecream"/>
+      <Value value="ice lolly, lolly, lollipop, popsicle"/>
+      <Value value="French loaf"/>
+      <Value value="bagel, beigel"/>
+      <Value value="pretzel"/>
+      <Value value="cheeseburger"/>
+      <Value value="hotdog, hot dog, red hot"/>
+      <Value value="mashed potato"/>
+      <Value value="head cabbage"/>
+      <Value value="broccoli"/>
+      <Value value="cauliflower"/>
+      <Value value="zucchini, courgette"/>
+      <Value value="spaghetti squash"/>
+      <Value value="acorn squash"/>
+      <Value value="butternut squash"/>
+      <Value value="cucumber, cuke"/>
+      <Value value="artichoke, globe artichoke"/>
+      <Value value="bell pepper"/>
+      <Value value="cardoon"/>
+      <Value value="mushroom"/>
+      <Value value="Granny Smith"/>
+      <Value value="strawberry"/>
+      <Value value="orange"/>
+      <Value value="lemon"/>
+      <Value value="fig"/>
+      <Value value="pineapple, ananas"/>
+      <Value value="banana"/>
+      <Value value="jackfruit, jak, jack"/>
+      <Value value="custard apple"/>
+      <Value value="pomegranate"/>
+      <Value value="hay"/>
+      <Value value="carbonara"/>
+      <Value value="chocolate sauce, chocolate syrup"/>
+      <Value value="dough"/>
+      <Value value="meat loaf, meatloaf"/>
+      <Value value="pizza, pizza pie"/>
+      <Value value="potpie"/>
+      <Value value="burrito"/>
+      <Value value="red wine"/>
+      <Value value="espresso"/>
+      <Value value="cup"/>
+      <Value value="eggnog"/>
+      <Value value="alp"/>
+      <Value value="bubble"/>
+      <Value value="cliff, drop, drop-off"/>
+      <Value value="coral reef"/>
+      <Value value="geyser"/>
+      <Value value="lakeside, lakeshore"/>
+      <Value value="promontory, headland, head, foreland"/>
+      <Value value="sandbar, sand bar"/>
+      <Value value="seashore, coast, seacoast, sea-coast"/>
+      <Value value="valley, vale"/>
+      <Value value="volcano"/>
+      <Value value="ballplayer, baseball player"/>
+      <Value value="groom, bridegroom"/>
+      <Value value="scuba diver"/>
+      <Value value="rapeseed"/>
+      <Value value="daisy"/>
+      <Value value="yellow lady's slipper, yellow lady-slipper, Cypripedium calceolus, Cypripedium parviflorum"/>
+      <Value value="corn"/>
+      <Value value="acorn"/>
+      <Value value="hip, rose hip, rosehip"/>
+      <Value value="buckeye, horse chestnut, conker"/>
+      <Value value="coral fungus"/>
+      <Value value="agaric"/>
+      <Value value="gyromitra"/>
+      <Value value="stinkhorn, carrion fungus"/>
+      <Value value="earthstar"/>
+      <Value value="hen-of-the-woods, hen of the woods, Polyporus frondosus, Grifola frondosa"/>
+      <Value value="bolete"/>
+      <Value value="ear, spike, capitulum"/>
+      <Value value="toilet tissue, toilet paper, bathroom tissue"/>
+    </DataField>
+  </DataDictionary>
+  <DeepNeuralNetwork modelname="Deep Neural Network" functionname="regression">
+    <Layer name="input_4" type="InputLayer">
+      <InputSize>
+        <Array n="3" type="int">224 224 3</Array>
+      </InputSize>
+    </Layer>
+    <Layer name="conv1_pad" type="ZeroPadding2D">
+      <InboundNodes>
+        <Array n="1" type="string">input_4</Array>
+      </InboundNodes>
+      <Padding>
+        <Array n="4" type="int">0 1 0 1</Array>
+      </Padding>
+    </Layer>
+    <Layer activation="linear" name="conv1" padding="valid" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv1_pad</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="32">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">2 2</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv1_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv1</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv1_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv1_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_1" padding="same" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv1_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_1_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_1</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_1_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_1_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_1" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_1_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="64">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_1_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_1</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_1_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_1_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer name="conv_pad_2" type="ZeroPadding2D">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_1_relu</Array>
+      </InboundNodes>
+      <Padding>
+        <Array n="4" type="int">0 1 0 1</Array>
+      </Padding>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_2" padding="valid" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pad_2</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">2 2</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_2_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_2</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_2_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_2_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_2" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_2_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="128">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_2_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_2</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_2_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_2_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_3" padding="same" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_2_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_3_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_3</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_3_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_3_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_3" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_3_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="128">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_3_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_3</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_3_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_3_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer name="conv_pad_4" type="ZeroPadding2D">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_3_relu</Array>
+      </InboundNodes>
+      <Padding>
+        <Array n="4" type="int">0 1 0 1</Array>
+      </Padding>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_4" padding="valid" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pad_4</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">2 2</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_4_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_4</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_4_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_4_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_4" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_4_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="256">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_4_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_4</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_4_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_4_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_5" padding="same" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_4_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_5_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_5</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_5_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_5_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_5" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_5_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="256">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_5_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_5</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_5_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_5_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer name="conv_pad_6" type="ZeroPadding2D">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_5_relu</Array>
+      </InboundNodes>
+      <Padding>
+        <Array n="4" type="int">0 1 0 1</Array>
+      </Padding>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_6" padding="valid" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pad_6</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">2 2</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_6_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_6</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_6_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_6_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_6" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_6_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_6_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_6</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_6_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_6_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_7" padding="same" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_6_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_7_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_7</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_7_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_7_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_7" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_7_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_7_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_7</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_7_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_7_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_8" padding="same" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_7_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_8_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_8</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_8_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_8_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_8" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_8_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_8_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_8</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_8_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_8_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_9" padding="same" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_8_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_9_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_9</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_9_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_9_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_9" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_9_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_9_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_9</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_9_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_9_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_10" padding="same" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_9_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_10_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_10</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_10_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_10_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_10" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_10_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_10_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_10</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_10_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_10_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_11" padding="same" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_10_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_11_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_11</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_11_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_11_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_11" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_11_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_11_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_11</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_11_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_11_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer name="conv_pad_12" type="ZeroPadding2D">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_11_relu</Array>
+      </InboundNodes>
+      <Padding>
+        <Array n="4" type="int">0 1 0 1</Array>
+      </Padding>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_12" padding="valid" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pad_12</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">2 2</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_12_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_12</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_12_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_12_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_12" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_12_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="1024">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_12_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_12</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_12_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_12_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" depth_multiplier="1" name="conv_dw_13" padding="same" type="DepthwiseConv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_12_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_13_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_13</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_dw_13_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_13_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_pw_13" padding="same" type="Conv2D" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_13_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="1024">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_13_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_13</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer type="Activation" activation="relu" max_value="6.0" name="conv_pw_13_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_13_bn</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer name="global_average_pooling2d_1" type="GlobalAveragePooling2D">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_13_relu</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer name="reshape_1" type="Reshape">
+      <InboundNodes>
+        <Array n="1" type="string">global_average_pooling2d_1</Array>
+      </InboundNodes>
+      <TargetShape>
+        <Array n="3" type="int">1 1 1024</Array>
+      </TargetShape>
+    </Layer>
+    <Layer name="dropout" type="Dropout">
+      <InboundNodes>
+        <Array n="1" type="string">reshape_1</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer activation="linear" name="conv_preds" padding="same" type="Conv2D" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">dropout</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="1000">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </Layer>
+    <Layer type="Activation" activation="softmax" name="act_softmax">
+      <InboundNodes>
+        <Array n="1" type="string">conv_preds</Array>
+      </InboundNodes>
+    </Layer>
+    <Layer name="reshape_2" type="Reshape">
+      <InboundNodes>
+        <Array n="1" type="string">act_softmax</Array>
+      </InboundNodes>
+      <TargetShape>
+        <Array n="1" type="int">1000</Array>
+      </TargetShape>
+    </Layer>
+    <Weights encoding="hdf5" href="weights.h5"/>
+  </DeepNeuralNetwork>
+</Header>
