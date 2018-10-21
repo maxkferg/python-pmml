@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<Header copyright="Copyright (c) 2018 NIST" description="ResNet50 ImageNet Model">
+<PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
+  <Header copyright="Copyright (c) 2018 NIST" description="ResNet-50 ImageNet Model">
+    <Timestamp>2018-32-21 01:32:33</Timestamp>
+  </Header>
   <DataDictionary numberOfFields="1001">
     <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
     <DataField dataType="string" name="class" optype="categorical">
@@ -1005,21 +1008,28 @@
       <Value value="toilet tissue, toilet paper, bathroom tissue"/>
     </DataField>
   </DataDictionary>
-  <DeepNeuralNetwork modelname="Deep Neural Network" functionname="regression">
-    <Layer name="input_3" type="InputLayer">
+  <DeepNetwork modelName="Deep Neural Network" functionName="classification" numberOfLayers="177">
+    <MiningSchema>
+      <MiningField name="image" usageType="active"/>
+      <MiningField name="class" usageType="predicted"/>
+    </MiningSchema>
+    <Outputs>
+      <OutputField dataType="string" feature="topClass"/>
+    </Outputs>
+    <NetworkLayer layerType="InputLayer" name="input_3">
       <InputSize>
         <Array n="3" type="int">224 224 3</Array>
       </InputSize>
-    </Layer>
-    <Layer name="conv1_pad" type="ZeroPadding2D">
+    </NetworkLayer>
+    <NetworkLayer layerType="ZeroPadding2D" name="conv1_pad">
       <InboundNodes>
         <Array n="1" type="string">input_3</Array>
       </InboundNodes>
       <Padding>
         <Array n="4" type="int">3 3 3 3</Array>
       </Padding>
-    </Layer>
-    <Layer activation="linear" name="conv1" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv1" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">conv1_pad</Array>
       </InboundNodes>
@@ -1034,26 +1044,26 @@
           <Array n="2" type="int">2 2</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn_conv1">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn_conv1">
       <InboundNodes>
         <Array n="1" type="string">conv1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_1">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_1">
       <InboundNodes>
         <Array n="1" type="string">bn_conv1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer name="pool1_pad" type="ZeroPadding2D">
+    </NetworkLayer>
+    <NetworkLayer layerType="ZeroPadding2D" name="pool1_pad">
       <InboundNodes>
         <Array n="1" type="string">activation_1</Array>
       </InboundNodes>
       <Padding>
         <Array n="4" type="int">1 1 1 1</Array>
       </Padding>
-    </Layer>
-    <Layer name="max_pooling2d_1" type="MaxPooling2D">
+    </NetworkLayer>
+    <NetworkLayer layerType="MaxPooling2D" name="max_pooling2d_1">
       <InboundNodes>
         <Array n="1" type="string">pool1_pad</Array>
       </InboundNodes>
@@ -1063,8 +1073,8 @@
       <Strides>
         <Array n="2" type="int">2 2</Array>
       </Strides>
-    </Layer>
-    <Layer activation="linear" name="res2a_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res2a_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">max_pooling2d_1</Array>
       </InboundNodes>
@@ -1079,18 +1089,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2a_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2a_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res2a_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_2">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_2">
       <InboundNodes>
         <Array n="1" type="string">bn2a_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res2a_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res2a_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_2</Array>
       </InboundNodes>
@@ -1105,18 +1115,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2a_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2a_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res2a_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_3">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_3">
       <InboundNodes>
         <Array n="1" type="string">bn2a_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res2a_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res2a_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_3</Array>
       </InboundNodes>
@@ -1131,8 +1141,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="linear" name="res2a_branch1" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res2a_branch1" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">max_pooling2d_1</Array>
       </InboundNodes>
@@ -1147,28 +1157,28 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2a_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2a_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res2a_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2a_branch1">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2a_branch1">
       <InboundNodes>
         <Array n="1" type="string">res2a_branch1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_1" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_1" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn2a_branch2c bn2a_branch1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_4">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_4">
       <InboundNodes>
         <Array n="1" type="string">add_1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res2b_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res2b_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_4</Array>
       </InboundNodes>
@@ -1183,18 +1193,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2b_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2b_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res2b_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_5">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_5">
       <InboundNodes>
         <Array n="1" type="string">bn2b_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res2b_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res2b_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_5</Array>
       </InboundNodes>
@@ -1209,18 +1219,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2b_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2b_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res2b_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_6">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_6">
       <InboundNodes>
         <Array n="1" type="string">bn2b_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res2b_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res2b_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_6</Array>
       </InboundNodes>
@@ -1235,23 +1245,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2b_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2b_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res2b_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_2" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_2" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn2b_branch2c activation_4</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_7">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_7">
       <InboundNodes>
         <Array n="1" type="string">add_2</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res2c_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res2c_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_7</Array>
       </InboundNodes>
@@ -1266,18 +1276,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2c_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2c_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res2c_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_8">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_8">
       <InboundNodes>
         <Array n="1" type="string">bn2c_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res2c_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res2c_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_8</Array>
       </InboundNodes>
@@ -1292,18 +1302,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2c_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2c_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res2c_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_9">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_9">
       <InboundNodes>
         <Array n="1" type="string">bn2c_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res2c_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res2c_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_9</Array>
       </InboundNodes>
@@ -1318,23 +1328,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2c_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn2c_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res2c_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_3" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_3" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn2c_branch2c activation_7</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_10">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_10">
       <InboundNodes>
         <Array n="1" type="string">add_3</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3a_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3a_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_10</Array>
       </InboundNodes>
@@ -1349,18 +1359,18 @@
           <Array n="2" type="int">2 2</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3a_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3a_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res3a_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_11">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_11">
       <InboundNodes>
         <Array n="1" type="string">bn3a_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3a_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3a_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_11</Array>
       </InboundNodes>
@@ -1375,18 +1385,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3a_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3a_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res3a_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_12">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_12">
       <InboundNodes>
         <Array n="1" type="string">bn3a_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3a_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3a_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_12</Array>
       </InboundNodes>
@@ -1401,8 +1411,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="linear" name="res3a_branch1" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3a_branch1" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_10</Array>
       </InboundNodes>
@@ -1417,28 +1427,28 @@
           <Array n="2" type="int">2 2</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3a_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3a_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res3a_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3a_branch1">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3a_branch1">
       <InboundNodes>
         <Array n="1" type="string">res3a_branch1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_4" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_4" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn3a_branch2c bn3a_branch1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_13">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_13">
       <InboundNodes>
         <Array n="1" type="string">add_4</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3b_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3b_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_13</Array>
       </InboundNodes>
@@ -1453,18 +1463,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3b_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3b_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res3b_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_14">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_14">
       <InboundNodes>
         <Array n="1" type="string">bn3b_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3b_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3b_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_14</Array>
       </InboundNodes>
@@ -1479,18 +1489,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3b_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3b_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res3b_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_15">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_15">
       <InboundNodes>
         <Array n="1" type="string">bn3b_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3b_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3b_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_15</Array>
       </InboundNodes>
@@ -1505,23 +1515,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3b_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3b_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res3b_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_5" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_5" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn3b_branch2c activation_13</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_16">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_16">
       <InboundNodes>
         <Array n="1" type="string">add_5</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3c_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3c_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_16</Array>
       </InboundNodes>
@@ -1536,18 +1546,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3c_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3c_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res3c_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_17">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_17">
       <InboundNodes>
         <Array n="1" type="string">bn3c_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3c_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3c_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_17</Array>
       </InboundNodes>
@@ -1562,18 +1572,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3c_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3c_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res3c_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_18">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_18">
       <InboundNodes>
         <Array n="1" type="string">bn3c_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3c_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3c_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_18</Array>
       </InboundNodes>
@@ -1588,23 +1598,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3c_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3c_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res3c_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_6" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_6" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn3c_branch2c activation_16</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_19">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_19">
       <InboundNodes>
         <Array n="1" type="string">add_6</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3d_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3d_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_19</Array>
       </InboundNodes>
@@ -1619,18 +1629,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3d_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3d_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res3d_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_20">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_20">
       <InboundNodes>
         <Array n="1" type="string">bn3d_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3d_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3d_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_20</Array>
       </InboundNodes>
@@ -1645,18 +1655,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3d_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3d_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res3d_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_21">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_21">
       <InboundNodes>
         <Array n="1" type="string">bn3d_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res3d_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res3d_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_21</Array>
       </InboundNodes>
@@ -1671,23 +1681,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3d_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn3d_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res3d_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_7" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_7" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn3d_branch2c activation_19</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_22">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_22">
       <InboundNodes>
         <Array n="1" type="string">add_7</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4a_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4a_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_22</Array>
       </InboundNodes>
@@ -1702,18 +1712,18 @@
           <Array n="2" type="int">2 2</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4a_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4a_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res4a_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_23">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_23">
       <InboundNodes>
         <Array n="1" type="string">bn4a_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4a_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4a_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_23</Array>
       </InboundNodes>
@@ -1728,18 +1738,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4a_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4a_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res4a_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_24">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_24">
       <InboundNodes>
         <Array n="1" type="string">bn4a_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4a_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4a_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_24</Array>
       </InboundNodes>
@@ -1754,8 +1764,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="linear" name="res4a_branch1" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4a_branch1" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_22</Array>
       </InboundNodes>
@@ -1770,28 +1780,28 @@
           <Array n="2" type="int">2 2</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4a_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4a_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res4a_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4a_branch1">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4a_branch1">
       <InboundNodes>
         <Array n="1" type="string">res4a_branch1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_8" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_8" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn4a_branch2c bn4a_branch1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_25">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_25">
       <InboundNodes>
         <Array n="1" type="string">add_8</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4b_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4b_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_25</Array>
       </InboundNodes>
@@ -1806,18 +1816,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4b_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4b_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res4b_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_26">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_26">
       <InboundNodes>
         <Array n="1" type="string">bn4b_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4b_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4b_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_26</Array>
       </InboundNodes>
@@ -1832,18 +1842,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4b_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4b_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res4b_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_27">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_27">
       <InboundNodes>
         <Array n="1" type="string">bn4b_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4b_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4b_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_27</Array>
       </InboundNodes>
@@ -1858,23 +1868,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4b_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4b_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res4b_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_9" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_9" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn4b_branch2c activation_25</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_28">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_28">
       <InboundNodes>
         <Array n="1" type="string">add_9</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4c_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4c_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_28</Array>
       </InboundNodes>
@@ -1889,18 +1899,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4c_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4c_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res4c_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_29">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_29">
       <InboundNodes>
         <Array n="1" type="string">bn4c_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4c_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4c_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_29</Array>
       </InboundNodes>
@@ -1915,18 +1925,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4c_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4c_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res4c_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_30">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_30">
       <InboundNodes>
         <Array n="1" type="string">bn4c_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4c_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4c_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_30</Array>
       </InboundNodes>
@@ -1941,23 +1951,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4c_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4c_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res4c_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_10" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_10" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn4c_branch2c activation_28</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_31">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_31">
       <InboundNodes>
         <Array n="1" type="string">add_10</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4d_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4d_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_31</Array>
       </InboundNodes>
@@ -1972,18 +1982,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4d_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4d_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res4d_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_32">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_32">
       <InboundNodes>
         <Array n="1" type="string">bn4d_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4d_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4d_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_32</Array>
       </InboundNodes>
@@ -1998,18 +2008,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4d_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4d_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res4d_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_33">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_33">
       <InboundNodes>
         <Array n="1" type="string">bn4d_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4d_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4d_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_33</Array>
       </InboundNodes>
@@ -2024,23 +2034,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4d_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4d_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res4d_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_11" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_11" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn4d_branch2c activation_31</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_34">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_34">
       <InboundNodes>
         <Array n="1" type="string">add_11</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4e_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4e_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_34</Array>
       </InboundNodes>
@@ -2055,18 +2065,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4e_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4e_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res4e_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_35">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_35">
       <InboundNodes>
         <Array n="1" type="string">bn4e_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4e_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4e_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_35</Array>
       </InboundNodes>
@@ -2081,18 +2091,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4e_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4e_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res4e_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_36">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_36">
       <InboundNodes>
         <Array n="1" type="string">bn4e_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4e_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4e_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_36</Array>
       </InboundNodes>
@@ -2107,23 +2117,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4e_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4e_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res4e_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_12" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_12" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn4e_branch2c activation_34</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_37">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_37">
       <InboundNodes>
         <Array n="1" type="string">add_12</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4f_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4f_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_37</Array>
       </InboundNodes>
@@ -2138,18 +2148,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4f_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4f_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res4f_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_38">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_38">
       <InboundNodes>
         <Array n="1" type="string">bn4f_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4f_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4f_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_38</Array>
       </InboundNodes>
@@ -2164,18 +2174,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4f_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4f_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res4f_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_39">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_39">
       <InboundNodes>
         <Array n="1" type="string">bn4f_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res4f_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res4f_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_39</Array>
       </InboundNodes>
@@ -2190,23 +2200,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4f_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn4f_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res4f_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_13" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_13" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn4f_branch2c activation_37</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_40">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_40">
       <InboundNodes>
         <Array n="1" type="string">add_13</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res5a_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res5a_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_40</Array>
       </InboundNodes>
@@ -2221,18 +2231,18 @@
           <Array n="2" type="int">2 2</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5a_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5a_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res5a_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_41">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_41">
       <InboundNodes>
         <Array n="1" type="string">bn5a_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res5a_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res5a_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_41</Array>
       </InboundNodes>
@@ -2247,18 +2257,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5a_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5a_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res5a_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_42">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_42">
       <InboundNodes>
         <Array n="1" type="string">bn5a_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res5a_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res5a_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_42</Array>
       </InboundNodes>
@@ -2273,8 +2283,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="linear" name="res5a_branch1" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res5a_branch1" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_40</Array>
       </InboundNodes>
@@ -2289,28 +2299,28 @@
           <Array n="2" type="int">2 2</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5a_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5a_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res5a_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5a_branch1">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5a_branch1">
       <InboundNodes>
         <Array n="1" type="string">res5a_branch1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_14" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_14" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn5a_branch2c bn5a_branch1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_43">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_43">
       <InboundNodes>
         <Array n="1" type="string">add_14</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res5b_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res5b_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_43</Array>
       </InboundNodes>
@@ -2325,18 +2335,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5b_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5b_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res5b_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_44">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_44">
       <InboundNodes>
         <Array n="1" type="string">bn5b_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res5b_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res5b_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_44</Array>
       </InboundNodes>
@@ -2351,18 +2361,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5b_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5b_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res5b_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_45">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_45">
       <InboundNodes>
         <Array n="1" type="string">bn5b_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res5b_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res5b_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_45</Array>
       </InboundNodes>
@@ -2377,23 +2387,23 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5b_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5b_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res5b_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_15" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_15" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn5b_branch2c activation_43</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_46">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_46">
       <InboundNodes>
         <Array n="1" type="string">add_15</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res5c_branch2a" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res5c_branch2a" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_46</Array>
       </InboundNodes>
@@ -2408,18 +2418,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5c_branch2a">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5c_branch2a">
       <InboundNodes>
         <Array n="1" type="string">res5c_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_47">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_47">
       <InboundNodes>
         <Array n="1" type="string">bn5c_branch2a</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res5c_branch2b" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res5c_branch2b" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_47</Array>
       </InboundNodes>
@@ -2434,18 +2444,18 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5c_branch2b">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5c_branch2b">
       <InboundNodes>
         <Array n="1" type="string">res5c_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_48">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_48">
       <InboundNodes>
         <Array n="1" type="string">bn5c_branch2b</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="linear" name="res5c_branch2c" padding="valid" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="res5c_branch2c" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">activation_48</Array>
       </InboundNodes>
@@ -2460,32 +2470,32 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer type="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5c_branch2c">
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="3" center="True" epsilon="0.001" momentum="0.99" name="bn5c_branch2c">
       <InboundNodes>
         <Array n="1" type="string">res5c_branch2c</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Merge" name="add_16" operator="add">
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" name="add_16" operator="add">
       <InboundNodes>
         <Array n="2" type="string">bn5c_branch2c activation_46</Array>
       </InboundNodes>
-    </Layer>
-    <Layer type="Activation" activation="relu" name="activation_49">
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="activation_49">
       <InboundNodes>
         <Array n="1" type="string">add_16</Array>
       </InboundNodes>
-    </Layer>
-    <Layer name="avg_pool" type="GlobalAveragePooling2D">
+    </NetworkLayer>
+    <NetworkLayer layerType="GlobalAveragePooling2D" name="avg_pool">
       <InboundNodes>
         <Array n="1" type="string">activation_49</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="softmax" channels="1000" name="fc1000" type="Dense">
+    </NetworkLayer>
+    <NetworkLayer activation="softmax" channels="1000" layerType="Dense" name="fc1000">
       <InboundNodes>
         <Array n="1" type="string">avg_pool</Array>
       </InboundNodes>
-    </Layer>
+    </NetworkLayer>
     <Weights encoding="hdf5" href="weights.h5"/>
-  </DeepNeuralNetwork>
-</Header>
+  </DeepNetwork>
+</PMML>

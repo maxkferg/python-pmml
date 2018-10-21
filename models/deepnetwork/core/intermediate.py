@@ -4,15 +4,30 @@ Serves as an intermediate between PMML and DL frameworks like Keras
 """
 import os
 import keras
-import datetime
 import numpy as np
+from datetime import datetime
 from lxml import etree
 from . import layers
 from .utils import read_array, to_bool
 from .layers import InputLayer, get_layer_class_by_name
 DEBUG = False
 
+
+def strip_namespace(tree):
+    for _, el in tree:
+        if '}' in el.tag:
+            el.tag = el.tag.split('}', 1)[1]  # strip all namespaces
+        for at in el.attrib.keys(): # strip namespaces of attributes too
+            if '}' in at:
+                newat = at.split('}', 1)[1]
+                el.attrib[newat] = el.attrib[at]
+                del el.attrib[at]
+    return tree
+
+
+
 class PMML_Model():
+    ns = "{http://www.dmg.org/PMML-4_5}"
 
     def __init__(self, filename=None, class_map={}, description=None, copyright=None, username="NIST"):
         """
@@ -26,19 +41,19 @@ class PMML_Model():
         self.keras_model = None
         self.weights_file = None
         self.class_map = class_map
+        self.filename = filename
 
         if filename is not None:
-            tree = etree.parse(filename)
-            root = tree.getroot()
-            dnn = root.find("DeepNetwork")
-            self.load_metadata(root)
-            self.load_pmml(dnn)
+            tree = etree.iterparse(filename)
+            tree = strip_namespace(tree)
+            self.load_metadata(tree.root)
+            self.load_pmml(tree.root)
 
         if self.description is None:
             self.description = "Neural Network"
 
         if self.copyright is None:
-            year = datetime.datetime.now().year
+            year = datetime.now().year
             self.copyright = "Copyright (c) {0} {1}".format(year,username)
 
 
@@ -46,19 +61,21 @@ class PMML_Model():
         """
         Load copyright information etc
         """
-        if "description" in root_element.attrib:
-            self.description = root_element.attrib["description"]
-        if "copyright" in root_element.attrib:
-            self.copyright = root_element.attrib["copyright"]
+        header = root_element.find("Header")
+        if "description" in header.attrib:
+            self.description = header.attrib["description"]
+        if "copyright" in header.attrib:
+            self.copyright = header.attrib["copyright"]
 
 
-
-    def generate_header(self):
+    def generate_root_tag(self):
         PMML_version = "4.5"
         xmlns = "http://www.dmg.org/PMML-4_5"
         PMML = etree.Element('PMML', xmlns=xmlns, version=PMML_version)
         header = etree.SubElement(PMML, "Header", copyright=self.copyright, description=self.description)
-        return header
+        timestamp = etree.SubElement(header, "Timestamp")
+        timestamp.text = datetime.now().strftime("%Y-%M-%d %X")
+        return PMML
 
 
     def generate_data_dictionary(self):
@@ -75,16 +92,17 @@ class PMML_Model():
 
 class DeepNetwork(PMML_Model):
 
-    def load_pmml(self, dnn_element):
+    def load_pmml(self, root_element):
         """
         Load the model from PMML
         """
+        dnn_element = root_element.find("DeepNetwork")
         if dnn_element.tag != "DeepNetwork":
             raise ValueError("Element must have tag type DeepNetwork. Got %s"%dnn_element.tag)
-        layers = dnn_element.findall("Layer")
+        layers = dnn_element.findall("NetworkLayer")
         for layer_element in layers:
             config = dict(layer_element.attrib)
-            layer_type = config.pop('type')
+            layer_type = config.pop('layerType')
             # Convert config into correct datatype
             if "momentum" in config:
                 config["momentum"] = float(config["momentum"])
@@ -157,13 +175,13 @@ class DeepNetwork(PMML_Model):
             new_layer = layer_class(**config)
             self.layers.append(new_layer)
         # Load the categorical output variables
-        elements = root.findall("./DataDictionary/DataField[@optype='categorical']/Value")
+        elements = root_element.findall("./DataDictionary/DataField[@optype='categorical']/Value")
         for i,element in enumerate(elements):
             self.class_map[i] = element.attrib['value']
 
         # Load the weights file
-        dirname = os.path.dirname(filename)
-        weights_file = DNN.find("Weights").attrib['href']
+        dirname = os.path.dirname(self.filename)
+        weights_file = dnn_element.find("Weights").attrib['href']
         self.weights_file = os.path.join(dirname, weights_file)
         if not os.path.exists(self.weights_file):
             raise ValueError("No such file:",self.weights_file)
@@ -173,23 +191,34 @@ class DeepNetwork(PMML_Model):
         """
         Save the model to a PMML representation
         """
-        PMML = self.generate_header()
+        PMML = self.generate_root_tag()
         dictionary = self.generate_data_dictionary()
         PMML.append(dictionary)
 
         # DeepNeuralNetworkLevel
-        DNN = etree.SubElement(PMML,"DeepNeuralNetwork")
-        DNN.set("modelname","Deep Neural Network")
-        DNN.set("functionname","regression")
+        dnn = etree.SubElement(PMML, "DeepNetwork")
+        dnn.set("modelName", "Deep Neural Network")
+        dnn.set("functionName", "classification")
+        dnn.set("numberOfLayers", str(len(self.layers)))
+
+        # MiningSchema
+        schema = self.generate_mining_schema()
+        dnn.append(schema)
+
+        # Outputs
+        outputs = etree.SubElement(dnn, "Outputs")
+        etree.SubElement(outputs, "OutputField", dataType="string", feature="topClass")
+
+        # Layer
         for layer in self.layers:
-            DNN.append(layer.to_pmml())
+            dnn.append(layer.to_pmml())
 
         # Save the weights file, and add a link in the PMML
         model_dir = os.path.dirname(filename)
         weights_file = os.path.join(model_dir,"weights.h5")
         self.keras_model.save_weights(weights_file)
         relpath = os.path.relpath(weights_file, model_dir)
-        etree.SubElement(DNN, "Weights", href=relpath, encoding="hdf5")
+        etree.SubElement(dnn, "Weights", href=relpath, encoding="hdf5")
 
         # Write to file
         tree = etree.ElementTree(PMML)
@@ -208,6 +237,14 @@ class DeepNetwork(PMML_Model):
         class_id = np.argmax(scores)
         class_name = self.class_map[class_id]
         return class_name
+
+
+    def generate_mining_schema(self):
+        """Generate the data dictionary which describes the input"""
+        schema = etree.Element("MiningSchema")
+        etree.SubElement(schema, "MiningField", name="image", usageType="active")
+        etree.SubElement(schema, "MiningField", name="class", usageType="predicted")
+        return schema
 
 
     def _append_layer(self,layer):

@@ -30,17 +30,18 @@ def load_pmml(filename):
     root = tree.getroot()
 
     config = {}
-    if "description" in root.attrib:
-        config["description"] = root.attrib["description"]
-    if "copyright" in root.attrib:
-        config["copyright"] = root.attrib["copyright"]
+    header = root.find("header")
+    if "description" in header.attrib:
+        config["description"] = header.attrib["description"]
+    if "copyright" in header.attrib:
+        config["copyright"] = header.attrib["copyright"]
 
     dnn = root.find("DeepNetwork")
     gpr = root.find("GaussianProcessModel")
 
     if dnn is not None:
         model = DeepNetwork(config)
-        model.load_pmml(dnn)
+        model.load_pmml(root)
     elif gpr is not None:
         parser = GaussianProcessParser()
         model = parser.parse(filename)
@@ -54,14 +55,13 @@ def build_examples():
     """
     Automatically build examples from publically available models
     """
-    build_models(["VGG_16"])
     build_models([
         "VGG_16",
         "VGG_19",
         "RESNET_50",
         "MOBILENET",
-        "INCEPTION_V3",
-        "INCEPTION_RESNET",
+        #"INCEPTION_V3",
+        #"INCEPTION_RESNET",
         "DENSENET_121",
         "DENSENET_169",
         "DENSENET_201"])

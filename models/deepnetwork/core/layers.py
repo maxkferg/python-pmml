@@ -66,7 +66,7 @@ class Flatten(Layer):
 		"""
 		Return an elementTree item corrosponding to this
 		"""
-		layer =  et.Element("Layer", type="Flatten", name=self.name)
+		layer =  et.Element("NetworkLayer", layerType="Flatten", name=self.name)
 		layer.append(self._get_inbound_nodes_element())
 		return layer
 
@@ -111,7 +111,7 @@ class Activation(Layer):
 		if self.negative_slope is not None:
 			attrib["negative_slope"] = str(self.negative_slope)
 
-		layer =  et.Element("Layer", type="Activation", attrib=attrib)
+		layer = et.Element("NetworkLayer", layerType="Activation", attrib=attrib)
 		layer.append(self._get_inbound_nodes_element())
 		return layer
 
@@ -169,7 +169,7 @@ class Merge(Layer):
 		}
 		if self.axis is not None:
 			attrib["axis"] = str(self.axis)
-		layer =  et.Element("Layer", type="Merge", attrib=attrib)
+		layer =  et.Element("NetworkLayer", layerType="Merge", attrib=attrib)
 		layer.append(self._get_inbound_nodes_element())
 		return layer
 
@@ -227,7 +227,7 @@ class BatchNormalization(Layer):
 			"axis": str(self.axis)
 		}
 
-		layer = etree.Element("Layer", type="BatchNormalization", attrib=attrib)
+		layer = etree.Element("NetworkLayer", layerType="BatchNormalization", attrib=attrib)
 		layer.append(self._get_inbound_nodes_element())
 		return layer
 
@@ -264,7 +264,7 @@ class GlobalAveragePooling2D(Layer):
 		"""
 		Return an elementTree item corrosponding to this
 		"""
-		layer = etree.Element("Layer", type="GlobalAveragePooling2D", name=self.name)
+		layer = etree.Element("NetworkLayer", layerType="GlobalAveragePooling2D", name=self.name)
 		layer.append(self._get_inbound_nodes_element())
 		return layer
 
@@ -298,7 +298,7 @@ class InputLayer(Layer):
 		"""
 		Return an elementTree item corrosponding to this
 		"""
-		layer = etree.Element("Layer", type="InputLayer", name=self.name)
+		layer = etree.Element("NetworkLayer", layerType="InputLayer", name=self.name)
 
 		# PoolSize Element with array Subelement
 		input_size = etree.SubElement(layer, "InputSize")
@@ -335,7 +335,7 @@ class MaxPooling2D(Layer):
 		"""
 		Return an elementTree item corrosponding to this
 		"""
-		layer = etree.Element("Layer", type="MaxPooling2D", name=self.name)
+		layer = etree.Element("NetworkLayer", layerType="MaxPooling2D", name=self.name)
 		layer.append(self._get_inbound_nodes_element())
 
 		# PoolSize Element with array Subelement
@@ -380,7 +380,7 @@ class AveragePooling2D(Layer):
 		"""
 		Return an elementTree item corrosponding to this
 		"""
-		layer = etree.Element("Layer", type="AveragePooling2D", name=self.name)
+		layer = etree.Element("NetworkLayer", layerType="AveragePooling2D", name=self.name)
 		layer.append(self._get_inbound_nodes_element())
 
 		# PoolSize Element with array Subelement
@@ -423,7 +423,7 @@ class ZeroPadding2D(Layer):
 		"""
 		Return an elemenTree item corrosponding to this
 		"""
-		layer = etree.Element("Layer", type="ZeroPadding2D", name=self.name)
+		layer = etree.Element("NetworkLayer", layerType="ZeroPadding2D", name=self.name)
 		layer.append(self._get_inbound_nodes_element())
 
 		# Padding size Element with array Subelement
@@ -474,7 +474,7 @@ class Reshape(Layer):
 		"""
 		Return an elemenTree item corrosponding to this
 		"""
-		layer = etree.Element("Layer", type="Reshape", name=self.name)
+		layer = etree.Element("NetworkLayer", layerType="Reshape", name=self.name)
 		layer.append(self._get_inbound_nodes_element())
 
 		# Padding size Element with array Subelement
@@ -537,7 +537,7 @@ class Conv2D(Layer):
 		Return an elementTree item corrosponding to this
 		"""
 		attrib = {
-			"type": "Conv2D",
+			"layerType": "Conv2D",
 			"activation": self.activation,
 			"padding": self.padding,
 			"use_bias": str(self.use_bias),
@@ -545,7 +545,7 @@ class Conv2D(Layer):
 		if self.name is not None:
 			attrib['name'] = self.name
 
-		layer = et.Element("Layer", attrib)
+		layer = et.Element("NetworkLayer", attrib)
 		layer.append(self._get_inbound_nodes_element())
 
 		kernel = et.SubElement(layer, "ConvolutionalKernel",
@@ -623,7 +623,7 @@ class DepthwiseConv2D(Layer):
 		Return an elementTree item corrosponding to this
 		"""
 		attrib = {
-			"type": "DepthwiseConv2D",
+			"layerType": "DepthwiseConv2D",
 			"activation": self.activation,
 			"padding": self.padding,
 			"use_bias": str(self.use_bias),
@@ -632,7 +632,7 @@ class DepthwiseConv2D(Layer):
 		if self.name is not None:
 			attrib['name'] = self.name
 
-		layer = et.Element("Layer", attrib)
+		layer = et.Element("NetworkLayer", attrib)
 		layer.append(self._get_inbound_nodes_element())
 
 		kernel = et.SubElement(layer, "ConvolutionalKernel")
@@ -687,11 +687,11 @@ class Dense(Layer):
 		"""
 		attrib = {
 				"name": self.name,
-				"type": "Dense",
+				"layerType": "Dense",
 				"channels": str(self.channels),
 				"activation": str(self.activation),
 		}
-		layer =  etree.Element("Layer", attrib=attrib)
+		layer =  etree.Element("NetworkLayer", attrib=attrib)
 		layer.append(self._get_inbound_nodes_element())
 
 		return layer
@@ -729,9 +729,9 @@ class Dropout(Layer):
 		"""
 		attrib = {
 				"name": self.name,
-				"type": "Dropout",
+				"layerType": "Dropout",
 		}
-		layer =  etree.Element("Layer", attrib=attrib)
+		layer =  etree.Element("NetworkLayer", attrib=attrib)
 		layer.append(self._get_inbound_nodes_element())
 
 		return layer

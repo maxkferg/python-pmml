@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<Header copyright="Copyright (c) 2018 NIST" description="VGG-19 ImageNet Model">
+<PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
+  <Header copyright="Copyright (c) 2018 NIST" description="VGG-19 ImageNet Model">
+    <Timestamp>2018-32-21 01:32:18</Timestamp>
+  </Header>
   <DataDictionary numberOfFields="1001">
     <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
     <DataField dataType="string" name="class" optype="categorical">
@@ -1005,13 +1008,20 @@
       <Value value="toilet tissue, toilet paper, bathroom tissue"/>
     </DataField>
   </DataDictionary>
-  <DeepNeuralNetwork modelname="Deep Neural Network" functionname="regression">
-    <Layer name="input_2" type="InputLayer">
+  <DeepNetwork modelName="Deep Neural Network" functionName="classification" numberOfLayers="26">
+    <MiningSchema>
+      <MiningField name="image" usageType="active"/>
+      <MiningField name="class" usageType="predicted"/>
+    </MiningSchema>
+    <Outputs>
+      <OutputField dataType="string" feature="topClass"/>
+    </Outputs>
+    <NetworkLayer layerType="InputLayer" name="input_2">
       <InputSize>
         <Array n="3" type="int">224 224 3</Array>
       </InputSize>
-    </Layer>
-    <Layer activation="relu" name="block1_conv1" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block1_conv1" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">input_2</Array>
       </InboundNodes>
@@ -1026,8 +1036,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block1_conv2" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block1_conv2" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block1_conv1</Array>
       </InboundNodes>
@@ -1042,8 +1052,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer name="block1_pool" type="MaxPooling2D">
+    </NetworkLayer>
+    <NetworkLayer layerType="MaxPooling2D" name="block1_pool">
       <InboundNodes>
         <Array n="1" type="string">block1_conv2</Array>
       </InboundNodes>
@@ -1053,8 +1063,8 @@
       <Strides>
         <Array n="2" type="int">2 2</Array>
       </Strides>
-    </Layer>
-    <Layer activation="relu" name="block2_conv1" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block2_conv1" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block1_pool</Array>
       </InboundNodes>
@@ -1069,8 +1079,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block2_conv2" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block2_conv2" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block2_conv1</Array>
       </InboundNodes>
@@ -1085,8 +1095,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer name="block2_pool" type="MaxPooling2D">
+    </NetworkLayer>
+    <NetworkLayer layerType="MaxPooling2D" name="block2_pool">
       <InboundNodes>
         <Array n="1" type="string">block2_conv2</Array>
       </InboundNodes>
@@ -1096,8 +1106,8 @@
       <Strides>
         <Array n="2" type="int">2 2</Array>
       </Strides>
-    </Layer>
-    <Layer activation="relu" name="block3_conv1" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block3_conv1" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block2_pool</Array>
       </InboundNodes>
@@ -1112,8 +1122,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block3_conv2" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block3_conv2" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block3_conv1</Array>
       </InboundNodes>
@@ -1128,8 +1138,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block3_conv3" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block3_conv3" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block3_conv2</Array>
       </InboundNodes>
@@ -1144,8 +1154,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block3_conv4" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block3_conv4" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block3_conv3</Array>
       </InboundNodes>
@@ -1160,8 +1170,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer name="block3_pool" type="MaxPooling2D">
+    </NetworkLayer>
+    <NetworkLayer layerType="MaxPooling2D" name="block3_pool">
       <InboundNodes>
         <Array n="1" type="string">block3_conv4</Array>
       </InboundNodes>
@@ -1171,8 +1181,8 @@
       <Strides>
         <Array n="2" type="int">2 2</Array>
       </Strides>
-    </Layer>
-    <Layer activation="relu" name="block4_conv1" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block4_conv1" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block3_pool</Array>
       </InboundNodes>
@@ -1187,8 +1197,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block4_conv2" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block4_conv2" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block4_conv1</Array>
       </InboundNodes>
@@ -1203,8 +1213,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block4_conv3" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block4_conv3" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block4_conv2</Array>
       </InboundNodes>
@@ -1219,8 +1229,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block4_conv4" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block4_conv4" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block4_conv3</Array>
       </InboundNodes>
@@ -1235,8 +1245,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer name="block4_pool" type="MaxPooling2D">
+    </NetworkLayer>
+    <NetworkLayer layerType="MaxPooling2D" name="block4_pool">
       <InboundNodes>
         <Array n="1" type="string">block4_conv4</Array>
       </InboundNodes>
@@ -1246,8 +1256,8 @@
       <Strides>
         <Array n="2" type="int">2 2</Array>
       </Strides>
-    </Layer>
-    <Layer activation="relu" name="block5_conv1" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block5_conv1" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block4_pool</Array>
       </InboundNodes>
@@ -1262,8 +1272,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block5_conv2" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block5_conv2" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block5_conv1</Array>
       </InboundNodes>
@@ -1278,8 +1288,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block5_conv3" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block5_conv3" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block5_conv2</Array>
       </InboundNodes>
@@ -1294,8 +1304,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer activation="relu" name="block5_conv4" padding="same" type="Conv2D" use_bias="True">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Conv2D" name="block5_conv4" padding="same" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">block5_conv3</Array>
       </InboundNodes>
@@ -1310,8 +1320,8 @@
           <Array n="2" type="int">1 1</Array>
         </KernelStride>
       </ConvolutionalKernel>
-    </Layer>
-    <Layer name="block5_pool" type="MaxPooling2D">
+    </NetworkLayer>
+    <NetworkLayer layerType="MaxPooling2D" name="block5_pool">
       <InboundNodes>
         <Array n="1" type="string">block5_conv4</Array>
       </InboundNodes>
@@ -1321,27 +1331,27 @@
       <Strides>
         <Array n="2" type="int">2 2</Array>
       </Strides>
-    </Layer>
-    <Layer name="flatten" type="Flatten">
+    </NetworkLayer>
+    <NetworkLayer layerType="Flatten" name="flatten">
       <InboundNodes>
         <Array n="1" type="string">block5_pool</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="relu" channels="4096" name="fc1" type="Dense">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" channels="4096" layerType="Dense" name="fc1">
       <InboundNodes>
         <Array n="1" type="string">flatten</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="relu" channels="4096" name="fc2" type="Dense">
+    </NetworkLayer>
+    <NetworkLayer activation="relu" channels="4096" layerType="Dense" name="fc2">
       <InboundNodes>
         <Array n="1" type="string">fc1</Array>
       </InboundNodes>
-    </Layer>
-    <Layer activation="softmax" channels="1000" name="predictions" type="Dense">
+    </NetworkLayer>
+    <NetworkLayer activation="softmax" channels="1000" layerType="Dense" name="predictions">
       <InboundNodes>
         <Array n="1" type="string">fc2</Array>
       </InboundNodes>
-    </Layer>
+    </NetworkLayer>
     <Weights encoding="hdf5" href="weights.h5"/>
-  </DeepNeuralNetwork>
-</Header>
+  </DeepNetwork>
+</PMML>

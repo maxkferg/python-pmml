@@ -47,9 +47,9 @@ descriptions = {
     "MOBILENET": "MobileNet ImageNet Model",
     "INCEPTION_V3": "Inception V3 ImageNet Model",
     "INCEPTION_RESNET": "Inception ResNet V2 ImageNet Model",
-    "DENSENET_121": "Densenet121 ImageNet Model",
-    "DENSENET_169": "Densenet169 ImageNet Måodel",
-    "DENSENET_201": "Densenet201 ImageNet Model",
+    "DENSENET_121": "DenseNet121 ImageNet Model",
+    "DENSENET_169": "DenseNet169 ImageNet Model",
+    "DENSENET_201": "DenseNet201 ImageNet Model",
 }
 
 
@@ -87,11 +87,11 @@ def convert_keras_to_pmml(keras_model, output_path, description, debug=True):
         new_config = intermediate.get_keras_model().get_config()
         directory = os.path.dirname(output_path)
         dump_config(old_config, new_config, directory)
-        test_prediction(output_path, "assets/cat.jpg")
+        test_prediction(output_path, "models/deepnetwork/assets/cat.jpg")
 
 
 def test_prediction(output_path, image_path):
-    intermediate = DeepNeuralNetwork(filename=output_path)
+    intermediate = DeepNetwork(filename=output_path)
     class_name = intermediate.predict(imread(image_path))
     print("Model selected class '{0}' for image {1}".format(class_name, intermediate.description))
 
