@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
   <Header copyright="Copyright (c) 2018 NIST" description="VGG-19 ImageNet Model">
-    <Timestamp>2018-10-21 17:10:32</Timestamp>
+    <Timestamp>2018-44-21 17:44:21</Timestamp>
   </Header>
   <DataDictionary numberOfFields="1001">
     <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
@@ -1352,6 +1352,6 @@
         <Array n="1" type="string">fc2</Array>
       </InboundNodes>
     </NetworkLayer>
-    <Weights encoding="hdf5" href="VGG19.h5"/>
+    <Weights encoding="hdf5" href="https://s3.amazonaws.com/stanford-machine-learning/pmml-models/VGG19.h5"/>
   </DeepNetwork>
 </PMML>

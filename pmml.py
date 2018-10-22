@@ -62,9 +62,10 @@ def build_examples():
         "MOBILENET",
         #"INCEPTION_V3",
         #"INCEPTION_RESNET",
-        "DENSENET_121",
-        "DENSENET_169",
-        "DENSENET_201"])
+        #"DENSENET_121",
+        #"DENSENET_169",
+        #"DENSENET_201"])
+        ])
 
 
 

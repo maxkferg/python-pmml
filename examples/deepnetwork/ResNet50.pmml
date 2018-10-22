@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
   <Header copyright="Copyright (c) 2018 NIST" description="ResNet-50 ImageNet Model">
-    <Timestamp>2018-10-21 17:10:49</Timestamp>
+    <Timestamp>2018-44-21 17:44:36</Timestamp>
   </Header>
   <DataDictionary numberOfFields="1001">
     <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
@@ -2496,6 +2496,6 @@
         <Array n="1" type="string">avg_pool</Array>
       </InboundNodes>
     </NetworkLayer>
-    <Weights encoding="hdf5" href="ResNet50.h5"/>
+    <Weights encoding="hdf5" href="https://s3.amazonaws.com/stanford-machine-learning/pmml-models/ResNet50.h5"/>
   </DeepNetwork>
 </PMML>
