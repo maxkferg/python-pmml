@@ -14,11 +14,12 @@ models = {
     "DenseNet-121": "examples/deepnetwork/DenseNet121.pmml",
 }
 
-machine_type = "GPU"
+machine_type = "CPU"
 results_file = "tests/performance.json"
 image_file = "tests/assets/cat.jpg"
 
-N_EVAL = 20
+N_EVAL = 4
+TPU_WORKER = None
 
 def load_results():
     if not os.path.exists(results_file):
@@ -75,11 +76,11 @@ def create_predict_time_data(model_name, pmml_file, image_file, n=1):
     
     data = imread(image_file)
     model = DeepNetwork(pmml_file)
-    model.predict(data) # Load keras model 
+    model.predict(data, tpu_worker=TPU_WORKER) # Load keras model 
     start_time = time.time()
     # Repeat the predictions multiple times
     for i in range(n):
-        result = model.predict(data)
+        result = model.predict(data, tpu_worker=TPU_WORKER)
         print("Model predicted class: %s"%result)
     avg_duration = (time.time() - start_time)/n
     print("Average prediction duration %.2f seconds"%avg_duration)
@@ -93,37 +94,6 @@ def create_all_data(n=1):
     for model_name, pmml_file in models.items():
         create_load_time_data(model_name, pmml_file)
         create_predict_time_data(model_name, pmml_file, image_file, n=n) 
-
-
-
-def bar_plot2(labels, *columns):
-    N = len(columns)
-    ind = np.arange(N)  # the x locations for the groups
-    width = 0.27       # the width of the bars
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    rects = [[] for _ in columns]
-
-    for i,col in enumerate(columns):
-        rect = ax.bar(labels, col, width, color='r')
-        rects[i].append(rect)
-        
-    ax.set_ylabel('Scores')
-    ax.set_xticks(ind+width)
-    ax.set_xticklabels(labels)
-    #ax.legend( (rects1[0], rects2[0], rects3[0]), ('y', 'z', 'k') )
-
-    def autolabel(bars):
-        for rect in bars:
-            h = rect.get_height()
-            ax.text(rect.get_x()+rect.get_width()/2., 1.05*h, '%d'%int(h),
-                    ha='center', va='bottom')
-
-    for r in rects:
-        autolabel(r)
-
-    plt.show()
 
 
 
@@ -203,5 +173,5 @@ def create_plots():
 
 if __name__ == "__main__":
     create_all_data(n=N_EVAL)
-    #create_plots()
+    create_plots()
 

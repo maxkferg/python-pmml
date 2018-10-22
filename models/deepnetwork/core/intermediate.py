@@ -244,12 +244,12 @@ class DeepNetwork(PMML_Model):
         print('Wrote PMML file to %s'%filename)
 
 
-    def predict(self, input_img):
+    def predict(self, input_img, tpu_worker=None):
         """
         Generate prediction using PMML representation
         """
         if self.keras_model is None:
-            self.keras_model = self.get_keras_model()
+            self.keras_model = self.get_keras_model(tpu_worker=tpu_worker)
         batch = input_img[None,:]
         scores = self.keras_model.predict(batch)
         class_id = np.argmax(scores)
@@ -292,14 +292,19 @@ class DeepNetwork(PMML_Model):
         return keras_model
 
 
-    def get_keras_model(self, load_weights=True):
+    def get_keras_model(self, load_weights=True, tpu_worker=None):
         """
         Return the network as a keras model which can be trained
         or used for scoring
+        @load_weights: Boolean to control whether weights are loaded or not
+        @tpu_worker (optional): The address of a tpu for accelerated evaluation
         """
-        graph = {}
+        graph = {}    
         for i, layer in enumerate(self.layers):
-            keras_tensor = layer.to_keras(graph)
+            if type(layer) is InputLayer and tpu_worker is not None:
+                keras_tensor = layer.to_keras(graph, batch_size=1)
+            else:
+                keras_tensor = layer.to_keras(graph)
             graph[layer.name] = keras_tensor
             graph["prev_layer"] = keras_tensor
             if keras_tensor is None:
@@ -311,6 +316,13 @@ class DeepNetwork(PMML_Model):
         inputs = graph["input_layer"]
         outputs = graph["prev_layer"]
         keras_model = keras.models.Model(inputs=inputs, outputs=outputs)
+
+        if tpu_worker is not None:
+            keras_model = tf.contrib.tpu.keras_to_tpu_model(keras_model,
+                strategy=tf.contrib.tpu.TPUDistributionStrategy(
+                    tf.contrib.cluster_resolver.TPUClusterResolver(TPU_WORKER)))
+
+
         print("Completed building keras model: %s"%self.description)
 
         if DEBUG:

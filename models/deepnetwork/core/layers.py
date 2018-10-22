@@ -306,13 +306,14 @@ class InputLayer(Layer):
 
 		return layer
 
-	def to_keras(self, graph):
+	def to_keras(self, graph, batch_size=None):
 		"""
 		Return the equivalent keras layer
 		"""
+		batch_shape = [batch_size] + self.input_size
 		config = {
 			'name': self.name,
-			'shape': self.input_size,
+			'batch_shape': batch_shape,
 		}
 		if DEBUG:
 			print("Creating InputLayer layer with config:\n",config)
