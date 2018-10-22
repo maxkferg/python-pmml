@@ -1,5 +1,5 @@
 {
-    "CPU": {
+    "TPU": {
         "ResNet-50": {
             "predict_time": 0.02420843005180359,
             "pmml_load_time": 0.17186450958251953,
@@ -25,30 +25,30 @@
             "weight_load_time": 5.329273700714111
         }
     },
-    "TPU": {
+    "CPU": {
         "ResNet-50": {
-            "predict_time": 1.282571077346802,
-            "pmml_load_time": 0.384077787399292,
-            "total_load_time": 8.937973976135254,
-            "weight_load_time": 3.3495030403137207
+            "predict_time": 0.13130372762680054,
+            "pmml_load_time": 0.38483619689941406,
+            "total_load_time": 6.733393907546997,
+            "weight_load_time": 2.6343138217926025
         },
         "DenseNet-121": {
-            "predict_time": 3.17887496948242,
-            "pmml_load_time": 0.433549165725708,
-            "total_load_time": 25.437186241149902,
-            "weight_load_time": 8.563923120498657
+            "predict_time": 0.13405251502990723,
+            "pmml_load_time": 0.4014589786529541,
+            "total_load_time": 15.618626117706299,
+            "weight_load_time": 7.287976026535034
         },
         "VGG-16": {
-            "predict_time": 1.1745078563690186,
-            "pmml_load_time": 0.43747496604919434,
-            "total_load_time": 1.3025128841400146,
-            "weight_load_time": 1.6538751125335693
+            "predict_time": 0.32981300354003906,
+            "pmml_load_time": 0.40270471572875977,
+            "total_load_time": 2.4102227687835693,
+            "weight_load_time": 1.6795248985290527
         },
         "MobileNet-224": {
-            "predict_time": 1.137320280075073,
-            "pmml_load_time": 0.39879703521728516,
-            "total_load_time": 6.264155864715576,
-            "weight_load_time": 2.6637771129608154
+            "predict_time": 0.030538737773895264,
+            "pmml_load_time": 0.3621397018432617,
+            "total_load_time": 4.350500822067261,
+            "weight_load_time": 2.089931011199951
         }
     },
     "GPU": {

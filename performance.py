@@ -1,11 +1,18 @@
 import os
 import json
 import time
+import matplotlib
 import numpy as np
+import tensorflow as tf
 import matplotlib.pyplot as plt
 from scipy.misc import imread
 from models.deepnetwork.core.intermediate import DeepNetwork 
- 
+
+font = {'family' : 'normal',
+        'size'   : 14}
+matplotlib.rc('font', **font)
+matplotlib.rc('xtick', labelsize=12) 
+
 
 models = {
     "VGG-16": "examples/deepnetwork/VGG16.pmml",
@@ -14,13 +21,23 @@ models = {
     "DenseNet-121": "examples/deepnetwork/DenseNet121.pmml",
 }
 
-machine_type = "CPU"
+
 results_file = "tests/performance.json"
 image_file = "tests/assets/cat.jpg"
 
-N_EVAL = 1000
-TPU_WORKER = "maxkferg"
-TPU_CORES = 8
+N_EVAL = 4
+TPU_WORKER = None
+MACHINE = "CPU"
+
+if tf.test.is_gpu_available():
+    N_EVAL = 1000
+    MACHINE = "GPU"
+
+if "TPU_NAME" in os.environ:
+    N_EVAL = 1000
+    TPU_WORKER = os.environ["TPU_NAME"]
+    MACHINE = "TPU"
+
 
 def load_results():
     if not os.path.exists(results_file):
@@ -29,7 +46,7 @@ def load_results():
     with open(results_file,'r') as fd:
         results = json.load(fd)
     # Setup the structure of the datatype
-    results.setdefault(machine_type,{})
+    results.setdefault(MACHINE,{})
     return results
 
 
@@ -46,7 +63,7 @@ def create_load_time_data(model_name, pmml_file):
     Data is created for a single type of model
     """
     results = load_results()
-    results[machine_type].setdefault(model_name, {})
+    results[MACHINE].setdefault(model_name, {})
 
     # Load PMML file and weights
     start_time = time.time()
@@ -60,9 +77,9 @@ def create_load_time_data(model_name, pmml_file):
     complete_time = time.time() 
 
     # Calculate all the statistics
-    results[machine_type][model_name]['total_load_time'] = complete_time - start_time
-    results[machine_type][model_name]['pmml_load_time'] = pmml_load_time - start_time
-    results[machine_type][model_name]['weight_load_time'] = complete_time - weights_start_time
+    results[MACHINE][model_name]['total_load_time'] = complete_time - start_time
+    results[MACHINE][model_name]['pmml_load_time'] = pmml_load_time - start_time
+    results[MACHINE][model_name]['weight_load_time'] = complete_time - weights_start_time
     # Append the new results to the json file
     save_results(results)
 
@@ -73,7 +90,7 @@ def create_predict_time_data(model_name, pmml_file, image_file, n=1):
     Record the amount of time a prediction takes
     """
     results = load_results()
-    results[machine_type].setdefault(model_name, {})
+    results[MACHINE].setdefault(model_name, {})
     
     data = imread(image_file)
     model = DeepNetwork(pmml_file)
@@ -84,8 +101,8 @@ def create_predict_time_data(model_name, pmml_file, image_file, n=1):
         result = model.predict(data, tpu_worker=TPU_WORKER)
     print("Model predicted class: %s"%result)
     avg_duration = (time.time() - start_time)/n
-    print("Average prediction duration %.2f seconds"%avg_duration)
-    results[machine_type][model_name]['predict_time'] = avg_duration
+    print("Average prediction duration %.3f seconds"%avg_duration)
+    results[MACHINE][model_name]['predict_time'] = avg_duration
     # Append the new results to the json file
     save_results(results)
 
@@ -113,7 +130,7 @@ def bar_plot(labels, *columns):
     r3 = [x + barWidth for x in r2]
     r = [r1,r2,r3]
      
-    colors = ['#7f6d5f', '#557f2d', '#2d7f5e']
+    colors = ['#204579', '#e84e68', '#78deb9']
     names = ["CPU", "GPU", "TPU"]
 
     # Make the plot
@@ -169,10 +186,8 @@ def create_plots():
     plt.show()
 
 
-    
-
-
 if __name__ == "__main__":
-    create_all_data(n=N_EVAL)
+    print("Testing model performance using the %s"%MACHINE)
+    #create_all_data(n=N_EVAL)
     create_plots()
 

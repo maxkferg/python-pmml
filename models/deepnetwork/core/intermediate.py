@@ -303,7 +303,7 @@ class DeepNetwork(PMML_Model):
         graph = {}    
         for i, layer in enumerate(self.layers):
             if type(layer) is InputLayer and tpu_worker is not None:
-                keras_tensor = layer.to_keras(graph, batch_size=8)
+                keras_tensor = layer.to_keras(graph, batch_size=1)
             else:
                 keras_tensor = layer.to_keras(graph)
             graph[layer.name] = keras_tensor
@@ -320,16 +320,16 @@ class DeepNetwork(PMML_Model):
 
         if tpu_worker is not None:
             print("Evaluating model on TPU: %s"%tpu_worker)
+            resolver = tf.contrib.cluster_resolver.TPUClusterResolver(tpu_worker)
             strategy = tf.contrib.tpu.TPUDistributionStrategy(
-                                    tf.contrib.cluster_resolver.TPUClusterResolver(tpu_worker),
-                                    using_single_core=True)
+                        tpu_cluster_resolver=resolver,
+                        using_single_core=True)
             keras_model = tf.contrib.tpu.keras_to_tpu_model(keras_model, strategy=strategy)
-
+            # Currently, models need to be compiled before they are evaluated on a TPU
             keras_model.compile(
-                        optimizer=tf.train.GradientDescentOptimizer(learning_rate=1.0),
-                        loss='sparse_categorical_crossentropy',
-                        metrics=['sparse_categorical_accuracy'])
-
+                    optimizer=tf.train.GradientDescentOptimizer(),
+                    loss='sparse_categorical_crossentropy',
+                    metrics=['sparse_categorical_accuracy'])
 
         print("Completed building keras model: %s"%self.description)
 
