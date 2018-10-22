@@ -18,8 +18,9 @@ machine_type = "CPU"
 results_file = "tests/performance.json"
 image_file = "tests/assets/cat.jpg"
 
-N_EVAL = 4
-TPU_WORKER = None
+N_EVAL = 1000
+TPU_WORKER = "maxkferg"
+TPU_CORES = 8
 
 def load_results():
     if not os.path.exists(results_file):
@@ -81,7 +82,7 @@ def create_predict_time_data(model_name, pmml_file, image_file, n=1):
     # Repeat the predictions multiple times
     for i in range(n):
         result = model.predict(data, tpu_worker=TPU_WORKER)
-        print("Model predicted class: %s"%result)
+    print("Model predicted class: %s"%result)
     avg_duration = (time.time() - start_time)/n
     print("Average prediction duration %.2f seconds"%avg_duration)
     results[machine_type][model_name]['predict_time'] = avg_duration

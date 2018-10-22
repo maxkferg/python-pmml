@@ -5,6 +5,7 @@ Serves as an intermediate between PMML and DL frameworks like Keras
 import re
 import os
 import numpy as np
+import tensorflow as tf
 import urllib.request
 from lxml import etree
 from datetime import datetime
@@ -250,7 +251,7 @@ class DeepNetwork(PMML_Model):
         """
         if self.keras_model is None:
             self.keras_model = self.get_keras_model(tpu_worker=tpu_worker)
-        batch = input_img[None,:]
+        batch = np.stack(1*[input_img])
         scores = self.keras_model.predict(batch)
         class_id = np.argmax(scores)
         class_name = self.class_map[class_id]
@@ -302,7 +303,7 @@ class DeepNetwork(PMML_Model):
         graph = {}    
         for i, layer in enumerate(self.layers):
             if type(layer) is InputLayer and tpu_worker is not None:
-                keras_tensor = layer.to_keras(graph, batch_size=1)
+                keras_tensor = layer.to_keras(graph, batch_size=8)
             else:
                 keras_tensor = layer.to_keras(graph)
             graph[layer.name] = keras_tensor
@@ -318,10 +319,16 @@ class DeepNetwork(PMML_Model):
         keras_model = keras.models.Model(inputs=inputs, outputs=outputs)
 
         if tpu_worker is not None:
-            print("Evaluating model on TPU: %s"tpu_worker)
-            keras_model = tf.contrib.tpu.keras_to_tpu_model(keras_model,
-                strategy=tf.contrib.tpu.TPUDistributionStrategy(
-                    tf.contrib.cluster_resolver.TPUClusterResolver(tpu_worker)))
+            print("Evaluating model on TPU: %s"%tpu_worker)
+            strategy = tf.contrib.tpu.TPUDistributionStrategy(
+                                    tf.contrib.cluster_resolver.TPUClusterResolver(tpu_worker),
+                                    using_single_core=True)
+            keras_model = tf.contrib.tpu.keras_to_tpu_model(keras_model, strategy=strategy)
+
+            keras_model.compile(
+                        optimizer=tf.train.GradientDescentOptimizer(learning_rate=1.0),
+                        loss='sparse_categorical_crossentropy',
+                        metrics=['sparse_categorical_accuracy'])
 
 
         print("Completed building keras model: %s"%self.description)
