@@ -4,11 +4,11 @@ Serves as an intermediate between PMML and DL frameworks like Keras
 """
 import re
 import os
-import keras
 import numpy as np
 import urllib.request
-from datetime import datetime
 from lxml import etree
+from datetime import datetime
+from tensorflow import keras
 from . import layers
 from .utils import read_array, to_bool, strip_namespace, url_exists
 from .layers import InputLayer, get_layer_class_by_name
@@ -318,9 +318,10 @@ class DeepNetwork(PMML_Model):
         keras_model = keras.models.Model(inputs=inputs, outputs=outputs)
 
         if tpu_worker is not None:
+            print("Evaluating model on TPU: %s"tpu_worker)
             keras_model = tf.contrib.tpu.keras_to_tpu_model(keras_model,
                 strategy=tf.contrib.tpu.TPUDistributionStrategy(
-                    tf.contrib.cluster_resolver.TPUClusterResolver(TPU_WORKER)))
+                    tf.contrib.cluster_resolver.TPUClusterResolver(tpu_worker)))
 
 
         print("Completed building keras model: %s"%self.description)

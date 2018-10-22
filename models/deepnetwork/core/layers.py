@@ -2,8 +2,9 @@
 Intermediate representations of Neural Network Layers
 Each layer can be converted to PMML or the corrosponding Keras layer
 """
-import keras.layers as k
+
 import lxml.etree as et
+import tensorflow.keras.layers as k
 from lxml import etree
 from .utils import Array, to_bool
 DEBUG = False

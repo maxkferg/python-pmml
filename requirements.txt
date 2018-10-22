@@ -1,8 +1,8 @@
 lxml
 numpy
-datetime
 scipy
 tornado
 sklearn
+scipy
 requests
-keras
+Pillow
