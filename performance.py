@@ -14,11 +14,11 @@ models = {
     "DenseNet-121": "examples/deepnetwork/DenseNet121.pmml",
 }
 
-machine_type = "CPU"
+machine_type = "GPU"
 results_file = "tests/performance.json"
 image_file = "tests/assets/cat.jpg"
 
-
+N_EVAL = 20
 
 def load_results():
     if not os.path.exists(results_file):
@@ -73,8 +73,9 @@ def create_predict_time_data(model_name, pmml_file, image_file, n=1):
     results = load_results()
     results[machine_type].setdefault(model_name, {})
     
-    model = DeepNetwork(pmml_file)
     data = imread(image_file)
+    model = DeepNetwork(pmml_file)
+    model.predict(data) # Load keras model 
     start_time = time.time()
     # Repeat the predictions multiple times
     for i in range(n):
@@ -201,6 +202,6 @@ def create_plots():
 
 
 if __name__ == "__main__":
-    #create_all_data(n=1)
-    create_plots()
+    create_all_data(n=N_EVAL)
+    #create_plots()
 

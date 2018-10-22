@@ -1,80 +1,80 @@
 {
-    "CPU": {
-        "VGG-16": {
-            "total_load_time": 2.3025128841400146,
-            "pmml_load_time": 0.43747496604919434,
-            "weight_load_time": 1.6538751125335693,
-            "predict_time": 2.1745078563690186
-        },
-        "ResNet-50": {
-            "total_load_time": 8.937973976135254,
-            "pmml_load_time": 0.384077787399292,
-            "weight_load_time": 3.3495030403137207,
-            "predict_time": 11.282571077346802
-        },
-        "MobileNet-224": {
-            "total_load_time": 6.264155864715576,
-            "pmml_load_time": 0.39879703521728516,
-            "weight_load_time": 2.6637771129608154,
-            "predict_time": 7.137320280075073
-        },
-        "DenseNet-121": {
-            "total_load_time": 25.437186241149902,
-            "pmml_load_time": 0.433549165725708,
-            "weight_load_time": 8.563923120498657,
-            "predict_time": 33.17887496948242
-        }
-    },
     "GPU": {
-        "VGG-16": {
-            "total_load_time": 2.3025128841400146,
-            "pmml_load_time": 0.43747496604919434,
-            "weight_load_time": 1.6538751125335693,
-            "predict_time": 1.1745078563690186
+        "DenseNet-121": {
+            "predict_time": 0.017194652557373048,
+            "weight_load_time": 3.431865692138672,
+            "pmml_load_time": 0.2962791919708252,
+            "total_load_time": 9.520017623901367
         },
         "ResNet-50": {
-            "total_load_time": 8.937973976135254,
-            "pmml_load_time": 0.384077787399292,
-            "weight_load_time": 3.3495030403137207,
-            "predict_time": 5.282571077346802
+            "predict_time": 0.012195408344268799,
+            "weight_load_time": 3.1578123569488525,
+            "pmml_load_time": 0.29700207710266113,
+            "total_load_time": 7.5245044231414795
+        },
+        "VGG-16": {
+            "predict_time": 0.0181904673576355,
+            "weight_load_time": 2.165801763534546,
+            "pmml_load_time": 0.2815704345703125,
+            "total_load_time": 2.547029972076416
         },
         "MobileNet-224": {
-            "total_load_time": 6.264155864715576,
-            "pmml_load_time": 0.39879703521728516,
-            "weight_load_time": 2.6637771129608154,
-            "predict_time": 3.137320280075073
-        },
-        "DenseNet-121": {
-            "total_load_time": 25.437186241149902,
-            "pmml_load_time": 0.433549165725708,
-            "weight_load_time": 8.563923120498657,
-            "predict_time": 10.17887496948242
+            "predict_time": 0.008166301250457763,
+            "weight_load_time": 3.6697986125946045,
+            "pmml_load_time": 0.28537726402282715,
+            "total_load_time": 6.298283338546753
         }
     },
     "TPU": {
-        "VGG-16": {
-            "total_load_time": 1.3025128841400146,
-            "pmml_load_time": 0.43747496604919434,
-            "weight_load_time": 1.6538751125335693,
-            "predict_time": 1.1745078563690186
+        "DenseNet-121": {
+            "predict_time": 3.17887496948242,
+            "weight_load_time": 8.563923120498657,
+            "pmml_load_time": 0.433549165725708,
+            "total_load_time": 25.437186241149902
         },
         "ResNet-50": {
-            "total_load_time": 8.937973976135254,
-            "pmml_load_time": 0.384077787399292,
+            "predict_time": 1.282571077346802,
             "weight_load_time": 3.3495030403137207,
-            "predict_time": 1.282571077346802
+            "pmml_load_time": 0.384077787399292,
+            "total_load_time": 8.937973976135254
+        },
+        "VGG-16": {
+            "predict_time": 1.1745078563690186,
+            "weight_load_time": 1.6538751125335693,
+            "pmml_load_time": 0.43747496604919434,
+            "total_load_time": 1.3025128841400146
         },
         "MobileNet-224": {
-            "total_load_time": 6.264155864715576,
-            "pmml_load_time": 0.39879703521728516,
+            "predict_time": 1.137320280075073,
             "weight_load_time": 2.6637771129608154,
-            "predict_time": 1.137320280075073
-        },
+            "pmml_load_time": 0.39879703521728516,
+            "total_load_time": 6.264155864715576
+        }
+    },
+    "CPU": {
         "DenseNet-121": {
-            "total_load_time": 25.437186241149902,
-            "pmml_load_time": 0.433549165725708,
+            "predict_time": 33.17887496948242,
             "weight_load_time": 8.563923120498657,
-            "predict_time": 3.17887496948242
+            "pmml_load_time": 0.433549165725708,
+            "total_load_time": 25.437186241149902
+        },
+        "ResNet-50": {
+            "predict_time": 11.282571077346802,
+            "weight_load_time": 3.3495030403137207,
+            "pmml_load_time": 0.384077787399292,
+            "total_load_time": 8.937973976135254
+        },
+        "VGG-16": {
+            "predict_time": 2.1745078563690186,
+            "weight_load_time": 1.6538751125335693,
+            "pmml_load_time": 0.43747496604919434,
+            "total_load_time": 2.3025128841400146
+        },
+        "MobileNet-224": {
+            "predict_time": 7.137320280075073,
+            "weight_load_time": 2.6637771129608154,
+            "pmml_load_time": 0.39879703521728516,
+            "total_load_time": 6.264155864715576
         }
     }
 }
