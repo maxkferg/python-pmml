@@ -1,0 +1,80 @@
+{
+    "CPU": {
+        "VGG-16": {
+            "total_load_time": 2.3025128841400146,
+            "pmml_load_time": 0.43747496604919434,
+            "weight_load_time": 1.6538751125335693,
+            "predict_time": 2.1745078563690186
+        },
+        "ResNet-50": {
+            "total_load_time": 8.937973976135254,
+            "pmml_load_time": 0.384077787399292,
+            "weight_load_time": 3.3495030403137207,
+            "predict_time": 11.282571077346802
+        },
+        "MobileNet-224": {
+            "total_load_time": 6.264155864715576,
+            "pmml_load_time": 0.39879703521728516,
+            "weight_load_time": 2.6637771129608154,
+            "predict_time": 7.137320280075073
+        },
+        "DenseNet-121": {
+            "total_load_time": 25.437186241149902,
+            "pmml_load_time": 0.433549165725708,
+            "weight_load_time": 8.563923120498657,
+            "predict_time": 33.17887496948242
+        }
+    },
+    "GPU": {
+        "VGG-16": {
+            "total_load_time": 2.3025128841400146,
+            "pmml_load_time": 0.43747496604919434,
+            "weight_load_time": 1.6538751125335693,
+            "predict_time": 1.1745078563690186
+        },
+        "ResNet-50": {
+            "total_load_time": 8.937973976135254,
+            "pmml_load_time": 0.384077787399292,
+            "weight_load_time": 3.3495030403137207,
+            "predict_time": 5.282571077346802
+        },
+        "MobileNet-224": {
+            "total_load_time": 6.264155864715576,
+            "pmml_load_time": 0.39879703521728516,
+            "weight_load_time": 2.6637771129608154,
+            "predict_time": 3.137320280075073
+        },
+        "DenseNet-121": {
+            "total_load_time": 25.437186241149902,
+            "pmml_load_time": 0.433549165725708,
+            "weight_load_time": 8.563923120498657,
+            "predict_time": 10.17887496948242
+        }
+    },
+    "TPU": {
+        "VGG-16": {
+            "total_load_time": 1.3025128841400146,
+            "pmml_load_time": 0.43747496604919434,
+            "weight_load_time": 1.6538751125335693,
+            "predict_time": 1.1745078563690186
+        },
+        "ResNet-50": {
+            "total_load_time": 8.937973976135254,
+            "pmml_load_time": 0.384077787399292,
+            "weight_load_time": 3.3495030403137207,
+            "predict_time": 1.282571077346802
+        },
+        "MobileNet-224": {
+            "total_load_time": 6.264155864715576,
+            "pmml_load_time": 0.39879703521728516,
+            "weight_load_time": 2.6637771129608154,
+            "predict_time": 1.137320280075073
+        },
+        "DenseNet-121": {
+            "total_load_time": 25.437186241149902,
+            "pmml_load_time": 0.433549165725708,
+            "weight_load_time": 8.563923120498657,
+            "predict_time": 3.17887496948242
+        }
+    }
+}

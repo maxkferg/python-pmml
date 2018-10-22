@@ -4,3 +4,5 @@ datetime
 scipy
 tornado
 sklearn
+requests
+keras

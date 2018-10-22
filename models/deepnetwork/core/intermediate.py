@@ -5,8 +5,8 @@ Serves as an intermediate between PMML and DL frameworks like Keras
 import re
 import os
 import keras
-import urllib
 import numpy as np
+import urllib.request
 from datetime import datetime
 from lxml import etree
 from . import layers
@@ -33,7 +33,6 @@ class PMML_Model():
         self.filename = filename
 
         if filename is not None:
-            print(filename)
             tree = etree.iterparse(filename)
             tree = strip_namespace(tree)
             self.load_metadata(tree.root)
@@ -273,7 +272,27 @@ class DeepNetwork(PMML_Model):
         self.layers.append(layer)
 
 
-    def get_keras_model(self):
+    def load_weights(self, keras_model):
+        """
+        Load weights from a weights file
+        Return a keras_model with newly loaded weights
+        """
+        if self.weights_file.lower().startswith('http'):
+            local_cache = self.get_default_weights_file()
+            if os.path.exists(local_cache):
+                self.weights_file = local_cache
+            else:
+                print("Downloading weights from %s"%self.weights_file)
+                urllib.request.urlretrieve(self.weights_file, local_cache)
+                self.weights_file = local_cache
+
+        print("Loading weights from %s... "%self.weights_file, end="", flush=True)
+        keras_model.load_weights(self.weights_file)
+        print("Done")
+        return keras_model
+
+
+    def get_keras_model(self, load_weights=True):
         """
         Return the network as a keras model which can be trained
         or used for scoring
@@ -297,18 +316,8 @@ class DeepNetwork(PMML_Model):
         if DEBUG:
             print(keras_model.summary())
 
-        if self.weights_file.lower().startswith('http'):
-            local_cache = self.get_default_weights_file()
-            if os.path.exists(local_cache):
-                self.weights_file = local_cache
-            else:
-                print("Downloading weights from %s"%self.weights_file)
-                localfile = urllib.URLopener()
-                localfile.retrieve(self.weights_file, local_cache)
-
-        print("Loading weights from %s... "%self.weights_file, end="", flush=True)
-        keras_model.load_weights(self.weights_file)
-        print("Done")
+        if load_weights:
+            keras_model = self.load_weights(keras_model)
 
         return keras_model
 

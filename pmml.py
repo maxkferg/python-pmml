@@ -17,6 +17,7 @@ from lxml import etree
 from scipy.misc import imread
 from models.gpr.parser import GaussianProcessParser
 from models.deepnetwork.core.intermediate import DeepNetwork 
+from models.deepnetwork.core.utils import strip_namespace 
 from models.deepnetwork.generate_models import build_models
 
 
@@ -26,11 +27,13 @@ def load_pmml(filename):
     Load a PMML file 
     The model type is determined read from the PMML file
     """
-    tree = etree.parse(filename)
-    root = tree.getroot()
-
+    tree = etree.iterparse(filename)
+    root = strip_namespace(tree).root
+    
     config = {}
-    header = root.find("header")
+    config["filename"] = filename
+    
+    header = root.find("Header")
     if "description" in header.attrib:
         config["description"] = header.attrib["description"]
     if "copyright" in header.attrib:
@@ -40,7 +43,7 @@ def load_pmml(filename):
     gpr = root.find("GaussianProcessModel")
 
     if dnn is not None:
-        model = DeepNetwork(config)
+        model = DeepNetwork(**config)
         model.load_pmml(root)
     elif gpr is not None:
         parser = GaussianProcessParser()
@@ -79,7 +82,9 @@ def predict(model, input_file):
             data = json.loads(input_file)
     else:
         data = imread(input_file)
-    return model.predict(data)
+    result = model.predict(data)
+    print("Model predicted class: %s"%result)
+    return result
 
 
 
@@ -97,11 +102,11 @@ if __name__=="__main__":
         build_examples()
 
     elif args.operation.lower()=="predict":
-        model = load_pmml(args.filename)
+        model = load_pmml(args.model)
         prediction = predict(model, args.input)
 
     elif args.operation.lower()=="runserver":
-        model = load_pmml(args.filename)
+        model = load_pmml(args.model)
 
     else:
         raise ValueError("Unknown operation %s"%args.operation)
