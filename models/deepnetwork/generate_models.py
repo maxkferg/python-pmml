@@ -17,15 +17,27 @@ from scipy.ndimage import imread
 
 
 output_paths = {
-    "VGG_16": "examples/deepnetwork/VGG16/model.pmml",
-    "VGG_19": "examples/deepnetwork/VGG19/model.pmml",
-    "RESNET_50": "examples/deepnetwork/ResNet50/model.pmml",
-    "MOBILENET": "examples/deepnetwork/MobileNet/model.pmml",
-    "INCEPTION_V3": "examples/deepnetwork/InceptionResNetV2/model.pmml",
-    "INCEPTION_RESNET": "examples/deepnetwork/InceptionV3/model.pmml",
-    "DENSENET_121": "examples/deepnetwork/DenseNet121/model.pmml",
-    "DENSENET_169": "examples/deepnetwork/DenseNet169/model.pmml",
-    "DENSENET_201": "examples/deepnetwork/DenseNet201/model.pmml"
+    "VGG_16": "examples/deepnetwork/VGG16.pmml",
+    "VGG_19": "examples/deepnetwork/VGG19.pmml",
+    "RESNET_50": "examples/deepnetwork/ResNet50.pmml",
+    "MOBILENET": "examples/deepnetwork/MobileNet.pmml",
+    "INCEPTION_V3": "examples/deepnetwork/InceptionResNetV2.pmml",
+    "INCEPTION_RESNET": "examples/deepnetwork/InceptionV3.pmml",
+    "DENSENET_121": "examples/deepnetwork/DenseNet121.pmml",
+    "DENSENET_169": "examples/deepnetwork/DenseNet169.pmml",
+    "DENSENET_201": "examples/deepnetwork/DenseNet201.pmml"
+}
+
+weight_urls = {
+    "VGG_16": "https://s3.amazonaws.com/stanford-machine-learning/pmml-models/VGG16.h5",
+    "VGG_19": "https://s3.amazonaws.com/stanford-machine-learning/pmml-models/VGG19.h5",
+    "RESNET_50": "https://s3.amazonaws.com/stanford-machine-learning/pmml-models/ResNet50.h5",
+    "MOBILENET": "https://s3.amazonaws.com/stanford-machine-learning/pmml-models/MobileNet.h5",
+    "INCEPTION_V3": "https://s3.amazonaws.com/stanford-machine-learning/pmml-models/InceptionResNetV2.h5",
+    "INCEPTION_RESNET": "https://s3.amazonaws.com/stanford-machine-learning/pmml-models/InceptionV3.h5",
+    "DENSENET_121": "https://s3.amazonaws.com/stanford-machine-learning/pmml-models/DenseNet121.h5",
+    "DENSENET_169": "https://s3.amazonaws.com/stanford-machine-learning/pmml-models/DenseNet169.h5",
+    "DENSENET_201": "https://s3.amazonaws.com/stanford-machine-learning/pmml-models/DenseNet201.h5"
 }
 
 keras_models = {
@@ -72,14 +84,14 @@ def load_imagenet_classes():
     return class_map
 
 
-def convert_keras_to_pmml(keras_model, output_path, description, debug=True):
+def convert_keras_to_pmml(keras_model, output_path, weights_path, description, debug=True):
     """
     Convert a keras model to PMML
     """
     print("\nGenerating model: %s"%description)
     class_map = load_imagenet_classes()
     pmml = convert(keras_model, class_map=class_map, description=description)
-    pmml.save_pmml(output_path)
+    pmml.save_pmml(output_path, weights_path=weights_path, save_weights=False)
     if debug:
         print("Checking model: %s"%output_path)
         intermediate = DeepNetwork(filename=output_path)
@@ -104,8 +116,9 @@ def build_models(models):
     for model_name in models:
         model = keras_models[model_name]()
         description = descriptions[model_name]
+        weights_path = weight_urls[model_name]
         output_path = output_paths[model_name]
-        convert_keras_to_pmml(model, output_path, description)
+        convert_keras_to_pmml(model, output_path, weights_path, description)
 
 
 

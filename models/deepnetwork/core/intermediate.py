@@ -2,28 +2,17 @@
 An intermediate representation of a DeepNeuralNetwork
 Serves as an intermediate between PMML and DL frameworks like Keras
 """
+import re
 import os
 import keras
+import urllib
 import numpy as np
 from datetime import datetime
 from lxml import etree
 from . import layers
-from .utils import read_array, to_bool
+from .utils import read_array, to_bool, strip_namespace, url_exists
 from .layers import InputLayer, get_layer_class_by_name
 DEBUG = False
-
-
-def strip_namespace(tree):
-    for _, el in tree:
-        if '}' in el.tag:
-            el.tag = el.tag.split('}', 1)[1]  # strip all namespaces
-        for at in el.attrib.keys(): # strip namespaces of attributes too
-            if '}' in at:
-                newat = at.split('}', 1)[1]
-                el.attrib[newat] = el.attrib[at]
-                del el.attrib[at]
-    return tree
-
 
 
 class PMML_Model():
@@ -44,6 +33,7 @@ class PMML_Model():
         self.filename = filename
 
         if filename is not None:
+            print(filename)
             tree = etree.iterparse(filename)
             tree = strip_namespace(tree)
             self.load_metadata(tree.root)
@@ -66,6 +56,13 @@ class PMML_Model():
             self.description = header.attrib["description"]
         if "copyright" in header.attrib:
             self.copyright = header.attrib["copyright"]
+
+
+    def get_default_weights_file(self):
+        """
+        Return the absolute path to the default weights file
+        """
+        return re.sub('.pmml$', '.h5', self.filename)
 
 
     def generate_root_tag(self):
@@ -179,18 +176,30 @@ class DeepNetwork(PMML_Model):
         for i,element in enumerate(elements):
             self.class_map[i] = element.attrib['value']
 
-        # Load the weights file
-        dirname = os.path.dirname(self.filename)
+        # Load the weights file (Exactly as it is in PMML)
         weights_file = dnn_element.find("Weights").attrib['href']
-        self.weights_file = os.path.join(dirname, weights_file)
-        if not os.path.exists(self.weights_file):
-            raise ValueError("No such file:",self.weights_file)
+        if type(weights_file) is not str:
+            raise ValueError("Expected weights file to be a string. Got %s"%type(weights_file))
+        if weights_file.lower().startswith("http"):
+            self.weights_file = weights_file
+            if not url_exists(self.weights_file):
+                raise ValueError("No weights file at url:", self.weights_file)
+        else:
+            # Weights files are relative to the current PMML location
+            dirname = os.path.dirname(self.filename)
+            self.weights_file = os.path.join(dirname, weights_file)
+            if not os.path.exists(self.weights_file):
+                raise ValueError("No such file:", self.weights_file)
 
 
-    def save_pmml(self, filename, username="NIST"):
+    def save_pmml(self, filename, username="NIST", weights_path=None, save_weights=True):
         """
         Save the model to a PMML representation
+        @weights_path (optional): Absolute path or url to weights file. 
+        @save_weights (optional): If True, weights will be saved to @weights file
         """
+        self.filename = filename
+
         PMML = self.generate_root_tag()
         dictionary = self.generate_data_dictionary()
         PMML.append(dictionary)
@@ -213,12 +222,22 @@ class DeepNetwork(PMML_Model):
         for layer in self.layers:
             dnn.append(layer.to_pmml())
 
-        # Save the weights file, and add a link in the PMML
-        model_dir = os.path.dirname(filename)
-        weights_file = os.path.join(model_dir,"weights.h5")
-        self.keras_model.save_weights(weights_file)
-        relpath = os.path.relpath(weights_file, model_dir)
-        etree.SubElement(dnn, "Weights", href=relpath, encoding="hdf5")
+        # Save the weights to a file
+        if save_weights:
+            if weights_path is not None and weights_path.lower().startswith("http"):
+                raise ValueError("Can not save weights to url: %s"%weights_path)
+            if weights_path is None:
+                # Automatically generate the weights path based on the model filename
+                weights_path = self.get_default_weights_file()
+            self.keras_model.save_weights(weights_path)
+
+        # Generate the link to the weights file
+        if weights_path.lower().startswith("http"):
+            relative_weights_path = weights_path
+        else:
+            model_dir = os.path.dirname(filename)
+            relative_weights_path = os.path.relpath(weights_path, model_dir)
+        etree.SubElement(dnn, "Weights", href=relative_weights_path, encoding="hdf5")
 
         # Write to file
         tree = etree.ElementTree(PMML)
@@ -277,6 +296,15 @@ class DeepNetwork(PMML_Model):
 
         if DEBUG:
             print(keras_model.summary())
+
+        if self.weights_file.lower().startswith('http'):
+            local_cache = self.get_default_weights_file()
+            if os.path.exists(local_cache):
+                self.weights_file = local_cache
+            else:
+                print("Downloading weights from %s"%self.weights_file)
+                localfile = urllib.URLopener()
+                localfile.retrieve(self.weights_file, local_cache)
 
         print("Loading weights from %s... "%self.weights_file, end="", flush=True)
         keras_model.load_weights(self.weights_file)

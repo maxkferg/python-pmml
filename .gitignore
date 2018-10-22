@@ -2,5 +2,5 @@
 tests/node/results/*.png
 tests/node/results/*.fig
 tests/node/node_modules/*
-examples/deepnetwork/*/*.h5
-examples/deepnetwork/*/*.json
+examples/deepnetwork/*.h5
+examples/deepnetwork/*.json

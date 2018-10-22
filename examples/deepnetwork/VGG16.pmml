@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
   <Header copyright="Copyright (c) 2018 NIST" description="VGG-16 ImageNet Model">
-    <Timestamp>2018-32-21 01:32:09</Timestamp>
+    <Timestamp>2018-37-21 17:37:50</Timestamp>
   </Header>
   <DataDictionary numberOfFields="1001">
     <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
@@ -1304,6 +1304,6 @@
         <Array n="1" type="string">fc2</Array>
       </InboundNodes>
     </NetworkLayer>
-    <Weights encoding="hdf5" href="weights.h5"/>
+    <Weights encoding="hdf5" href="VGG16.h5"/>
   </DeepNetwork>
 </PMML>
