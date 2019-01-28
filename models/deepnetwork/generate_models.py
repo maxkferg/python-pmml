@@ -3,9 +3,9 @@ import json
 import keras
 import numpy as np
 from pprint import pprint
-from .core.conversion import convert
 from .core.intermediate import DeepNetwork
 from .core.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from .converters.keras import convert
 from keras.applications.vgg16 import VGG16
 from keras.applications.vgg19 import VGG19
 from keras.applications.resnet50 import ResNet50
@@ -72,7 +72,7 @@ def dump_config(old_config, new_config, directory=""):
         pprint(old_config, stream=fp)
     with open(new_config_dir,"w") as fp:
         pprint(new_config, stream=fp)
-  
+
 
 def load_imagenet_classes():
     """
