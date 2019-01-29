@@ -1,5 +1,5 @@
 """
-Read PMML files and make predictions 
+Read PMML files and make predictions
 
 Example usage:
     python pmml.py predict \
@@ -9,30 +9,30 @@ Example usage:
     python pmml.py runserver \
         --model=examples/deepnetwork/VGG16/model.pmml
 
-    python pmml.py build_examples
+    python pmml.py build_torch_examples
 """
 import json
 import argparse
 from lxml import etree
 from scipy.misc import imread
 from models.gpr.parser import GaussianProcessParser
-from models.deepnetwork.core.intermediate import DeepNetwork 
-from models.deepnetwork.core.utils import strip_namespace 
+from models.deepnetwork.core.intermediate import DeepNetwork
+from models.deepnetwork.core.utils import strip_namespace
 from models.deepnetwork.generate_models import build_models
 
 
 
 def load_pmml(filename):
     """
-    Load a PMML file 
+    Load a PMML file
     The model type is determined read from the PMML file
     """
     tree = etree.iterparse(filename)
     root = strip_namespace(tree).root
-    
+
     config = {}
     config["filename"] = filename
-    
+
     header = root.find("Header")
     if "description" in header.attrib:
         config["description"] = header.attrib["description"]

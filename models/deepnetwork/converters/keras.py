@@ -1,8 +1,8 @@
 """
 Convert Keras models to PMML
 """
-from .intermediate import DeepNetwork
-from .layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Dropout, Reshape, DepthwiseConv2D, Merge, Activation
+from intermediate import DeepNetwork
+from layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Dropout, Reshape, DepthwiseConv2D, Merge, Activation
 
 
 def get_inbound_nodes(layer_inbound_nodes):
