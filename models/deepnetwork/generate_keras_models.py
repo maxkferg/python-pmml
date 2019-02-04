@@ -3,9 +3,9 @@ import json
 import keras
 import numpy as np
 from pprint import pprint
-from .core.intermediate import DeepNetwork
-from .core.layers import Conv2D, MaxPooling2D, Flatten, Dense
-from .converters.keras import convert
+from core.intermediate import DeepNetwork
+from core.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from converters.keras import convert
 from keras.applications.vgg16 import VGG16
 from keras.applications.vgg19 import VGG19
 from keras.applications.resnet50 import ResNet50
@@ -15,17 +15,19 @@ from keras.applications.inception_v3 import InceptionV3
 from keras.applications.inception_resnet_v2 import InceptionResNetV2
 from scipy.ndimage import imread
 
+root = "../../examples/deepnetwork/"
+
 
 output_paths = {
-    "VGG_16": "examples/deepnetwork/VGG16.pmml",
-    "VGG_19": "examples/deepnetwork/VGG19.pmml",
-    "RESNET_50": "examples/deepnetwork/ResNet50.pmml",
-    "MOBILENET": "examples/deepnetwork/MobileNet.pmml",
-    "INCEPTION_V3": "examples/deepnetwork/InceptionResNetV2.pmml",
-    "INCEPTION_RESNET": "examples/deepnetwork/InceptionV3.pmml",
-    "DENSENET_121": "examples/deepnetwork/DenseNet121.pmml",
-    "DENSENET_169": "examples/deepnetwork/DenseNet169.pmml",
-    "DENSENET_201": "examples/deepnetwork/DenseNet201.pmml"
+    "VGG_16": os.path.join(root, "VGG16.pmml"),
+    "VGG_19": os.path.join(root, "VGG19.pmml"),
+    "RESNET_50": os.path.join(root, "ResNet50.pmml"),
+    "MOBILENET": os.path.join(root, "MobileNet.pmml"),
+    "INCEPTION_V3": os.path.join(root, "InceptionResNetV2.pmml"),
+    "INCEPTION_RESNET": os.path.join(root, "InceptionV3.pmml"),
+    "DENSENET_121": os.path.join(root, "DenseNet121.pmml"),
+    "DENSENET_169": os.path.join(root, "DenseNet169.pmml"),
+    "DENSENET_201": os.path.join(root, "DenseNet201.pmml")
 }
 
 weight_urls = {
@@ -78,7 +80,7 @@ def load_imagenet_classes():
     """
     Return a map between class_id (int) and class_name (string)
     """
-    with open("models/deepnetwork/assets/imagenet_classes.json") as fp:
+    with open("assets/imagenet_classes.json") as fp:
         class_map = json.load(fp)
     class_map = {int(k):v for k,v in class_map.items()}
     return class_map
@@ -99,7 +101,7 @@ def convert_keras_to_pmml(keras_model, output_path, weights_path, description, d
         new_config = intermediate.get_keras_model().get_config()
         directory = os.path.dirname(output_path)
         dump_config(old_config, new_config, directory)
-        test_prediction(output_path, "models/deepnetwork/assets/cat.jpg")
+        test_prediction(output_path, "assets/cat.jpg")
 
 
 def test_prediction(output_path, image_path):
@@ -123,4 +125,4 @@ def build_models(models):
 
 
 if __name__=="__main__":
-    build_models(["VGG_16", "RESNET_50", "INCEPTION_RESNET"])
+    build_models(["RESNET_50"])

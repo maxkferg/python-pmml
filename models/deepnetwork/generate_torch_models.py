@@ -13,13 +13,13 @@ from scipy.ndimage import imread
 root = "../../examples/deepnetwork/"
 
 output_paths = {
-    "VGG_16": root + "torch/VGG16.pmml",
-    "VGG_19": "torch/VGG19.pmml",
-    "RESNET_50": "torch/ResNet50.pmml",
-    "INCEPTION_V3": "torch/InceptionV3.pmml",
-    "DENSENET_121": "torch/DenseNet121.pmml",
-    "DENSENET_169": "torch/DenseNet169.pmml",
-    "DENSENET_201": "torch/DenseNet201.pmml"
+    "VGG_16": os.path.join(root, "torch/VGG16.pmml"),
+    "VGG_19": os.path.join(root,  "torch/VGG19.pmml"),
+    "RESNET_50": os.path.join(root,  "torch/ResNet50.pmml"),
+    "INCEPTION_V3": os.path.join(root, "torch/InceptionV3.pmml"),
+    "DENSENET_121": os.path.join(root, "torch/DenseNet121.pmml"),
+    "DENSENET_169": os.path.join(root, "torch/DenseNet169.pmml"),
+    "DENSENET_201": os.path.join(root, "torch/DenseNet201.pmml")
 }
 
 weight_urls = {
