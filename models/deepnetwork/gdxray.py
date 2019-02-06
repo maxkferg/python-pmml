@@ -183,9 +183,22 @@ class CustomDataset(torch.utils.data.Dataset):
                 transform = transform_val
             image_index = int(index / self.image_split)
             filename = self.filenames[image_index]
-            image = Image.open(filename).convert('RGB')
-            defects = self.defects[filename]
-            x, y = self.sample_image(image, defects, size=224)
+
+            while True:
+                image = Image.open(filename).convert('RGB')
+                defects = self.defects[filename]
+                x, y = self.sample_image(image, defects, size=224)
+                if self.is_train and y==0 and self.num_clear > 3*self.num_defect:
+                    filename = random.choice(self.filenames)
+                else:
+                    break
+
+            if self.is_train and self.num_defect%100 == 0:
+                print("TRAIN: {} clear images and {} defective images".format(self.num_clear, self.num_defect))
+
+            if not self.is_train and self.num_defect%100 == 0:
+                print("VAL: {} clear images and {} defective images".format(self.num_clear, self.num_defect))
+
             x = transform(x)
             if self.debug:
                 label = "defect" if y==1 else "clean"
@@ -248,18 +261,10 @@ class CustomDataset(torch.utils.data.Dataset):
                     y = 1
                     x = image.crop(((box.x1, box.y1, box.x2, box.y2)))
                     self.num_defect += 1
-                elif self.is_train and self.num_clear > 3*self.num_defect:
-                    continue
                 elif is_clean:
                     y = 0
                     x = image.crop(((box.x1, box.y1, box.x2, box.y2)))
                     self.num_clear +=1
-
-                if self.is_train and self.num_defect%100 == 0:
-                    print("TRAIN: {} clear images and {} defective images".format(self.num_clear, self.num_defect))
-
-                if self.is_train and self.num_defect%100 == 0:
-                    print("VAL: {} clear images and {} defective images".format(self.num_clear, self.num_defect))
 
             return x, y
 
