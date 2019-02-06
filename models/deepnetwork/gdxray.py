@@ -11,6 +11,7 @@ import torchvision
 import torch.nn as nn
 import torch.optim as optim
 import torch.utils.model_zoo as model_zoo
+import matplotlib.pyplot as plt
 from core.utils import is_intersect, is_inside
 from PIL import Image, ImageOps, ImageDraw
 from torch.optim import lr_scheduler
@@ -20,9 +21,12 @@ from collections import namedtuple
 from pprint import pprint
 
 
+SEED = 42
+DEBUG = False
+EVALUATE = None#"debug/t1_temp_model6_best.ckpt"
+
 
 Box = namedtuple('Point', ['x1', 'y1', 'x2', 'y2'])
-
 
 #-----------------
 # BASIC INFORMATION
@@ -32,6 +36,7 @@ use_pretrained_feature_extraction_model = False
 use_pretrained_fine_tuning_model = False # Setting it true makes the feature extraction be ignored.
 
 # Dataset dependent variables
+random.seed(SEED)
 range_total = range(1315)
 range_train = random.sample(range_total, 1100)
 range_val = list(set(range_total) - set(range_train))
@@ -155,7 +160,7 @@ transform_val = transform = transforms.Compose([transforms.ToTensor(),
 class CustomDataset(torch.utils.data.Dataset):
 
         # Read data from the given path
-        def __init__(self, data_path, is_train=True, filter=None, image_split=9, debug=False):
+        def __init__(self, data_path, is_train=True, filter=None, image_split=9, debug=DEBUG):
             self.image_split = image_split
             self.is_train = is_train
             self.data_path = data_path
@@ -175,6 +180,7 @@ class CustomDataset(torch.utils.data.Dataset):
                 self.filenames = [self.filenames[i] for i in filter]
                 self.defects = {k:v for k,v in self.defects.items() if k in self.filenames}
 
+
         def __getitem__(self, index):
             """Return the x,y pair at the index"""
             if self.is_train:
@@ -184,20 +190,21 @@ class CustomDataset(torch.utils.data.Dataset):
             image_index = int(index / self.image_split)
             filename = self.filenames[image_index]
 
+            # Sample a new image
             while True:
                 image = Image.open(filename).convert('RGB')
                 defects = self.defects[filename]
                 x, y = self.sample_image(image, defects, size=224)
-                if self.is_train and y==0 and self.num_clear > 3*self.num_defect:
+                if y==0 and self.num_clear > 3*self.num_defect:
                     filename = random.choice(self.filenames)
                 else:
                     break
 
-            if self.is_train and self.num_defect%100 == 0:
-                print("TRAIN: {} clear images and {} defective images".format(self.num_clear, self.num_defect))
-
-            if not self.is_train and self.num_defect%100 == 0:
-                print("VAL: {} clear images and {} defective images".format(self.num_clear, self.num_defect))
+            # Register the type of label that was seen
+            if y==1:
+                self.num_defect += 1
+            else:
+                self.num_clear +=1
 
             x = transform(x)
             if self.debug:
@@ -260,11 +267,9 @@ class CustomDataset(torch.utils.data.Dataset):
                 if is_defective:
                     y = 1
                     x = image.crop(((box.x1, box.y1, box.x2, box.y2)))
-                    self.num_defect += 1
                 elif is_clean:
                     y = 0
                     x = image.crop(((box.x1, box.y1, box.x2, box.y2)))
-                    self.num_clear +=1
 
             return x, y
 
@@ -278,6 +283,31 @@ class CustomDataset(torch.utils.data.Dataset):
         def __len__(self):
             """Return the length of the dataset"""
             return len(self.filenames)*self.image_split
+
+
+#-----------------
+# MODEL EVAL
+#-----------------
+def evaluate(model, device):
+    print("Weights Evaluation")
+    val_loader = torch.utils.data.DataLoader(dataset=val_dataset, batch_size=batch_size, num_workers=8, shuffle=True)
+    # Turn on evaluation mode which disables dropout.
+    model.eval()
+    for i, (inputs, labels) in enumerate(val_loader):
+        inputs = inputs.to(device)
+        labels = labels.to(device)
+        #optimizer.zero_grad()
+        # forward
+        with torch.set_grad_enabled(False):
+            outputs = model(inputs)
+            # preds = torch.round(outputs.squeeze()).long()
+            preds = torch.zeros(outputs.squeeze().size(), dtype=torch.long).to(device)
+            for j in range(outputs.squeeze().size()[0]):
+                if outputs[j] > 0:
+                    preds[j] = 1
+                print("i:", i, "label:", labels[j], "pred:", preds[j])
+                filename = "debug/image{}{} with label {}{}.png".format(i,j,labels[j],preds[j])
+                torchvision.utils.save_image(inputs[j], filename)
 
 
 
@@ -337,7 +367,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                 # Calculate accuracy
                 train_loss = running_loss / len(train_dataset)
                 train_acc = running_corrects.double() / len(train_dataset)
-                print(incorrect)
+                print('train confusion: ', incorrect)
 
                 ### Validation phase
                 model.eval()   # Set model to evaluate mode
@@ -385,7 +415,7 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
                 val_acc = running_corrects.double() / len(val_dataset)
                 val_acc2 = running_corrects2.double() / len(val_dataset)
                 val_acc3 = running_corrects3.double() / len(val_dataset)
-                print(incorrect)
+                print('val confusion: ', incorrect)
                 print('{} Loss: {:.4f} Acc: {:.4f} || {} Loss: {:.4f} Acc: {:.4f} ({:.4f},{:.4f})'.format('train', train_loss, train_acc, 'val', val_loss, val_acc, val_acc2, val_acc3))
 
                 # deep copy the model
@@ -440,7 +470,13 @@ model_conv = model_conv.to(device)
 # FEATURE EXTRACTION
 #-----------------
 if use_pretrained_feature_extraction_model:
-        model_conv.load_state_dict(torch.load(model_fe_filename))
+    model_conv.load_state_dict(torch.load(model_fe_filename))
+
+
+if EVALUATE is not None:
+    model_conv.load_state_dict(torch.load(EVALUATE, map_location='cpu'))
+    evaluate(model_conv, device)
+
 
 ct = 0
 for child in model_conv.children():
