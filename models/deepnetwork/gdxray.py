@@ -5,7 +5,6 @@ import math
 import glob
 import copy
 import random
-import imageio
 import numpy as np
 import torch
 import torchvision
