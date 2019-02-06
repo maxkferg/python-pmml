@@ -162,6 +162,10 @@ class CustomDataset(torch.utils.data.Dataset):
             self.range = range
             self.debug = debug
 
+            # Store the number of each sample we have created
+            self.num_clear = 0
+            self.num_defect = 0
+
             # Load the dataset metadata {filename: [Box()...Box()...]}
             self.defects = self.preload_files(data_path)
             self.filenames = list(self.defects.keys())
@@ -243,9 +247,19 @@ class CustomDataset(torch.utils.data.Dataset):
                 if is_defective:
                     y = 1
                     x = image.crop(((box.x1, box.y1, box.x2, box.y2)))
+                    self.num_defect += 1
+                elif self.is_train and self.num_clear > 3*self.num_defect:
+                    continue
                 elif is_clean:
                     y = 0
                     x = image.crop(((box.x1, box.y1, box.x2, box.y2)))
+                    self.num_clear +=1
+
+                if self.is_train and self.num_defect%100 == 0:
+                    print("TRAIN: {} clear images and {} defective images".format(self.num_clear, self.num_defect))
+
+                if self.is_train and self.num_defect%100 == 0:
+                    print("VAL: {} clear images and {} defective images".format(self.num_clear, self.num_defect))
 
             return x, y
 
