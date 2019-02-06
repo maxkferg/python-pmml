@@ -6,12 +6,12 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from scipy.misc import imread
-from models.deepnetwork.core.intermediate import DeepNetwork 
+from models.deepnetwork.core.intermediate import DeepNetwork
 
 font = {'family' : 'normal',
         'size'   : 14}
 matplotlib.rc('font', **font)
-matplotlib.rc('xtick', labelsize=12) 
+matplotlib.rc('xtick', labelsize=12)
 
 
 models = {
