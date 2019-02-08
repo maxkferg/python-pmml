@@ -4,3 +4,4 @@ tests/node/results/*.fig
 tests/node/node_modules/*
 examples/deepnetwork/*.h5
 examples/deepnetwork/*.json
+models/deepnetwork/debug/*

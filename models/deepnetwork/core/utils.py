@@ -50,6 +50,21 @@ def read_array(Element):
         raise ValueError("Unknown datatype %s"%dtype)
 
 
+def is_inside(box1, box2):
+    """Return true if box2 is inside box1"""
+    return (box2.x1 > box1.x1 and
+            box2.y1 > box1.y1 and
+            box2.x2 < box1.x2 and
+            box2.y2 < box1.y2)
+
+
+def is_intersect(box1, box2):
+    """Return true if box2 intersects box1 in any way"""
+    return not (box2.x2 < box1.x1 or
+                box2.y2 < box1.y1 or
+                box2.x1 > box1.x2 or
+                box2.y1 > box1.y2)
+
 def Array(children, dtype="int"):
     """
     Factory for Array element.
