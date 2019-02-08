@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
-  <Header copyright="Copyright (c) 2019 NIST" description="VGG-16 ImageNet Model (from torchvision)">
-    <Timestamp>2019-46-07 21:46:23</Timestamp>
+  <Header copyright="Copyright (c) 2019 NIST" description="VGG-19 ImageNet Model (from torchvision)">
+    <Timestamp>2019-46-07 21:46:32</Timestamp>
   </Header>
   <DataDictionary numberOfFields="1001">
     <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
@@ -1008,7 +1008,7 @@
       <Value value="toilet tissue, toilet paper, bathroom tissue"/>
     </DataField>
   </DataDictionary>
-  <DeepNetwork modelName="Deep Neural Network" functionName="classification" numberOfLayers="38">
+  <DeepNetwork modelName="Deep Neural Network" functionName="classification" numberOfLayers="44">
     <MiningSchema>
       <MiningField name="image" usageType="active"/>
       <MiningField name="class" usageType="predicted"/>
@@ -1190,22 +1190,11 @@
         <Array n="1" type="string">0_14_Conv2d</Array>
       </InboundNodes>
     </NetworkLayer>
-    <NetworkLayer layerType="MaxPooling2D" name="0_16_MaxPool2d">
+    <NetworkLayer activation="linear" layerType="Conv2D" name="0_16_Conv2d" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">0_15_ReLU</Array>
       </InboundNodes>
-      <PoolSize>
-        <Array n="2" type="int">2 2</Array>
-      </PoolSize>
-      <Strides>
-        <Array n="2" type="int">2 2</Array>
-      </Strides>
-    </NetworkLayer>
-    <NetworkLayer activation="linear" layerType="Conv2D" name="0_17_Conv2d" padding="valid" use_bias="True">
-      <InboundNodes>
-        <Array n="1" type="string">0_16_MaxPool2d</Array>
-      </InboundNodes>
-      <ConvolutionalKernel channels="512">
+      <ConvolutionalKernel channels="256">
         <DilationRate>
           <Array n="2" type="int">1 1</Array>
         </DilationRate>
@@ -1217,14 +1206,25 @@
         </KernelStride>
       </ConvolutionalKernel>
     </NetworkLayer>
-    <NetworkLayer layerType="Activation" activation="relu" name="0_18_ReLU" negative_slope="0" threshold="0.0">
+    <NetworkLayer layerType="Activation" activation="relu" name="0_17_ReLU" negative_slope="0" threshold="0.0">
       <InboundNodes>
-        <Array n="1" type="string">0_17_Conv2d</Array>
+        <Array n="1" type="string">0_16_Conv2d</Array>
       </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="MaxPooling2D" name="0_18_MaxPool2d">
+      <InboundNodes>
+        <Array n="1" type="string">0_17_ReLU</Array>
+      </InboundNodes>
+      <PoolSize>
+        <Array n="2" type="int">2 2</Array>
+      </PoolSize>
+      <Strides>
+        <Array n="2" type="int">2 2</Array>
+      </Strides>
     </NetworkLayer>
     <NetworkLayer activation="linear" layerType="Conv2D" name="0_19_Conv2d" padding="valid" use_bias="True">
       <InboundNodes>
-        <Array n="1" type="string">0_18_ReLU</Array>
+        <Array n="1" type="string">0_18_MaxPool2d</Array>
       </InboundNodes>
       <ConvolutionalKernel channels="512">
         <DilationRate>
@@ -1264,9 +1264,51 @@
         <Array n="1" type="string">0_21_Conv2d</Array>
       </InboundNodes>
     </NetworkLayer>
-    <NetworkLayer layerType="MaxPooling2D" name="0_23_MaxPool2d">
+    <NetworkLayer activation="linear" layerType="Conv2D" name="0_23_Conv2d" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">0_22_ReLU</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="0_24_ReLU" negative_slope="0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">0_23_Conv2d</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="0_25_Conv2d" padding="valid" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">0_24_ReLU</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="0_26_ReLU" negative_slope="0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">0_25_Conv2d</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="MaxPooling2D" name="0_27_MaxPool2d">
+      <InboundNodes>
+        <Array n="1" type="string">0_26_ReLU</Array>
       </InboundNodes>
       <PoolSize>
         <Array n="2" type="int">2 2</Array>
@@ -1275,51 +1317,9 @@
         <Array n="2" type="int">2 2</Array>
       </Strides>
     </NetworkLayer>
-    <NetworkLayer activation="linear" layerType="Conv2D" name="0_24_Conv2d" padding="valid" use_bias="True">
-      <InboundNodes>
-        <Array n="1" type="string">0_23_MaxPool2d</Array>
-      </InboundNodes>
-      <ConvolutionalKernel channels="512">
-        <DilationRate>
-          <Array n="2" type="int">1 1</Array>
-        </DilationRate>
-        <KernelSize>
-          <Array n="2" type="int">3 3</Array>
-        </KernelSize>
-        <KernelStride>
-          <Array n="2" type="int">1 1</Array>
-        </KernelStride>
-      </ConvolutionalKernel>
-    </NetworkLayer>
-    <NetworkLayer layerType="Activation" activation="relu" name="0_25_ReLU" negative_slope="0" threshold="0.0">
-      <InboundNodes>
-        <Array n="1" type="string">0_24_Conv2d</Array>
-      </InboundNodes>
-    </NetworkLayer>
-    <NetworkLayer activation="linear" layerType="Conv2D" name="0_26_Conv2d" padding="valid" use_bias="True">
-      <InboundNodes>
-        <Array n="1" type="string">0_25_ReLU</Array>
-      </InboundNodes>
-      <ConvolutionalKernel channels="512">
-        <DilationRate>
-          <Array n="2" type="int">1 1</Array>
-        </DilationRate>
-        <KernelSize>
-          <Array n="2" type="int">3 3</Array>
-        </KernelSize>
-        <KernelStride>
-          <Array n="2" type="int">1 1</Array>
-        </KernelStride>
-      </ConvolutionalKernel>
-    </NetworkLayer>
-    <NetworkLayer layerType="Activation" activation="relu" name="0_27_ReLU" negative_slope="0" threshold="0.0">
-      <InboundNodes>
-        <Array n="1" type="string">0_26_Conv2d</Array>
-      </InboundNodes>
-    </NetworkLayer>
     <NetworkLayer activation="linear" layerType="Conv2D" name="0_28_Conv2d" padding="valid" use_bias="True">
       <InboundNodes>
-        <Array n="1" type="string">0_27_ReLU</Array>
+        <Array n="1" type="string">0_27_MaxPool2d</Array>
       </InboundNodes>
       <ConvolutionalKernel channels="512">
         <DilationRate>
@@ -1338,9 +1338,72 @@
         <Array n="1" type="string">0_28_Conv2d</Array>
       </InboundNodes>
     </NetworkLayer>
-    <NetworkLayer layerType="MaxPooling2D" name="0_30_MaxPool2d">
+    <NetworkLayer activation="linear" layerType="Conv2D" name="0_30_Conv2d" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">0_29_ReLU</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="0_31_ReLU" negative_slope="0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">0_30_Conv2d</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="0_32_Conv2d" padding="valid" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">0_31_ReLU</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="0_33_ReLU" negative_slope="0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">0_32_Conv2d</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="0_34_Conv2d" padding="valid" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">0_33_ReLU</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="0_35_ReLU" negative_slope="0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">0_34_Conv2d</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="MaxPooling2D" name="0_36_MaxPool2d">
+      <InboundNodes>
+        <Array n="1" type="string">0_35_ReLU</Array>
       </InboundNodes>
       <PoolSize>
         <Array n="2" type="int">2 2</Array>
@@ -1351,7 +1414,7 @@
     </NetworkLayer>
     <NetworkLayer layerType="Flatten" name="flatten">
       <InboundNodes>
-        <Array n="1" type="string">0_30_MaxPool2d</Array>
+        <Array n="1" type="string">0_36_MaxPool2d</Array>
       </InboundNodes>
     </NetworkLayer>
     <NetworkLayer activation="linear" channels="4096" layerType="Dense" name="1_0_Linear">
@@ -1379,6 +1442,6 @@
         <Array n="1" type="string">1_4_ReLU</Array>
       </InboundNodes>
     </NetworkLayer>
-    <Weights encoding="hdf5" href="https://s3.amazonaws.com/stanford-machine-learning/torch/pmml-models/VGG16.h5"/>
+    <Weights encoding="hdf5" href="https://s3.amazonaws.com/stanford-machine-learning/torch/pmml-models/VGG19.h5"/>
   </DeepNetwork>
 </PMML>
