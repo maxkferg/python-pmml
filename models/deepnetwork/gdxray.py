@@ -42,7 +42,7 @@ range_train = random.sample(range_total, 1100)
 range_val = list(set(range_total) - set(range_train))
 
 # Data path and model filenames
-data_path = os.path.expanduser('~/Data/GDXRay/Castings/')
+data_path = os.path.expanduser('~/Data/GDXray/Castings/')
 model_fe_filename = 'debug/gdxray-model.ckpt'
 model_ft_filename = 'debug/gdxray-model-ft.ckpt'
 
