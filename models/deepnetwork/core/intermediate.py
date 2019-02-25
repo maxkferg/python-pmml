@@ -23,7 +23,7 @@ class PMML_Model():
         """
         Create a new DeepNeuralNetwork
         Optionally load layers from a PMML file
-        @class_map: A map in the form {class_id: class_name} 
+        @class_map: A map in the form {class_id: class_name}
         """
         self.layers = []
         self.description = description
@@ -77,13 +77,15 @@ class PMML_Model():
 
     def generate_data_dictionary(self):
         """Generate the data dictionary which describes the input"""
-        attrib = {'numberOfFields': str(1+len(self.class_map))}
+        attrib = {'numberOfFields': str(2)}
         dictionary = etree.Element("DataDictionary", attrib=attrib)
         image = etree.SubElement(dictionary, "DataField", dataType="image", name="I", height="300", width="300", channels="3")
         # Add the categorical output variables
         categorical = etree.SubElement(dictionary, "DataField", dataType="string", name="class", optype="categorical")
         for class_id in sorted(self.class_map.keys()):
             etree.SubElement(categorical, "Value", value=self.class_map[class_id])
+        # Set the number of children in the DataDictionary
+        dictionary.attrib["numberOfFields"] = str(len(dictionary))
         return dictionary
 
 

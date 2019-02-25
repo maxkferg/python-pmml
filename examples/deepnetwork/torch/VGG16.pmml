@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
   <Header copyright="Copyright (c) 2019 NIST" description="VGG-16 ImageNet Model (from torchvision)">
-    <Timestamp>2019-44-28 15:44:44</Timestamp>
+    <Timestamp>2019-48-25 15:48:53</Timestamp>
   </Header>
-  <DataDictionary numberOfFields="1001">
+  <DataDictionary numberOfFields="2">
     <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
     <DataField dataType="string" name="class" optype="categorical">
       <Value value="tench, Tinca tinca"/>

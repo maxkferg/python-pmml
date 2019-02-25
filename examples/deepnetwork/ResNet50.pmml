@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
   <Header copyright="Copyright (c) 2019 NIST" description="ResNet-50 ImageNet Model">
-    <Timestamp>2019-55-04 13:55:20</Timestamp>
+    <Timestamp>2019-51-25 15:51:19</Timestamp>
   </Header>
-  <DataDictionary numberOfFields="1001">
+  <DataDictionary numberOfFields="2">
     <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
     <DataField dataType="string" name="class" optype="categorical">
       <Value value="tench, Tinca tinca"/>
@@ -1016,14 +1016,14 @@
     <Outputs>
       <OutputField dataType="string" feature="topClass"/>
     </Outputs>
-    <NetworkLayer layerType="InputLayer" name="input_1">
+    <NetworkLayer layerType="InputLayer" name="input_2">
       <InputSize>
         <Array n="3" type="int">224 224 3</Array>
       </InputSize>
     </NetworkLayer>
     <NetworkLayer layerType="ZeroPadding2D" name="conv1_pad">
       <InboundNodes>
-        <Array n="1" type="string">input_1</Array>
+        <Array n="1" type="string">input_2</Array>
       </InboundNodes>
       <Padding>
         <Array n="4" type="int">3 3 3 3</Array>
