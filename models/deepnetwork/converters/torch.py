@@ -4,8 +4,8 @@ Convert Torch models to PMML
 import torch
 import torch.nn as nn
 from torchvision.models.resnet import Bottleneck
-from core.intermediate import DeepNetwork
-from core.layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Dropout, Reshape, DepthwiseConv2D, Merge, Activation
+from ..core.intermediate import DeepNetwork
+from ..core.layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Dropout, Reshape, DepthwiseConv2D, Merge, Activation
 
 
 
@@ -28,6 +28,7 @@ def convert(torch_model, class_map, description="Neural Network Model"):
 	flattened = False
 	for identifier, layer in layers:
 		print(layer.__class__)
+		print(layer.__dict__)
 		if layer.__class__ in CONVERSIONS:
 			if layer.__class__ == nn.Linear and not flattened:
 				previous_layer = convert_flatten(previous_layer)
@@ -38,9 +39,10 @@ def convert(torch_model, class_map, description="Neural Network Model"):
 			pmml._append_layer(previous_layer)
 		elif layer.__class__ == Bottleneck:
 			pmml, previous_layer = convert_bottleneck(pmml, identifier, layer, previous_layer)
+		elif layer._modules:
+			convert_recursive(layer, previous_layer, pmml)
 		else:
-			pass
-			# raise ValueError("Unknown layer type:", layer.__class__)
+			raise ValueError("Unknown layer type:", layer.__class__)
 	return pmml
 
 
@@ -98,27 +100,23 @@ def serialize_layers(torch_model,prefix):
 
 
 
-# def convert_recursive(spec, previous_layer, model):
-# 	i = 0
-# 	for layer in spec.children():
-# 		if i == 1:
-# 			continue
-# 		i += 1
-# 		print(layer.__class__)
-# 		# Go deeper into this parent layer
-# 		if layer.__class__ in [nn.Sequential, Bottleneck]:
-# 			previous_layer = convert_recursive(layer, previous_layer, model)
-# 		# Convert this child layer
-# 		elif layer.__class__ in CONVERSIONS:
-# 			converter = CONVERSIONS[layer.__class__]
-# 			previous_layer = converter(layer, previous_layer)
-# 			model._append_layer(previous_layer)
-# 		else:
-# 			raise ValueError("Unknown layer type:", layer.__class__)
-
-# 	return previous_layer
-
-	# last_layer = convert_recursive(torch_model, first_layer, pmml)
+def convert_recursive(spec, previous_layer, model):
+	print("Convert recursive", spec)
+	i = 0
+	for layer in spec.children():
+		print(layer.__class__)
+		# Go deeper into this parent layer
+		if layer.__class__ in [nn.Sequential, Bottleneck]:
+			convert_recursive(layer, previous_layer, model)
+		# Convert this child layer
+		if layer.__class__ in CONVERSIONS:
+			converter = CONVERSIONS[layer.__class__]
+			previous_layer = converter("x-identifier", layer, previous_layer)
+			model._append_layer(previous_layer)
+		else:
+			previous_layer = convert_recursive(layer, previous_layer, model)
+		
+	return previous_layer
 
 
 
@@ -295,11 +293,18 @@ def convert_add(identifier, previous_layer):
 # 	)
 
 
+def convert_sigmoid(identifier, spec, previous_layer):
+	return Activation(
+		name=identifier,
+		activation='sigmoid',
+		inbound_nodes=[previous_layer.name]
+)
+
+
 def convert_relu(identifier, spec, previous_layer):
 	return Activation(
 		name=identifier,
 		activation='relu',
-		threshold=spec.threshold,
 		negative_slope=0,
 		inbound_nodes=[previous_layer.name]
 )
@@ -313,4 +318,5 @@ CONVERSIONS = {
 	nn.AvgPool2d: convert_average_pooling,
 	nn.MaxPool2d: convert_max_pooling,
 	nn.Linear: convert_dense,
+	nn.modules.activation.Sigmoid: convert_sigmoid
 }
