@@ -4,8 +4,8 @@ Convert Torch models to PMML
 import torch
 import torch.nn as nn
 from torchvision.models.resnet import Bottleneck
-from core.intermediate import DeepNetwork
-from core.layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Dropout, Reshape, DepthwiseConv2D, Merge, Activation
+from ..core.intermediate import DeepNetwork
+from ..core.layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Dropout, Reshape, DepthwiseConv2D, Merge, Activation
 
 
 

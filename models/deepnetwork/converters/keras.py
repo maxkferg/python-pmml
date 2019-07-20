@@ -1,8 +1,8 @@
 """
 Convert Keras models to PMML
 """
-from core.intermediate import DeepNetwork
-from core.layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Dropout, Reshape, DepthwiseConv2D, Merge, Activation
+from ..core.intermediate import DeepNetwork
+from ..core.layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Dropout, Reshape, DepthwiseConv2D, Merge, Activation, UpSampling2D
 
 
 def get_inbound_nodes(layer_inbound_nodes):
@@ -74,6 +74,13 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 			))
 		elif layer_class is "GlobalAveragePooling2D":
 			pmml._append_layer(GlobalAveragePooling2D(
+				name=layer_config['name'],
+				size=layer_config['size'],
+				interpolation=layer_config['interpolation'],
+				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
+			))
+		elif layer_class is "UpSampling2D":
+			pmml._append_layer(UpSampling2D(
 				name=layer_config['name'],
 				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))

@@ -5,16 +5,25 @@ Currently, this pacakge supports the Gaussian Process Regression and DeepNeuralN
 
 # Installation
 All code is written in Python 3. First install the required packages
+
 ```sh
-pip3 install -r requirements.txt
+conda env create -f environment.yml -n pmml3
+conda activate pmml3
 ```
+
 Then run the tests to make sure everything is working
 ```sh
 python tests.py
 ```
+
 If all the tests pass, then you are good to start using the package.
 
-# Command line interface 
+Exporting the environment:
+```sh
+conda env export --no-builds | grep -v "prefix" > environment.yml
+```
+
+# Command line interface
 
 Evaluating a PMML file with the commandline is straightforward.
 Models inputs are defined in json or image files.

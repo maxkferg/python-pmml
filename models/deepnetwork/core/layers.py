@@ -411,6 +411,52 @@ class AveragePooling2D(Layer):
 
 
 
+class UpSampling2D(Layer):
+	"""
+	An UpSampling2D layer
+	"""
+
+	def __init__(self, inbound_nodes, size=(2,2), interpolation='nearest', name=None):
+		assert(len(inbound_nodes)==1)
+		self.inbound_nodes = inbound_nodes
+		self.size = size
+		self.interpolation = interpolation
+		self.name = name
+
+	def to_pmml(self):
+		"""
+		Return an elementTree item corrosponding to this
+		"""
+		attrib = {
+			'interpolation': self.interpolation
+		}
+
+		layer = etree.Element("UpSampling2D", layerType="UpSampling2D", name=self.name, attrib=attrib)
+		layer.append(self._get_inbound_nodes_element())
+
+		# Size Element with array Subelement
+		size = etree.SubElement(layer, "Size")
+		size.append(Array(children=self.size))
+
+		return layer
+
+	def to_keras(self, graph):
+		"""
+		Return the equivalent keras layer
+		"""
+		config = {
+			'name': self.name,
+			'size': self.size,
+			'interpolation': self.interpolation,
+		}
+		if DEBUG:
+			print("Creating UpSampling2D layer with config:\n",config)
+		inbound_node = self._get_inbound_nodes_from_graph(graph)[0]
+		return k.UpSampling2D(**config)(inbound_node)
+
+
+
+
 class ZeroPadding2D(Layer):
 	"""
 	A zero padding layer
