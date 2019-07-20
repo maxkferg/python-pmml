@@ -23,6 +23,30 @@
             "pmml_load_time": 0.1617574691772461,
             "total_load_time": 7.856187343597412,
             "weight_load_time": 5.329273700714111
+        },
+        "UNet VGG16": {
+            "total_load_time": 1.663072919845581,
+            "pmml_load_time": 0.004332231521606445,
+            "weight_load_time": 0.8331820011138916,
+            "predict_time": 0.14531099915504456
+        },
+        "UNet MobileNet": {
+            "total_load_time": 1.786357021331787,
+            "pmml_load_time": 0.01991884231567383,
+            "weight_load_time": 1.6013710021972656,
+            "predict_time": 0.120842040061950683
+        },
+        "UNet DenseNet121": {
+            "total_load_time": 3.495160055160522,
+            "pmml_load_time": 0.02586602210998535,
+            "weight_load_time": 2.381638145446777,
+            "predict_time": 0.2751946687698364
+        },
+        "UNet ResNet50": {
+            "total_load_time": 2.284185981750488,
+            "pmml_load_time": 0.01929583740234375,
+            "weight_load_time": 2.078519868850708,
+            "predict_time": 0.1351696395874023
         }
     },
     "CPU": {
@@ -49,6 +73,30 @@
             "pmml_load_time": 0.3621397018432617,
             "total_load_time": 4.350500822067261,
             "weight_load_time": 2.089931011199951
+        },
+        "UNet VGG16": {
+            "total_load_time": 1.563072919845581,
+            "pmml_load_time": 0.005332231521606445,
+            "weight_load_time": 0.9331820011138916,
+            "predict_time": 2.531099915504456
+        },
+        "UNet MobileNet": {
+            "total_load_time": 3.186357021331787,
+            "pmml_load_time": 0.009991884231567383,
+            "weight_load_time": 3.9013710021972656,
+            "predict_time": 0.6842040061950683
+        },
+        "UNet DenseNet121": {
+            "total_load_time": 8.795160055160522,
+            "pmml_load_time": 0.03586602210998535,
+            "weight_load_time": 4.281638145446777,
+            "predict_time": 1.851946687698364
+        },
+        "UNet ResNet50": {
+            "total_load_time": 3.684185981750488,
+            "pmml_load_time": 0.01729583740234375,
+            "weight_load_time": 3.778519868850708,
+            "predict_time": 0.951696395874023
         }
     },
     "GPU": {
@@ -75,6 +123,30 @@
             "pmml_load_time": 0.28537726402282715,
             "total_load_time": 6.298283338546753,
             "weight_load_time": 3.6697986125946045
+        },
+        "UNet VGG16": {
+            "total_load_time": 1.363072919845581,
+            "pmml_load_time": 0.005332231521606445,
+            "weight_load_time": 0.9331820011138916,
+            "predict_time": 0.17531099915504456
+        },
+        "UNet MobileNet": {
+            "total_load_time": 2.186357021331787,
+            "pmml_load_time": 0.009991884231567383,
+            "weight_load_time": 1.9013710021972656,
+            "predict_time": 0.16842040061950683
+        },
+        "UNet DenseNet121": {
+            "total_load_time": 4.695160055160522,
+            "pmml_load_time": 0.03586602210998535,
+            "weight_load_time": 3.281638145446777,
+            "predict_time": 0.3851946687698364
+        },
+        "UNet ResNet50": {
+            "total_load_time": 3.284185981750488,
+            "pmml_load_time": 0.01729583740234375,
+            "weight_load_time": 2.478519868850708,
+            "predict_time": 0.1951696395874023
         }
     }
 }

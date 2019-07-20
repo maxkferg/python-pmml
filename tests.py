@@ -1,5 +1,5 @@
 """
-python tests.py gdxray train --dataset=~/data/GDXray/Castings
+python tests.py gdxray train --dataset=~/data/GDXray/Castings --backbone=vgg16
 python tests.py gdxray eval --dataset=~/data/GDXray/Castings
 """
 import os
@@ -24,17 +24,37 @@ parser_gdxray.add_argument('operation', type=str,
 parser_gdxray.add_argument('--dataset', type=str,
                     help='Location of the GDXRay dataset')
 
+parser_gdxray.add_argument('--backbone', type=str,
+					default='resnet34',
+                    help='Location of the GDXRay dataset')
 
 
-def save_callback(model):
+
+BACKBONES = [
+	"vgg16",
+	"vgg19",
+	"resnet18",
+	"resnet34",
+	"resnet50",
+	"resnext101",
+	"densenet121",
+	"densenet169",
+	"senet154",
+	"mobilenet",
+	"inceptionv3",
+	"efficientnetb0",
+]
+
+
+def callback(model, backbone):
 	"""Save the model to PMML"""
 	#pmml = convert_keras_to_pmml(model)
 	class_map = {}
-	weights_path = "examples/deepnetwork/UNet.h5"
-	output_path = "examples/deepnetwork/UNet.pmml"
-	description = "UNet model trained to classify casting defects"
+	weights_path = "examples/deepnetwork/weights/UNet-{0}.h5".format(backbone)
+	output_path = "examples/deepnetwork/UNet-{0}.pmml".format(backbone)
+	description = "UNet-{0} model trained to classify casting defects".format(backbone)
 	pmml = convert(model, class_map=class_map, description=description)
-	pmml.save_pmml(output_path, weights_path=weights_path, save_weights=False)
+	pmml.save_pmml(output_path, weights_path=weights_path, save_weights=True)
 
 
 
@@ -43,8 +63,10 @@ def test_gdxray_train(args):
 	Test that a GDXRay model can be trained and saved to PMML
 	"""
 	print("GDXRay train")
-	model = Unet('resnet34', classes=2, input_shape=(384, 384, 3), encoder_weights=None, activation='softmax')
+	backbone = args.backbone.lower()
+	model = Unet(backbone, classes=2, input_shape=(384, 384, 3), encoder_weights=None, activation='softmax')
 	train_dataset = KerasDataset(os.path.expanduser(args.dataset))
+	save_callback = lambda model: callback(model, backbone)
 	train_gdxray(model, train_dataset, save_callback=save_callback)
 
 
@@ -59,6 +81,8 @@ def test_gdxray_eval(args):
 
 if __name__=="__main__":
 	args = parser.parse_args()
+	if args.backbone.lower() not in BACKBONES:
+		raise ValueError("Unknown Backbone", args.backbone)
 	if args.operation=="train":
 		test_gdxray_train(args)
 	elif args.operation=="eval":
