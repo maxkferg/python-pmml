@@ -1,6 +1,6 @@
 """
-python tests.py gdxray train --dataset=~/data/GDXray
-python tests.py gdxray eval --dataset=~/data/GDXray
+python tests.py gdxray train --dataset=~/data/GDXray/Castings
+python tests.py gdxray eval --dataset=~/data/GDXray/Castings
 """
 import os
 import argparse
@@ -55,7 +55,6 @@ def test_gdxray_eval(args):
 	"""
 	print("GDXRay eval")
 	eval_gdxray(model, dataset)
-
 
 
 if __name__=="__main__":

@@ -49,4 +49,3 @@ def train_gdxray(model,
                       use_multiprocessing=True,
                       epochs=1,
                       workers=6)
-
