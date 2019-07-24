@@ -4,6 +4,7 @@ Serves as an intermediate between PMML and DL frameworks like Keras
 """
 import re
 import os
+import xmlschema
 import numpy as np
 import tensorflow as tf
 import urllib.request
@@ -17,6 +18,11 @@ DEBUG = False
 
 
 class PMML_Model():
+    """
+    Abstract class representing any PMML model
+    Does not contain any DeepNetwork specific logic
+    This class can be extended to support specific PMML model types
+    """
     ns = "{http://www.dmg.org/PMML-4_5}"
 
     def __init__(self, filename=None, class_map={}, description=None, copyright=None, username="NIST"):
@@ -89,7 +95,11 @@ class PMML_Model():
         return dictionary
 
 
+
 class DeepNetwork(PMML_Model):
+    """
+    PMML Model for Deep Neural Networks
+    """
 
     def load_pmml(self, root_element):
         """
@@ -114,13 +124,13 @@ class DeepNetwork(PMML_Model):
             if "depth_multiplier" in config:
                 config["depth_multiplier"] = int(config["depth_multiplier"])
             if "center" in config:
-                config["center"] = to_bool(config["center"])   
+                config["center"] = to_bool(config["center"])
             if "threshold" in config:
-                config["threshold"] = float(config["threshold"])   
+                config["threshold"] = float(config["threshold"])
             if "max_value" in config:
-                config["max_value"] = float(config["max_value"])   
+                config["max_value"] = float(config["max_value"])
             if "negative_slope" in config:
-                config["negative_slope"] = float(config["negative_slope"])                
+                config["negative_slope"] = float(config["negative_slope"])
             # Read Attributes
             strides = layer_element.find("Strides")
             padding = layer_element.find("Padding")
@@ -129,7 +139,7 @@ class DeepNetwork(PMML_Model):
             inbound_nodes = layer_element.find("InboundNodes")
             input_size = layer_element.find("InputSize")
             target_shape = layer_element.find("TargetShape")
-            
+
             if convolutional_kernel is not None:
                 kernel_size = convolutional_kernel.find("KernelSize")
                 kernel_strides = convolutional_kernel.find("KernelStride")
@@ -197,7 +207,7 @@ class DeepNetwork(PMML_Model):
     def save_pmml(self, filename, username="NIST", weights_path=None, save_weights=True):
         """
         Save the model to a PMML representation
-        @weights_path (optional): Absolute path or url to weights file. 
+        @weights_path (optional): Absolute path or url to weights file.
         @save_weights (optional): If True, weights will be saved to @weights file
         """
         self.filename = filename
@@ -245,6 +255,34 @@ class DeepNetwork(PMML_Model):
         tree = etree.ElementTree(PMML)
         tree.write(filename, pretty_print=True, xml_declaration=True, encoding="utf-8")
         print('Wrote PMML file to %s'%filename)
+
+
+    def read_pmml(self, pmml_file, schema_file="../schema/deepnetwork.xsd"):
+        """
+        Read PMML file using the PMML Schema.
+        Return a nested Python object containing the data from the parsed document
+        @pmml_file is file-like object containing the PMML
+        """
+        if schema_file.startswith("."):
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            schema_file = os.path.join(dir_path, schema_file)
+            schema_file = os.path.realpath(schema_file)
+        schema = xmlschema.XMLSchema(schema_file)
+        return xmlschema.to_dict(pmml_file)
+
+
+    def validate_pmml(self, pmml_file, schema_file="../schema/deepnetwork.xsd"):
+        """
+        Helper method to validate PMML string against a schema
+        Return True if pmml is valid, otherwise False
+        @pmml_file is file-like object containing the PMML
+        """
+        if schema_file.startswith("."):
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            schema_file = os.path.join(dir_path, schema_file)
+            schema_file = os.path.realpath(schema_file)
+        schema = xmlschema.XMLSchema(schema_file)
+        return schema.validate(pmml_file)
 
 
     def predict(self, input_img, tpu_worker=None):
@@ -302,7 +340,7 @@ class DeepNetwork(PMML_Model):
         @load_weights: Boolean to control whether weights are loaded or not
         @tpu_worker (optional): The address of a tpu for accelerated evaluation
         """
-        graph = {}    
+        graph = {}
         for i, layer in enumerate(self.layers):
             if type(layer) is InputLayer and tpu_worker is not None:
                 keras_tensor = layer.to_keras(graph, batch_size=1)

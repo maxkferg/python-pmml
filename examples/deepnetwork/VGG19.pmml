@@ -4,7 +4,7 @@
     <Timestamp>2019-50-25 15:50:20</Timestamp>
   </Header>
   <DataDictionary numberOfFields="2">
-    <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
+    <DataField channels="3" dataType="image" height="300" name="I" width="300" optype="categorical" />
     <DataField dataType="string" name="class" optype="categorical">
       <Value value="tench, Tinca tinca"/>
       <Value value="goldfish, Carassius auratus"/>

@@ -3,17 +3,27 @@ python tests.py gdxray train --dataset=~/data/GDXray/Castings
 python tests.py gdxray eval --dataset=~/data/GDXray/Castings
 """
 import os
+import glob
 import argparse
 from segmentation_models import Unet
 from tests.gdxray.train import train_gdxray
 from tests.gdxray.eval import eval_gdxray
 from tests.gdxray.dataloader import KerasDataset
 from models.deepnetwork.converters.keras import convert
+from models.deepnetwork.core.intermediate import DeepNetwork
 
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 
-subparsers = parser.add_subparsers(help='Run GDXray tests')
+subparsers = parser.add_subparsers(
+	help='Run GDXray tests',
+	dest='command')
+
+parser_validate = subparsers.add_parser('validate',
+	help='Usage: test.py validate [--filename filename]')
+
+parser_validate.add_argument('--filename', type=str,
+                    help='PMML file to validate')
 
 parser_gdxray = subparsers.add_parser('gdxray',
 	help='Usage: test.py gdxray <train|eval>')
@@ -57,11 +67,27 @@ def test_gdxray_eval(args):
 	eval_gdxray(model, dataset)
 
 
+def test_validate_models_using_schema():
+	model = DeepNetwork()
+	for filepath in glob.glob("examples/deepnetwork/*.pmml"):
+		print("Validating {0}".format(filepath))
+		if model.validate_pmml(filepath):
+			print("PMML File is VALID\n")
+		else:
+			print("PMML File is INVALID\n")
+
+
+
+
 if __name__=="__main__":
 	args = parser.parse_args()
-	if args.operation=="train":
-		test_gdxray_train(args)
-	elif args.operation=="eval":
-		test_gdxray_eval(args)
-
-
+	print(args)
+	if args.command=='validate':
+		test_validate_models_using_schema()
+	elif args.command=='gdxray':
+		if args.operation=="train":
+			test_gdxray_train(args)
+		elif args.operation=="eval":
+			test_gdxray_eval(args)
+	else:
+		print("Unknown test command", args.command)
