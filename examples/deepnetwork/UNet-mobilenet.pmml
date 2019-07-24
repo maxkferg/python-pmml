@@ -1,0 +1,1069 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
+  <Header copyright="Copyright (c) 2019 NIST" description="UNet-mobilenet model trained to classify casting defects">
+    <Timestamp>2019-01-19 23:01:50</Timestamp>
+  </Header>
+  <DataDictionary numberOfFields="2">
+    <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
+    <DataField dataType="string" name="class" optype="categorical"/>
+  </DataDictionary>
+  <DeepNetwork modelName="Deep Neural Network" functionName="classification" numberOfLayers="128">
+    <MiningSchema>
+      <MiningField name="image" usageType="active"/>
+      <MiningField name="class" usageType="predicted"/>
+    </MiningSchema>
+    <Outputs>
+      <OutputField dataType="string" feature="topClass"/>
+    </Outputs>
+    <NetworkLayer layerType="InputLayer" name="input_1">
+      <InputSize>
+        <Array n="3" type="int">384 384 3</Array>
+      </InputSize>
+    </NetworkLayer>
+    <NetworkLayer layerType="ZeroPadding2D" name="conv1_pad">
+      <InboundNodes>
+        <Array n="1" type="string">input_1</Array>
+      </InboundNodes>
+      <Padding>
+        <Array n="4" type="int">0 1 0 1</Array>
+      </Padding>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv1" padding="valid" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv1_pad</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="32">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">2 2</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv1_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv1_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv1_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_1" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv1_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_1_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_1_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_1_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_1" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_1_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="64">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_1_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_1_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_1_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="ZeroPadding2D" name="conv_pad_2">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_1_relu</Array>
+      </InboundNodes>
+      <Padding>
+        <Array n="4" type="int">0 1 0 1</Array>
+      </Padding>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_2" padding="valid" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pad_2</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">2 2</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_2_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_2_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_2_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_2" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_2_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="128">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_2_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_2_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_2_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_3" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_2_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_3_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_3</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_3_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_3_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_3" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_3_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="128">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_3_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_3</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_3_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_3_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="ZeroPadding2D" name="conv_pad_4">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_3_relu</Array>
+      </InboundNodes>
+      <Padding>
+        <Array n="4" type="int">0 1 0 1</Array>
+      </Padding>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_4" padding="valid" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pad_4</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">2 2</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_4_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_4</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_4_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_4_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_4" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_4_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="256">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_4_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_4</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_4_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_4_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_5" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_4_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_5_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_5</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_5_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_5_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_5" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_5_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="256">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_5_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_5</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_5_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_5_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="ZeroPadding2D" name="conv_pad_6">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_5_relu</Array>
+      </InboundNodes>
+      <Padding>
+        <Array n="4" type="int">0 1 0 1</Array>
+      </Padding>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_6" padding="valid" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pad_6</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">2 2</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_6_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_6</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_6_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_6_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_6" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_6_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_6_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_6</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_6_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_6_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_7" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_6_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_7_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_7</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_7_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_7_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_7" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_7_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_7_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_7</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_7_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_7_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_8" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_7_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_8_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_8</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_8_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_8_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_8" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_8_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_8_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_8</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_8_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_8_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_9" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_8_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_9_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_9</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_9_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_9_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_9" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_9_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_9_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_9</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_9_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_9_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_10" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_9_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_10_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_10</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_10_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_10_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_10" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_10_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_10_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_10</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_10_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_10_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_11" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_10_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_11_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_11</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_11_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_11_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_11" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_11_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="512">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_11_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_11</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_11_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_11_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="ZeroPadding2D" name="conv_pad_12">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_11_relu</Array>
+      </InboundNodes>
+      <Padding>
+        <Array n="4" type="int">0 1 0 1</Array>
+      </Padding>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_12" padding="valid" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pad_12</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">2 2</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_12_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_12</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_12_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_12_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_12" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_12_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="1024">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_12_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_12</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_12_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_12_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" depth_multiplier="1" layerType="DepthwiseConv2D" name="conv_dw_13" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_12_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_dw_13_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_13</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_dw_13_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_13_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="conv_pw_13" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">conv_dw_13_relu</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="1024">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">1 1</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="conv_pw_13_bn">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_13</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" max_value="6.0" name="conv_pw_13_relu" negative_slope="0.0" threshold="0.0">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_13_bn</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="UpSampling2D" name="decoder_stage0_upsample" interpolation="nearest">
+      <InboundNodes>
+        <Array n="1" type="string">conv_pw_13_relu</Array>
+      </InboundNodes>
+      <Size>
+        <Array n="2" type="int">2 2</Array>
+      </Size>
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" axis="-1" name="concatenate_1" operator="concatenate">
+      <InboundNodes>
+        <Array n="2" type="string">decoder_stage0_upsample conv_pw_11_relu</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="decoder_stage0_conv1" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">concatenate_1</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="256">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="decoder_stage0_bn1">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage0_conv1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="decoder_stage0_relu1">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage0_bn1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="decoder_stage0_conv2" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage0_relu1</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="256">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="decoder_stage0_bn2">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage0_conv2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="decoder_stage0_relu2">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage0_bn2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="UpSampling2D" name="decoder_stage1_upsample" interpolation="nearest">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage0_relu2</Array>
+      </InboundNodes>
+      <Size>
+        <Array n="2" type="int">2 2</Array>
+      </Size>
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" axis="-1" name="concatenate_2" operator="concatenate">
+      <InboundNodes>
+        <Array n="2" type="string">decoder_stage1_upsample conv_pw_5_relu</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="decoder_stage1_conv1" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">concatenate_2</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="128">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="decoder_stage1_bn1">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage1_conv1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="decoder_stage1_relu1">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage1_bn1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="decoder_stage1_conv2" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage1_relu1</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="128">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="decoder_stage1_bn2">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage1_conv2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="decoder_stage1_relu2">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage1_bn2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="UpSampling2D" name="decoder_stage2_upsample" interpolation="nearest">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage1_relu2</Array>
+      </InboundNodes>
+      <Size>
+        <Array n="2" type="int">2 2</Array>
+      </Size>
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" axis="-1" name="concatenate_3" operator="concatenate">
+      <InboundNodes>
+        <Array n="2" type="string">decoder_stage2_upsample conv_pw_3_relu</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="decoder_stage2_conv1" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">concatenate_3</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="64">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="decoder_stage2_bn1">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage2_conv1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="decoder_stage2_relu1">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage2_bn1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="decoder_stage2_conv2" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage2_relu1</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="64">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="decoder_stage2_bn2">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage2_conv2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="decoder_stage2_relu2">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage2_bn2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="UpSampling2D" name="decoder_stage3_upsample" interpolation="nearest">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage2_relu2</Array>
+      </InboundNodes>
+      <Size>
+        <Array n="2" type="int">2 2</Array>
+      </Size>
+    </NetworkLayer>
+    <NetworkLayer layerType="Merge" axis="-1" name="concatenate_4" operator="concatenate">
+      <InboundNodes>
+        <Array n="2" type="string">decoder_stage3_upsample conv_pw_1_relu</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="decoder_stage3_conv1" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">concatenate_4</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="32">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="decoder_stage3_bn1">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage3_conv1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="decoder_stage3_relu1">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage3_bn1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="decoder_stage3_conv2" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage3_relu1</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="32">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="decoder_stage3_bn2">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage3_conv2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="decoder_stage3_relu2">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage3_bn2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="UpSampling2D" name="decoder_stage4_upsample" interpolation="nearest">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage3_relu2</Array>
+      </InboundNodes>
+      <Size>
+        <Array n="2" type="int">2 2</Array>
+      </Size>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="decoder_stage4_conv1" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage4_upsample</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="16">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="decoder_stage4_bn1">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage4_conv1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="decoder_stage4_relu1">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage4_bn1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="decoder_stage4_conv2" padding="same" use_bias="False">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage4_relu1</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="16">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="BatchNormalization" axis="-1" center="True" epsilon="0.001" momentum="0.99" name="decoder_stage4_bn2">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage4_conv2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="relu" name="decoder_stage4_relu2">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage4_bn2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="linear" layerType="Conv2D" name="final_conv" padding="same" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">decoder_stage4_relu2</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="2">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="softmax" name="softmax">
+      <InboundNodes>
+        <Array n="1" type="string">final_conv</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <Weights encoding="hdf5" href="weights/UNet-mobilenet.h5"/>
+  </DeepNetwork>
+</PMML>

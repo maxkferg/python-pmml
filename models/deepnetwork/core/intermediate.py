@@ -132,6 +132,7 @@ class DeepNetwork(PMML_Model):
             if "negative_slope" in config:
                 config["negative_slope"] = float(config["negative_slope"])
             # Read Attributes
+            size = layer_element.find("Size")
             strides = layer_element.find("Strides")
             padding = layer_element.find("Padding")
             pool_size = layer_element.find("PoolSize")
@@ -156,6 +157,8 @@ class DeepNetwork(PMML_Model):
                 config["target_shape"] = read_array(target_shape)
             if input_size is not None:
                 config["input_size"] = read_array(input_size)
+            if size is not None:
+                config["size"] = read_array(size)
             if pool_size is not None:
                 config["pool_size"] = read_array(pool_size)
             if strides is not None:
@@ -293,9 +296,13 @@ class DeepNetwork(PMML_Model):
             self.keras_model = self.get_keras_model(tpu_worker=tpu_worker)
         batch = np.stack(1*[input_img])
         scores = self.keras_model.predict(batch)
-        class_id = np.argmax(scores)
-        class_name = self.class_map[class_id]
-        return class_name
+        try:
+            # Classification
+            class_id = np.argmax(scores)
+            class_name = self.class_map[class_id]
+            return class_name
+        except:
+            return scores
 
 
     def generate_mining_schema(self):

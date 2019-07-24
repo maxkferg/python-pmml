@@ -99,7 +99,7 @@ class GDXrayDataset(Dataset):
             image = cv2.imread(image_name)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             mask = self.masks[image_name]
-            sample = self.augmentation(image=image, mask=mask)
+            sample = self.transform(image=image, mask=mask)
             image, mask = sample['image'], sample['mask']
             print(image.shape,'o')
             print(mask.shape,'x')

@@ -1,11 +1,11 @@
 import os
+import cv2
 import json
 import time
 import matplotlib
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
-from scipy.misc import imread
 from models.deepnetwork.core.intermediate import DeepNetwork
 
 font = {'family' : 'normal',
@@ -14,18 +14,25 @@ matplotlib.rc('font', **font)
 matplotlib.rc('xtick', labelsize=12)
 
 
-models = {
+MODELS = {
     "VGG-16": "examples/deepnetwork/VGG16.pmml",
     "ResNet-50": "examples/deepnetwork/ResNet50.pmml",
     "MobileNet-224": "examples/deepnetwork/MobileNet.pmml",
     "DenseNet-121": "examples/deepnetwork/DenseNet121.pmml",
 }
 
+MODELS = {
+    "UNet VGG16": "examples/deepnetwork/UNet-vgg16.pmml",
+    "UNet ResNet50": "examples/deepnetwork/UNet-resnet50.pmml",
+    "UNet MobileNet": "examples/deepnetwork/UNet-mobilenet.pmml",
+    "UNet DenseNet121": "examples/deepnetwork/UNet-denseNet121.pmml",
+}
+
 
 results_file = "tests/performance.json"
-image_file = "tests/assets/cat.jpg"
+image_file = "tests/assets/xray.png"
 
-N_EVAL = 4
+N_EVAL = 10
 TPU_WORKER = None
 MACHINE = "CPU"
 
@@ -92,14 +99,15 @@ def create_predict_time_data(model_name, pmml_file, image_file, n=1):
     results = load_results()
     results[MACHINE].setdefault(model_name, {})
     
-    data = imread(image_file)
+    data = cv2.imread(image_file)
+    data = cv2.cvtColor(data, cv2.COLOR_BGR2HSV)
     model = DeepNetwork(pmml_file)
     model.predict(data, tpu_worker=TPU_WORKER) # Load keras model 
     start_time = time.time()
     # Repeat the predictions multiple times
     for i in range(n):
         result = model.predict(data, tpu_worker=TPU_WORKER)
-    print("Model predicted class: %s"%result)
+    #print("Model predicted class: %s"%result)
     avg_duration = (time.time() - start_time)/n
     print("Average prediction duration %.3f seconds"%avg_duration)
     results[MACHINE][model_name]['predict_time'] = avg_duration
@@ -109,7 +117,7 @@ def create_predict_time_data(model_name, pmml_file, image_file, n=1):
 
 
 def create_all_data(n=1):
-    for model_name, pmml_file in models.items():
+    for model_name, pmml_file in MODELS.items():
         create_load_time_data(model_name, pmml_file)
         create_predict_time_data(model_name, pmml_file, image_file, n=n) 
 
@@ -138,7 +146,7 @@ def bar_plot(labels, *columns):
         plt.bar(r[i], bar, color=colors[i], width=barWidth, edgecolor='white', label=names[i])
 
     # Add xticks on the middle of the group bars
-    plt.xlabel('Model Architecture', fontweight='bold')
+    plt.xlabel('Model Backbone', fontweight='bold')
     plt.xticks([r + barWidth for r in range(len(bars1))], labels)
      
     # Create legend & Show graphic
@@ -156,7 +164,8 @@ def create_plots():
 
     for i,machine_type in enumerate(machine_types):
         results = load_results()[machine_type]
-        models = list(results.keys())
+        models = list(MODELS.keys())
+        backbones = [i.replace("UNet ", "") for i in models]
 
         for model in models:
             total_load_time[i].append(results[model]['total_load_time'])
@@ -166,22 +175,22 @@ def create_plots():
         
     # Total load time
     plt.figure()
-    bar_plot(models, *total_load_time)
+    bar_plot(backbones, *total_load_time)
     plt.ylabel("Total load time (s)")
 
     # Total load time
     plt.figure()
-    bar_plot(models, *pmml_load_time)
+    bar_plot(backbones, *pmml_load_time)
     plt.ylabel("PMML load time (s)")
 
     # Total load time
     plt.figure()
-    bar_plot(models, *weight_load_time)
+    bar_plot(backbones, *weight_load_time)
     plt.ylabel("Weight load time (s)")
     
     # Total load time
     plt.figure()
-    bar_plot(models, *predict_time)
+    bar_plot(backbones, *predict_time)
     plt.ylabel("Prediction Time (s)")
     plt.show()
 

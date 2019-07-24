@@ -46,7 +46,7 @@ class Layer():
 		inbound_nodes = []
 		for node in self.inbound_nodes:
 			if node not in graph:
-				raise KeyError("Could not find node %s in graph"%inbound_node)
+				raise KeyError("Could not find node %s in graph"%node)
 			inbound_nodes.append(graph[node])
 		return inbound_nodes
 
@@ -244,6 +244,11 @@ class BatchNormalization(Layer):
 			"axis": self.axis,
 			"name": self.name
 		}
+ 
+ 		# UNet ResNet50 workaround
+		# We ignore the scale parameter, but this causes problems loading weights.
+		if self.name == "bn_data":
+			config["scale"] = False
 
 		if DEBUG:
 			print("Creating BatchNormalization layer with config:\n",config)
@@ -431,7 +436,7 @@ class UpSampling2D(Layer):
 			'interpolation': self.interpolation
 		}
 
-		layer = etree.Element("UpSampling2D", layerType="UpSampling2D", name=self.name, attrib=attrib)
+		layer = etree.Element("NetworkLayer", layerType="UpSampling2D", name=self.name, attrib=attrib)
 		layer.append(self._get_inbound_nodes_element())
 
 		# Size Element with array Subelement
@@ -814,6 +819,7 @@ def get_layer_class_by_name(layer_type):
 		"BatchNormalization": BatchNormalization,
 		"MaxPooling2D": MaxPooling2D,
 		"ZeroPadding2D": ZeroPadding2D,
+		"UpSampling2D": UpSampling2D,
 		"AveragePooling2D": AveragePooling2D,
 		"GlobalAveragePooling2D": GlobalAveragePooling2D
 	}
