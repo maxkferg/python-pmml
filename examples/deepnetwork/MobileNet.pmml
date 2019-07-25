@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
   <Header copyright="Copyright (c) 2019 NIST" description="MobileNet ImageNet Model">
-    <Timestamp>2018-45-21 17:45:08</Timestamp>
+    <Timestamp>2019-00-24 17:00:35</Timestamp>
   </Header>
   <DataDictionary numberOfFields="2">
-    <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
+    <DataField channels="3" dataType="tensor" height="300" name="I" optype="categorical" width="300"/>
     <DataField dataType="string" name="class" optype="categorical">
       <Value value="tench, Tinca tinca"/>
       <Value value="goldfish, Carassius auratus"/>
@@ -1758,18 +1758,18 @@
         </KernelStride>
       </ConvolutionalKernel>
     </NetworkLayer>
-    <NetworkLayer layerType="Activation" activation="softmax" name="act_softmax">
-      <InboundNodes>
-        <Array n="1" type="string">conv_preds</Array>
-      </InboundNodes>
-    </NetworkLayer>
     <NetworkLayer layerType="Reshape" name="reshape_2">
       <InboundNodes>
-        <Array n="1" type="string">act_softmax</Array>
+        <Array n="1" type="string">conv_preds</Array>
       </InboundNodes>
       <TargetShape>
         <Array n="1" type="int">1000</Array>
       </TargetShape>
+    </NetworkLayer>
+    <NetworkLayer layerType="Activation" activation="softmax" name="act_softmax">
+      <InboundNodes>
+        <Array n="1" type="string">reshape_2</Array>
+      </InboundNodes>
     </NetworkLayer>
     <Weights encoding="hdf5" href="https://s3.amazonaws.com/stanford-machine-learning/pmml-models/MobileNet.h5"/>
   </DeepNetwork>

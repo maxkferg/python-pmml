@@ -85,7 +85,7 @@ class PMML_Model():
         """Generate the data dictionary which describes the input"""
         attrib = {'numberOfFields': str(2)}
         dictionary = etree.Element("DataDictionary", attrib=attrib)
-        image = etree.SubElement(dictionary, "DataField", dataType="image", name="I", height="300", width="300", channels="3")
+        image = etree.SubElement(dictionary, "DataField", dataType="tensor", name="I", height="300", width="300", channels="3", optype="categorical")
         # Add the categorical output variables
         categorical = etree.SubElement(dictionary, "DataField", dataType="string", name="class", optype="categorical")
         for class_id in sorted(self.class_map.keys()):
@@ -271,7 +271,7 @@ class DeepNetwork(PMML_Model):
             schema_file = os.path.join(dir_path, schema_file)
             schema_file = os.path.realpath(schema_file)
         schema = xmlschema.XMLSchema(schema_file)
-        return xmlschema.to_dict(pmml_file)
+        return schema.to_dict(pmml_file)
 
 
     def validate_pmml(self, pmml_file, schema_file="../schema/deepnetwork.xsd"):
@@ -285,7 +285,7 @@ class DeepNetwork(PMML_Model):
             schema_file = os.path.join(dir_path, schema_file)
             schema_file = os.path.realpath(schema_file)
         schema = xmlschema.XMLSchema(schema_file)
-        return schema.validate(pmml_file)
+        return schema.is_valid(pmml_file)
 
 
     def predict(self, input_img, tpu_worker=None):

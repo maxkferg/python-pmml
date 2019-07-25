@@ -3,7 +3,6 @@ python tests.py gdxray train --dataset=~/data/GDXray/Castings --backbone=vgg16
 python tests.py gdxray eval --dataset=~/data/GDXray/Castings
 """
 import os
-import glob
 import argparse
 from segmentation_models import Unet
 from tests.gdxray.train import train_gdxray
@@ -90,22 +89,9 @@ def test_gdxray_eval(args):
 
 
 
-def test_validate_models_using_schema():
-	model = DeepNetwork()
-	for filepath in glob.glob("examples/deepnetwork/*.pmml"):
-		print("Validating {0}".format(filepath))
-		if model.validate_pmml(filepath):
-			print("PMML File is VALID\n")
-		else:
-			print("PMML File is INVALID\n")
-
-
 
 if __name__=="__main__":
 	args = parser.parse_args()
-	print(args)
-	if args.command=='validate':
-		test_validate_models_using_schema()
 	elif args.command=='gdxray':
 		if args.operation=="train":
 			test_gdxray_train(args)

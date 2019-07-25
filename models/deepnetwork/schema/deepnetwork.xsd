@@ -283,9 +283,9 @@
   <xs:complexType>
     <xs:sequence>
       <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:choice maxOccurs="unbounded"> 
+      <xs:choice maxOccurs="unbounded">
         <xs:element ref="FieldRef"/>
-        <xs:element ref="CategoricalPredictor"/> 
+        <xs:element ref="CategoricalPredictor"/>
       </xs:choice>
     </xs:sequence>
     <xs:attribute name="numberOfFields" type="xs:nonNegativeInteger" use="optional"/>
@@ -383,6 +383,7 @@
     <xs:element ref="NaiveBayesModel"/>
     <xs:element ref="NearestNeighborModel"/>
     <xs:element ref="NeuralNetwork"/>
+    <xs:element ref="DeepNetwork"/>
     <xs:element ref="RegressionModel"/>
     <xs:element ref="RuleSetModel"/>
     <xs:element ref="SequenceModel"/>
@@ -417,7 +418,7 @@
       <xs:restriction base="xs:anyType">
         <xs:sequence>
           <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence> 
+        </xs:sequence>
         <xs:attribute name="extender" type="xs:string" use="optional"/>
         <xs:attribute name="name" type="xs:string" use="optional"/>
         <xs:attribute name="value" type="xs:string" use="optional"/>
@@ -778,7 +779,7 @@
   <xs:complexType>
     <xs:sequence>
       <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-	</xs:sequence>  
+	</xs:sequence>
 	<xs:attribute name="dataName" type="xs:string" use="optional"/>
     <xs:attribute name="SSE" type="NUMBER" use="optional"/>
     <xs:attribute name="SSB" type="NUMBER" use="optional"/>
@@ -796,7 +797,7 @@
     <xs:attribute name="targetFieldDisplayValue" type="xs:string"/>
     <xs:attribute name="rankingQuality" type="NUMBER"/>
   </xs:complexType>
-</xs:element>    
+</xs:element>
 <xs:element name="ModelLiftGraph">
   <xs:complexType>
     <xs:sequence>
@@ -1744,7 +1745,7 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
- 
+
 <xs:element name="SequenceModel">
   <xs:complexType>
     <xs:sequence>
@@ -3298,6 +3299,134 @@
   </xs:restriction>
 </xs:simpleType>
 
+<xs:element name="DeepNetwork">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="MiningSchema"/>
+      <xs:element name="Outputs">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="OutputField">
+              <xs:complexType>
+                <xs:attribute name="dataType" type="xs:string" use="required" />
+                <xs:attribute name="feature" type="xs:string" use="required" />
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element maxOccurs="unbounded" name="NetworkLayer">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="InboundNodes">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Array" type="ArrayType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="TargetShape">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Array" type="ArrayType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="PoolSize">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Array" type="ArrayType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="Size">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Array" type="ArrayType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="Strides">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Array" type="ArrayType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="ConvolutionalKernel">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" name="DilationRate">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="Array" type="ArrayType"/>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="KernelSize">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="Array" type="ArrayType"/>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="KernelStride">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element name="Array" type="ArrayType"/>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+                <xs:attribute name="channels" type="xs:unsignedShort" use="optional" />
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="Padding">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Array" type="ArrayType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="InputSize">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Array" type="ArrayType"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="layerType" type="xs:string" use="required" />
+          <xs:attribute name="name" type="xs:string" use="required" />
+          <xs:attribute name="interpolation" type="xs:string" use="optional" />
+          <xs:attribute name="activation" type="xs:string" use="optional" />
+          <xs:attribute name="padding" type="xs:string" use="optional" />
+          <xs:attribute name="use_bias" type="xs:string" use="optional" />
+          <xs:attribute name="threshold" type="xs:decimal" use="optional" />
+          <xs:attribute name="max_value" type="xs:decimal" use="optional" />
+          <xs:attribute name="depth_multiplier" type="xs:nonNegativeInteger" use="optional" />
+          <xs:attribute name="negative_slope" type="xs:decimal" use="optional" />
+          <xs:attribute name="axis" type="INT-NUMBER" use="optional" />
+          <xs:attribute name="center" type="xs:string" use="optional" />
+          <xs:attribute name="epsilon" type="xs:decimal" use="optional" />
+          <xs:attribute name="momentum" type="xs:decimal" use="optional" />
+          <xs:attribute name="operator" type="xs:string" use="optional" />
+          <xs:attribute name="channels" type="xs:nonNegativeInteger" use="optional" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Weights">
+        <xs:complexType>
+          <xs:attribute name="encoding" type="xs:string" use="required" />
+          <xs:attribute name="href" type="xs:string" use="required" />
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="modelName" type="xs:string" use="required" />
+    <xs:attribute name="functionName" type="xs:string" use="required" />
+    <xs:attribute name="numberOfLayers" type="xs:nonNegativeInteger" use="required" />
+  </xs:complexType>
+</xs:element>
+
 <xs:simpleType name="NN-NORMALIZATION-METHOD">
   <xs:restriction base="xs:string">
     <xs:enumeration value="none"/>
@@ -3378,6 +3507,9 @@
     <xs:attribute name="optype" type="OPTYPE" use="required"/>
     <xs:attribute name="dataType" type="DATATYPE" use="required"/>
     <xs:attribute name="taxonomy" type="xs:string"/>
+    <xs:attribute name="channels" type="xs:int"/>
+    <xs:attribute name="width" type="xs:int"/>
+    <xs:attribute name="height" type="xs:int"/>
     <xs:attribute name="isCyclic" default="0">
       <xs:simpleType>
         <xs:restriction base="xs:string">
@@ -3403,6 +3535,7 @@
     <xs:enumeration value="integer"/>
     <xs:enumeration value="float"/>
     <xs:enumeration value="double"/>
+    <xs:enumeration value="tensor"/>
     <xs:enumeration value="boolean"/>
     <xs:enumeration value="date"/>
     <xs:enumeration value="time"/>

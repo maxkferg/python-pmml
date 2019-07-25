@@ -2,23 +2,27 @@
 Read PMML files and make predictions
 
 Example usage:
-    python pmml.py predict \
+    python main.py predict \
         --model=examples/deepnetwork/VGG16/model.pmml \
         --input=test/assets/cat.jpg
 
-    python pmml.py runserver \
+    python main.py runserver \
         --model=examples/deepnetwork/VGG16/model.pmml
 
-    python pmml.py build_torch_examples
+    python main.py build_torch_examples
+
+    python main.py build_keras_examples
+
+    python main.py validate
 """
 import json
+import glob
 import argparse
 from lxml import etree
-from scipy.misc import imread
+from imageio import imread
 from models.gpr.parser import GaussianProcessParser
 from models.deepnetwork.core.intermediate import DeepNetwork
 from models.deepnetwork.core.utils import strip_namespace
-from models.deepnetwork.generate_models import build_models
 
 
 
@@ -54,22 +58,61 @@ def load_pmml(filename):
 
 
 
-def build_examples():
+def build_keras_examples():
     """
     Automatically build examples from publically available models
     """
-    build_models([
+    from models.deepnetwork import generate_keras_models
+    generate_keras_models.build_models([
         "VGG_16",
         "VGG_19",
         "RESNET_50",
         "MOBILENET",
+        "INCEPTION_V3",
+        "INCEPTION_RESNET",
+        "DENSENET_121",
+        "DENSENET_169",
+        "DENSENET_201"
+    ])
+
+
+def build_pytorch_examples():
+    """
+    Automatically build examples from publically available models
+    """
+    from models.deepnetwork import generate_torch_models
+    generate_torch_models.build_models([
+        "VGG_16",
+        "VGG_19",
+        "RESNET_50",
+        #"MOBILENET",
         #"INCEPTION_V3",
         #"INCEPTION_RESNET",
         #"DENSENET_121",
         #"DENSENET_169",
-        #"DENSENET_201"])
-        ])
+        #"DENSENET_201"
+    ])
 
+
+def validate_models_using_schema(filename):
+    """
+    Validate a file against the schema
+    Validates all models if a filename is not provided
+    """
+    model = DeepNetwork()
+    if filename:
+        filenames = [filename]
+    else:
+        keras_filenames = glob.glob("examples/deepnetwork/*.pmml")
+        torch_filenames = glob.glob("examples/deepnetwork/*.pmml")
+        filenames = keras_filenames + torch_filenames
+    for filepath in filenames:
+        print("Validating {0}".format(filepath))
+        if model.validate_pmml(filepath):
+            print("PMML File is VALID\n")
+        else:
+            print("PMML File is INVALID\n")
+            model.read_pmml(filepath) # Force error
 
 
 def predict(model, input_file):
@@ -89,17 +132,30 @@ def predict(model, input_file):
 
 
 parser = argparse.ArgumentParser(description='Main entry point for PMML package.')
-parser.add_argument('operation', type=str, help='One of [predict, runserver, or build_examples]')
 parser.add_argument('--model', help='The PMML file to load')
 parser.add_argument('--input', default='', help='The path to the input file for testing')
 parser.add_argument('--runserver', default=False, help='Run a server')
+subparsers = parser.add_subparsers(dest='operation', help='One of [predict, runserver, validate, ...]')
+
+parser_validate = subparsers.add_parser('validate',
+    help='Usage: main.py validate [--filename filename]')
+
+parser_validate.add_argument('--filename', type=str,
+    help='PMML file to validate')
 
 
 
 if __name__=="__main__":
     args = parser.parse_args()
-    if args.operation.lower()=="build_examples":
-        build_examples()
+
+    if args.operation.lower()=="build_keras_examples":
+        build_keras_examples()
+
+    elif args.operation.lower()=="build_pytorch_examples":
+        build_keras_examples()
+
+    elif args.operation=="validate":
+        validate_models_using_schema(args.filename)
 
     elif args.operation.lower()=="predict":
         model = load_pmml(args.model)

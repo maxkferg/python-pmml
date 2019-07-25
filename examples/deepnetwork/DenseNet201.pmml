@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
   <Header copyright="Copyright (c) 2019 NIST" description="DenseNet201 ImageNet Model">
-    <Timestamp>2019-51-25 15:51:19</Timestamp>
+    <Timestamp>2019-07-24 17:07:27</Timestamp>
   </Header>
   <DataDictionary numberOfFields="2">
-    <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
+    <DataField channels="3" dataType="tensor" height="300" name="I" optype="categorical" width="300"/>
     <DataField dataType="string" name="class" optype="categorical">
       <Value value="tench, Tinca tinca"/>
       <Value value="goldfish, Carassius auratus"/>
@@ -1016,14 +1016,14 @@
     <Outputs>
       <OutputField dataType="string" feature="topClass"/>
     </Outputs>
-    <NetworkLayer layerType="InputLayer" name="input_7">
+    <NetworkLayer layerType="InputLayer" name="input_9">
       <InputSize>
         <Array n="3" type="int">224 224 3</Array>
       </InputSize>
     </NetworkLayer>
     <NetworkLayer layerType="ZeroPadding2D" name="zero_padding2d_5">
       <InboundNodes>
-        <Array n="1" type="string">input_7</Array>
+        <Array n="1" type="string">input_9</Array>
       </InboundNodes>
       <Padding>
         <Array n="4" type="int">3 3 3 3</Array>
