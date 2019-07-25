@@ -92,10 +92,12 @@ def test_gdxray_eval(args):
 
 if __name__=="__main__":
 	args = parser.parse_args()
-	elif args.command=='gdxray':
+	if args.command=='gdxray':
 		if args.operation=="train":
 			test_gdxray_train(args)
 		elif args.operation=="eval":
 			test_gdxray_eval(args)
+	elif args.command is None:
+		print("No tests to run")
 	else:
-		print("Unknown test command", args.command)
+		print("Unknown test:", args.command)
