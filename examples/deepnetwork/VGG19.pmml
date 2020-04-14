@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
   <Header copyright="Copyright (c) 2019 NIST" description="VGG-19 ImageNet Model">
-    <Timestamp>2019-50-25 15:50:20</Timestamp>
+    <Timestamp>2019-59-24 16:59:59</Timestamp>
   </Header>
   <DataDictionary numberOfFields="2">
-    <DataField channels="3" dataType="image" height="300" name="I" width="300"/>
+    <DataField channels="3" dataType="tensor" height="300" name="I" optype="categorical" width="300"/>
     <DataField dataType="string" name="class" optype="categorical">
       <Value value="tench, Tinca tinca"/>
       <Value value="goldfish, Carassius auratus"/>

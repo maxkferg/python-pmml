@@ -65,6 +65,7 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 				strides=layer_config['strides'],
 				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
+		# Average Pooling
 		elif layer_class is "AveragePooling2D":
 			pmml._append_layer(AveragePooling2D(
 				name=layer_config['name'],
@@ -72,16 +73,18 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 				strides=layer_config['strides'],
 				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
+		# Global Average Pooling
 		elif layer_class is "GlobalAveragePooling2D":
 			pmml._append_layer(GlobalAveragePooling2D(
 				name=layer_config['name'],
-				size=layer_config['size'],
-				interpolation=layer_config['interpolation'],
 				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
+		# UpSampling
 		elif layer_class is "UpSampling2D":
 			pmml._append_layer(UpSampling2D(
 				name=layer_config['name'],
+				size=layer_config['size'],
+				interpolation=layer_config['interpolation'],
 				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
 		# Flatten

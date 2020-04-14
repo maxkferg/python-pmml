@@ -9,11 +9,20 @@ from tests.gdxray.train import train_gdxray
 from tests.gdxray.eval import eval_gdxray
 from tests.gdxray.dataloader import KerasDataset
 from models.deepnetwork.converters.keras import convert
+from models.deepnetwork.core.intermediate import DeepNetwork
 
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 
-subparsers = parser.add_subparsers(help='Run GDXray tests')
+subparsers = parser.add_subparsers(
+	help='Run GDXray tests',
+	dest='command')
+
+parser_validate = subparsers.add_parser('validate',
+	help='Usage: test.py validate [--filename filename]')
+
+parser_validate.add_argument('--filename', type=str,
+                    help='PMML file to validate')
 
 parser_gdxray = subparsers.add_parser('gdxray',
 	help='Usage: test.py gdxray <train|eval>')
@@ -79,13 +88,16 @@ def test_gdxray_eval(args):
 	eval_gdxray(model, dataset)
 
 
+
+
 if __name__=="__main__":
 	args = parser.parse_args()
-	if args.backbone.lower() not in BACKBONES:
-		raise ValueError("Unknown Backbone", args.backbone)
-	if args.operation=="train":
-		test_gdxray_train(args)
-	elif args.operation=="eval":
-		test_gdxray_eval(args)
-
-
+	if args.command=='gdxray':
+		if args.operation=="train":
+			test_gdxray_train(args)
+		elif args.operation=="eval":
+			test_gdxray_eval(args)
+	elif args.command is None:
+		print("No tests to run")
+	else:
+		print("Unknown test:", args.command)

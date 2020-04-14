@@ -20,7 +20,7 @@ class TestServer():
 	def test_speed(self):
 		start = time.time();
 		headers = {'Content-Type': 'application/json', 'Accept':'application/json'}
-		payload = {'xnew': [1,2,3,4,5]}	
+		payload = {'xnew': [1,2,3,4,5]}
 
 		for i in range(10):
 			r = requests.post('http://localhost:5000/predict/energy-prediction-1.pmml',json=payload, headers=headers)

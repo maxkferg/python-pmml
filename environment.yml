@@ -68,9 +68,11 @@ dependencies:
     - albumentations==0.3.0
     - cycler==0.10.0
     - decorator==4.4.0
+    - elementpath==1.1.8
     - image-classifiers==0.2.0
     - imageio==2.5.0
     - imgaug==0.2.6
+    - joblib==0.13.2
     - kiwisolver==1.1.0
     - mako==1.0.7
     - matplotlib==3.1.1
@@ -80,5 +82,8 @@ dependencies:
     - python-dateutil==2.8.0
     - pywavelets==1.0.3
     - scikit-image==0.15.0
+    - scikit-learn==0.21.2
     - segmentation-models==0.2.1
+    - sklearn==0.0
+    - xmlschema==1.0.13
 
