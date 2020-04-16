@@ -1,6 +1,7 @@
 """
 Convert Keras models to PMML
 """
+from pprint import pprint
 from ..core.intermediate import DeepNetwork
 from ..core.layers import InputLayer, Conv2D, ZeroPadding2D, MaxPooling2D, AveragePooling2D, GlobalAveragePooling2D, Flatten, Dense, BatchNormalization, Dropout, Reshape, DepthwiseConv2D, Merge, Activation, UpSampling2D
 
@@ -26,7 +27,6 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 		layer_class = layer['class_name']
 		layer_config = layer['config']
 		layer_inbound_nodes = layer['inbound_nodes']
-		# Input
 		if layer_class is "InputLayer":
 			pmml._append_layer(InputLayer(
 				name=layer_config['name'],
@@ -45,6 +45,9 @@ def convert(keras_model, class_map, description="Neural Network Model"):
 				padding=layer_config['padding'],
 				inbound_nodes=get_inbound_nodes(layer_inbound_nodes),
 			))
+		# Reshape Lambda
+		elif layer_class is "Lambda":
+			pass
 		# DepthwiseConv2D
 		elif layer_class is "DepthwiseConv2D":
 			pmml._append_layer(DepthwiseConv2D(
