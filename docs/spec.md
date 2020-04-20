@@ -4,7 +4,7 @@ Convolutional neural networks, or CNNs, are a specialized kind of neural network
 
 
 
-![](images/structure.png)
+<img src="images/structure.png" width=500px />
 
    
 
@@ -245,7 +245,7 @@ A `reshape` layer reshapes the input tensor. The number of values in the input t
 
 CNN's are commonly used for image classification, segmentation, regression, and object localization. PMML supports all of these output types. The *NetworkOutputs* element is used to define the outputs of a deep neural network. Each output is defined using the *NetworkOutput* element. 
 
-![image-20200415141406538](images/Outputs.png)
+<img src="images/Outputs.png" alt="image-20200415141406538" width=600 />
 
 PMML can be used to represent CNN classification models. Classification models approximate a mapping function ( *f* ) from input variables ( X ) to a discrete output variable ( *y* ). The output variables are often called labels or categories. The mapping function predicts the class or category for a given observation. For example, an image can be classified as belonging to one of two classes: “cat” or “dog”. It is common for classification models to predict a continuous value as the probability of a given example belonging to each output class. The probabilities can be interpreted as the likelihood or confidence of a given example belonging to each class. A predicted probability can be converted into a class value by selecting the class label that has the highest probability. The proposed extension introduces a *DiscretizeClassification* element that defines this transformation. Specifically, *DiscretizeClassification* describes a transformation that takes an input tensor of class *likelihoods* and outputs a string describing the most probable class.
 
@@ -395,7 +395,9 @@ Large tensors have been replaced by `<Tensor>` for display purposes. The model i
 
 This image can be expressed as a Matrix:
 
-![](images/input-layer.png)
+<img src="images/input-layer.png">
+
+![](images/input-layer.png )
 
 
 
@@ -403,7 +405,7 @@ All numbers are rounded to two decimal places for visual clarity. The unrounded 
 
 
 
-![](images/layer-1.png)
+<img src="images/layer-1.png" width="740px">
 
 
 
@@ -411,7 +413,7 @@ where "*" indicates the convolution operator and "+" is an element-wise addition
 
 
 
-<img src="images/layer-2.png" style="zoom:67%;" />
+<img src="images/layer-2.png" width="640px">
 
 
 
@@ -419,7 +421,13 @@ The next layer in the CNN is a *MaxPooling2D* layer with a 2x2 kernel size. The 
 
  
 
-<img src="images/layer-3.png" style="zoom:67%;" />	
+<img src="images/layer-3.png" width="340px">	
+
+
+
+
+
+
 
 
 
@@ -427,7 +435,7 @@ The output is flattened into a single vector using a *Flatten* layer:
 
 
 
-<img src="images/layer-4.png" alt="he" style="zoom:67%;" />
+<img src="images/layer-4.png" width="130px">
 
 
 
@@ -435,7 +443,7 @@ The next layer in the CNN is a *Dense* layer. The weight matrix (W<sub>5</sub>) 
 
 
 
-![](images/layer-6.png)
+<img src="images/layer-6.png">
 
 
 
@@ -443,13 +451,17 @@ The first *Dense* layer is followed by a second *Dense* layer. The weight matrix
 
 
 
-![](images/layer-8.png)
+<img src="images/layer-8.png" width="640px">
 
 
 
 The output of this layer (a<sub>6</sub>) is the score for each class. The PMML file specifies that the model should return the "topClass". The top class can be calculated by applying an argmax operation to a<sub>6</sub>:
 
-![](images/layer-9.png)
+
+
+<img src="images/layer-9.png" width="200px">
+
+
 
 Here, the number 7 refers to the element 7 in the DataDictionary. Element 7 in the data dictionary is "seven", so the model returns "seven"
 
