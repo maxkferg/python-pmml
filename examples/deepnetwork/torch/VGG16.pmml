@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
-  <Header copyright="Copyright (c) 2019 NIST" description="VGG-16 ImageNet Model (from torchvision)">
-    <Timestamp>2019-48-25 15:48:53</Timestamp>
+<PMML version="5.0" xmlns="http://www.dmg.org/PMML-5_0">
+  <Header copyright="Copyright (c) 2020 NIST" description="VGG-16 ImageNet Model (from torchvision)">
+    <Timestamp>2020-08-25 15:48:53</Timestamp>
   </Header>
   <DataDictionary numberOfFields="2">
     <DataField channels="3" dataType="tensor" height="300" name="I" width="300" optype="categorical"/>
@@ -1008,7 +1008,7 @@
       <Value value="toilet tissue, toilet paper, bathroom tissue"/>
     </DataField>
   </DataDictionary>
-  <DeepNetwork modelName="Deep Neural Network" functionName="classification" numberOfLayers="38">
+  <DeepNetwork modelName="Deep Neural Network" modelType="CNN" functionName="classification" numberOfLayers="38">
     <MiningSchema>
       <MiningField name="image" usageType="active"/>
       <MiningField name="class" usageType="predicted"/>

@@ -72,12 +72,12 @@ class PMML_Model():
 
 
     def generate_root_tag(self):
-        PMML_version = "4.5"
-        xmlns = "http://www.dmg.org/PMML-4_5"
+        PMML_version = "5.0"
+        xmlns = "http://www.dmg.org/PMML-5_0"
         PMML = etree.Element('PMML', xmlns=xmlns, version=PMML_version)
         header = etree.SubElement(PMML, "Header", copyright=self.copyright, description=self.description)
         timestamp = etree.SubElement(header, "Timestamp")
-        timestamp.text = datetime.now().strftime("%Y-%M-%d %X")
+        timestamp.text = datetime.now().strftime("%Y-%m-%d %X")
         return PMML
 
 
@@ -108,6 +108,7 @@ class DeepNetwork(PMML_Model):
         dnn_element = root_element.find("DeepNetwork")
         if dnn_element.tag != "DeepNetwork":
             raise ValueError("Element must have tag type DeepNetwork. Got %s"%dnn_element.tag)
+        
         layers = dnn_element.findall("NetworkLayer")
         for layer_element in layers:
             config = dict(layer_element.attrib)
@@ -222,6 +223,7 @@ class DeepNetwork(PMML_Model):
         # DeepNeuralNetworkLevel
         dnn = etree.SubElement(PMML, "DeepNetwork")
         dnn.set("modelName", "Deep Neural Network")
+        dnn.set("modelType", "CNN")
         dnn.set("functionName", "classification")
         dnn.set("numberOfLayers", str(len(self.layers)))
 

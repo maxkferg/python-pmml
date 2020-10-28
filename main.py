@@ -72,7 +72,6 @@ def build_keras_examples():
         "INCEPTION_RESNET",
         "DENSENET_121",
         "DENSENET_169",
-        "DENSENET_201"
     ])
 
 
@@ -132,14 +131,28 @@ def predict(model, input_file):
 
 
 parser = argparse.ArgumentParser(description='Main entry point for PMML package.')
-parser.add_argument('--model', help='The PMML file to load')
-parser.add_argument('--input', default='', help='The path to the input file for testing')
 parser.add_argument('--runserver', default=False, help='Run a server')
 subparsers = parser.add_subparsers(dest='operation', help='One of [predict, runserver, validate, ...]')
 
+# Prediction parser
+predict_parser = subparsers.add_parser('predict',
+    help='Usage: main.py predict --input input')
+predict_parser.add_argument('--model', default='', 
+    help='The PMML file to load')
+predict_parser.add_argument('--input', default='', 
+    help='The path to the input file for testing')
+
+# Build_pytorch parser
+subparsers.add_parser('build_pytorch_examples',
+    help='Usage: main.py build_pytorch_examples')
+
+# Build_keras parser
+subparsers.add_parser('build_keras_examples',
+    help='Usage: main.py build_keras_examples')
+
+# Validate parser
 parser_validate = subparsers.add_parser('validate',
     help='Usage: main.py validate [--filename filename]')
-
 parser_validate.add_argument('--filename', type=str,
     help='PMML file to validate')
 

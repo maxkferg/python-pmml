@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
+<PMML version="5.0" xmlns="http://www.dmg.org/PMML-5_0">
   <Header copyright="Copyright (c) 2019 NIST" description="UNet-resnet34 model trained to classify casting defects">
     <Timestamp>2019-00-19 23:00:48</Timestamp>
   </Header>
@@ -7,7 +7,7 @@
     <DataField channels="3" dataType="tensor" height="300" name="I" width="300" optype="categorical"/>
     <DataField dataType="string" name="class" optype="categorical"/>
   </DataDictionary>
-  <DeepNetwork modelName="Deep Neural Network" functionName="classification" numberOfLayers="199">
+  <DeepNetwork modelName="Deep Neural Network" modelType="CNN" functionName="classification" numberOfLayers="199">
     <MiningSchema>
       <MiningField name="image" usageType="active"/>
       <MiningField name="class" usageType="predicted"/>

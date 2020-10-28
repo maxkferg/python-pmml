@@ -1,4 +1,4 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.dmg.org/PMML-4_5" elementFormDefault="unqualified" targetNamespace="http://www.dmg.org/PMML-4_5">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.dmg.org/PMML-5_0" elementFormDefault="unqualified" targetNamespace="http://www.dmg.org/PMML-5_0">
   <xs:element name="DefineFunction">
   <xs:complexType>
     <xs:sequence>
@@ -3424,8 +3424,15 @@
     <xs:attribute name="modelName" type="xs:string" use="required" />
     <xs:attribute name="functionName" type="xs:string" use="required" />
     <xs:attribute name="numberOfLayers" type="xs:nonNegativeInteger" use="required" />
+    <xs:attribute name="modelType" type="DNN-MODEL-TYPE" use="required" />
   </xs:complexType>
 </xs:element>
+
+<xs:simpleType name="DNN-MODEL-TYPE">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="CNN"/>
+  </xs:restriction>
+</xs:simpleType>
 
 <xs:simpleType name="NN-NORMALIZATION-METHOD">
   <xs:restriction base="xs:string">

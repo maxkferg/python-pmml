@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<PMML version="4.5" xmlns="http://www.dmg.org/PMML-4_5">
-  <Header copyright="Copyright (c) 2019 NIST" description="DenseNet201 ImageNet Model">
+<PMML version="4.5" xmlns="http://www.dmg.org/PMML-5_0">
+  <Header copyright="Copyright (c) 2020 NIST" description="DenseNet201 ImageNet Model">
     <Timestamp>2019-07-24 17:07:27</Timestamp>
   </Header>
   <DataDictionary numberOfFields="2">
@@ -1008,7 +1008,7 @@
       <Value value="toilet tissue, toilet paper, bathroom tissue"/>
     </DataField>
   </DataDictionary>
-  <DeepNetwork modelName="Deep Neural Network" functionName="classification" numberOfLayers="709">
+  <DeepNetwork modelName="Deep Neural Network" modelType="CNN" functionName="classification" numberOfLayers="709">
     <MiningSchema>
       <MiningField name="image" usageType="active"/>
       <MiningField name="class" usageType="predicted"/>
