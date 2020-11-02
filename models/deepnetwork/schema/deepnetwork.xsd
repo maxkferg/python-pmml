@@ -2381,16 +2381,18 @@
     <xs:attribute name="dataType" type="DATATYPE" use="required"/>
   </xs:complexType>
 </xs:element>
+
 <xs:element name="Constant">
   <xs:complexType>
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute name="dataType" type="DATATYPE"/>
-		<xs:attribute name="missing" type="xs:boolean" default="false"/>
+		    <xs:attribute name="missing" type="xs:boolean" default="false"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
 </xs:element>
+
 <xs:element name="FieldRef">
   <xs:complexType>
     <xs:sequence>
@@ -3303,6 +3305,7 @@
   <xs:complexType>
     <xs:sequence>
       <xs:element ref="MiningSchema"/>
+      <xs:element ref="LocalTransformations" minOccurs="0"/>
       <xs:element name="Outputs">
         <xs:complexType>
           <xs:sequence>
