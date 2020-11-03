@@ -1,113 +1,59 @@
 
 
-
 class LocalTransformation:
   
-  def __init__(self, etree):
-    pass
+  def __init__(self, *args, name=None):
+    self.name = name
+    self.args = args
 
   def to_pmml():
     pass
 
   def apply(self):
-    pass
+    return image
 
 
 class Preprocessing_imageToTensor(LocalTransformation):
   """Convert an arbitrary tensor to HxWxC format"""
 
-  def __init__(self, asrgs):
-    pass
-
-  def parse(self, etree):
-    pass
-
-  def to_pmml(self)
-    pass
-
   def apply(self):
-    pass
+    return image
 
 
 
 class Preprocessing_crop(LocalTransformation):
   """Center crop an HxWxC image to Hcrop, Wcrop"""
 
-  def __init__(self, asrgs):
-    pass
-
-  def parse(self, etree):
-    pass
-
-  def to_pmml(self)
-    pass
-
-  def apply(self):
-    pass
+  def apply(self, image):
+    return image
 
 
 
 class Preprocessing_subtract(LocalTransformation):
   """Subtract a constant from each color channel"""
 
-  def __init__(self, etree):
-    pass
-
-
-  def to_pmml(self):
-    pass
-
-
-  def apply(self):
-    pass
+  def apply(self, image):
+    return image
 
 
 
 class Preprocessing_divide(LocalTransformation):
   """Divide each color channel by an constant"""
 
-  def __init__(self, etree):
-    pass
-
-
-  def to_pmml(self):
-    pass
-
-
-  def apply(self):
-    pass
+  def apply(self, image):
+    return image
 
 
 
 
-<DerivedField name="imageTensor" optype="continuous" dataType="tensor">
-          <Apply function="custom:Preprocessing_imageToTensor">
-            <FieldRef field="image"/>
-          </Apply>
-        </DerivedField>
-        <!-- this is to crop the image tensor -->
-        <DerivedField name="croppedImageTensor" optype="continuous" dataType="tensor">
-            <Apply function="crop">
-              <FieldRef field="imageTensor"/>
-              <Constant dataType="integer">224</Constant>
-              <Constant dataType="integer">224</Constant>
-            </Apply>
-        </DerivedField>
-        <!-- Subtract the color mean -->    
-        <DerivedField name="meanNormalizedTensor" optype="continuous" dataType="tensor">
-            <Apply function="-">
-              <FieldRef field="croppedImageTensor"/>
-              <Constant dataType="float">0.485</Constant>
-              <Constant dataType="float">0.456</Constant>
-              <Constant dataType="float">0.406</Constant>
-            </Apply>
-        </DerivedField>
-        <!-- Divid by color standard deviation -->  
-        <DerivedField name="normalizedTensor" optype="continuous" dataType="tensor">
-            <Apply function="/">
-              <FieldRef field="meanNormalizedTensor"/>
-              <Constant dataType="float">0.229</Constant>
-              <Constant dataType="float">0.224</Constant>
-              <Constant dataType="float">0.225</Constant>
-            </Apply>
-        </DerivedField>
+def get_transform_function_by_name(name):
+  if name == "custom:Preprocessing_imageToTensor":
+    return Preprocessing_imageToTensor
+  elif name == "crop":
+    return Preprocessing_crop
+  elif name == "-" or name == "subtract":
+    return Preprocessing_subtract
+  elif name == "/" or name == "divide":
+    return Preprocessing_divide
+  else:
+    raise ValueError(f"No such function {name}")

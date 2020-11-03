@@ -3,8 +3,8 @@ Read PMML files and make predictions
 
 Example usage:
     python main.py predict \
-        --model=examples/deepnetwork/VGG16/model.pmml \
-        --input=test/assets/cat.jpg
+        --model=examples/deepnetwork/ResNet50.pmml \
+        --input=tests/assets/cat.jpg
 
     python main.py runserver \
         --model=examples/deepnetwork/VGG16/model.pmml
@@ -53,7 +53,7 @@ def load_pmml(filename):
         parser = GaussianProcessParser()
         model = parser.parse(filename)
     else:
-        raise ValueError("Could not find a valud model in %s"%filename)
+        raise ValueError("Could not find a valid model in %s"%filename)
     return model
 
 

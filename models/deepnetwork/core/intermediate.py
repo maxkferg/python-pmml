@@ -12,6 +12,7 @@ from lxml import etree
 from datetime import datetime
 from tensorflow import keras
 from . import layers
+from .transformations import get_transform_function_by_name
 from .utils import read_array, to_bool, strip_namespace, url_exists
 from .layers import InputLayer, get_layer_class_by_name
 DEBUG = False
@@ -23,7 +24,7 @@ class PMML_Model():
     Does not contain any DeepNetwork specific logic
     This class can be extended to support specific PMML model types
     """
-    ns = "{http://www.dmg.org/PMML-4_5}"
+    ns = "{http://www.dmg.org/PMML-5_0}"
 
     def __init__(self, filename=None, class_map={}, description=None, copyright=None, username="NIST"):
         """
@@ -32,6 +33,7 @@ class PMML_Model():
         @class_map: A map in the form {class_id: class_name}
         """
         self.layers = []
+        self._preprocessing_steps = []
         self.description = description
         self.copyright = copyright
         self.keras_model = None
@@ -109,6 +111,25 @@ class DeepNetwork(PMML_Model):
         if dnn_element.tag != "DeepNetwork":
             raise ValueError("Element must have tag type DeepNetwork. Got %s"%dnn_element.tag)
         
+        # Build preprocessing graph
+        self._preprocessing_steps = []
+        local_transformations = dnn_element.find("LocalTransformations")
+        if local_transformations is not None:
+            transforms = local_transformations.findall("DerivedField")
+            for transform in transforms:
+                transform_name = transform.attrib["name"]
+                args = [xml_cast(i) for i in transform.findall("Constant")]
+                transform_function = transform.find("Apply").attrib["function"]
+                transform_input_name = transform.find("Apply").find("FieldRef").attrib["field"]
+                Transform = get_transform_function_by_name(transform_function)
+                step = Transform(*args, name=transform_name)
+                if len(self._preprocessing_steps) > 0:
+                    prev_layer_name = self._preprocessing_steps[-1].name
+                    if transform_input_name != prev_layer_name:
+                        raise ValueError(f"FieldRef {transform_name} does match previous transform step {prev_layer_name}")
+                self._preprocessing_steps.append(step)
+
+        # Build CNN graph
         layers = dnn_element.findall("NetworkLayer")
         for layer_element in layers:
             config = dict(layer_element.attrib)
@@ -313,6 +334,13 @@ class DeepNetwork(PMML_Model):
         etree.SubElement(schema, "MiningField", name="image", usageType="active")
         etree.SubElement(schema, "MiningField", name="class", usageType="predicted")
         return schema
+
+
+    def _preprocess_image(self, image):
+        output = image
+        for step in self._preprocessing_steps:
+            output = step.apply(output)
+        return output
 
 
     def _append_layer(self,layer):
