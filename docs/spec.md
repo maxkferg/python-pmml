@@ -242,19 +242,161 @@ The flatten layer is a variant of the reshape layer, that flattens the input ten
 
 `Transposed convolutions`, also called deconvolutions, arise from the desire to use a transformation going in the opposite direction of a normal convolution, for example, to increase the spatial dimensions of a tensor. They are commonly used in CNN decoders, which progressively increase the spatial size of the input tensor. A transposed convolution layer is represented using a *NetworkLayer* element with the *layerType* attribute set to TransposedConv2D.
 
- 
+
+
+## Preprocessing
+
+Images and other inputs are often preprocessed or transformed before being evaluated using a deep neural network. In PMML, preprocessing is handled using the LocalTransformations directive. An example preprocessing pipeline is provided below:
+
+```xml
+<LocalTransformations>
+	<!-- This is to read raw pixel data & construct a tensor -->
+  <DerivedField name="imageTensor" optype="continuous" dataType="tensor">
+    <Apply function="custom:Preprocessing_imageToTensor">
+      <FieldRef field="image" />
+    </Apply>
+  </DerivedField>
+  
+	<!-- This is to crop the image tensor -->
+  <DerivedField name="croppedImageTensor" optype="continuous" dataType="tensor">
+    <Apply function="crop">
+      <FieldRef field="imageTensor" />
+      <Constant dataType="integer">224</Constant>
+      <Constant dataType="integer">224</Constant>
+    </Apply>
+  </DerivedField>
+  
+	<!-- Subtract the color mean -->
+  <DerivedField name="meanNormalizedTensor" optype="continuous" dataType="tensor">
+    <Apply function="-">
+      <FieldRef field="croppedImageTensor" />
+      <Constant dataType="float">0.485</Constant>
+      <Constant dataType="float">0.456</Constant>
+      <Constant dataType="float">0.406</Constant>
+    </Apply>
+  </DerivedField>
+  
+	<!-- Divid by color standard deviation -->
+  <DerivedField name="normalizedTensor" optype="continuous" dataType="tensor">
+    <Apply function="/">
+      <FieldRef field="meanNormalizedTensor" />
+      <Constant dataType="float">0.229</Constant>
+      <Constant dataType="float">0.224</Constant>
+      <Constant dataType="float">0.225</Constant>
+    </Apply>
+  </DerivedField>
+</LocalTransformations>
+```
+
+
+PMML always represents images as a 3 dimensional tensor with dimensions [height, width, channels]. Following the main PMML specification, each preprocessing steps is described by a DerivedField. The following sections describe the preprocessing functions that are available with PMML 5.0:
+
+### custom:Preprocessing_imageToTensor
+
+DMG to complete.
+
+### crop
+
+Crop a tensor to a preset size. This function crops the first two (spatial dimensions) of the tensor. The center-crop technique is used. The crop function takes two arguments. The first argument is an integer describing the height of the cropped image in pixels.  The first argument is an integer describing the width of the cropped image in pixels.
+
+### add ("+")
+
+Add a constant to each element in the tensor. This function takes one or three arguments. If a single argument is provided, that argument defines the numerical value that is added to each element in the tensor. If three arguments are provided, then each argument describes the numerical value that is added to the first (red), second (green), and third (blue) color channels, respectively. 
+
+### subtract ("-")
+
+Subtract a constant to each element in the tensor. This function takes one or three arguments. If a single argument is provided, that argument defines the numerical value that is subtracted from each element in the tensor. If three arguments are provided, then each argument describes the numerical value that is subtracted from the first (red), second (green), and third (blue) color channels, respectively.
+
+### multiply ("*")
+
+Multiply a constant to each element in the tensor. This function takes one or three arguments. If a single argument is provided, that argument defines the numerical value multipled with each element in the tensor. If three arguments are provided, then each argument describes the numerical value that is multiplied with each element in the first (red), second (green), and third (blue) color channels, respectively.
+
+### divide ("/")
+
+Divide each element in the tensor by a constant. This function takes one or three arguments. If a single argument is provided, then each element in the tensor is divided by the first argument. If three arguments are provided, then the tensor elements in the first (red) channel are divided by the first argument. The tensor elements in the second (green) channel are divided by the second argument. The tensor elements in the last (blue) channel are divided by the last argument. 
 
 ## Neural Network Output
 
-CNN's are commonly used for image classification, segmentation, regression, and object localization. PMML supports all of these output types. The *NetworkOutputs* element is used to define the outputs of a deep neural network. Each output is defined using the *NetworkOutput* element. 
+CNN's are commonly used for image classification, segmentation, regression, and object localization. PMML supports all of these output types. The *NeuralOutput* element is used to define the outputs of a deep neural network. Each output is defined using the *OutputField* element. Output fields use a *FieldRef* or *DerievedField* to describe what layer of the neural network is used for the output.
 
-<img src="images/Outputs.png" alt="image-20200415141406538" width=600 />
 
-PMML can be used to represent CNN classification models. Classification models approximate a mapping function ( *f* ) from input variables ( X ) to a discrete output variable ( *y* ). The output variables are often called labels or categories. The mapping function predicts the class or category for a given observation. For example, an image can be classified as belonging to one of two classes: “cat” or “dog”. It is common for classification models to predict a continuous value as the probability of a given example belonging to each output class. The probabilities can be interpreted as the likelihood or confidence of a given example belonging to each class. A predicted probability can be converted into a class value by selecting the class label that has the highest probability. The proposed extension introduces a *DiscretizeClassification* element that defines this transformation. Specifically, *DiscretizeClassification* describes a transformation that takes an input tensor of class *likelihoods* and outputs a string describing the most probable class.
 
-PMML can also be used to represent CNN regression models. Formally, regression models approximate a mapping function ( *f* ) from input variables ( X ) to a continuous output variable ( Y ). A continuous output variable is a real-value, such as an integer or floating-point value, or a tensor of continuous values. The existing *FieldRef*  PMML element is used to define regression models. If a *FieldRef* is contained in a *NetworkOuput* then it returns a copy of any specified tensor in the neural network. If the *FieldRef* has a double datatype, then it converts a single element tensors to a single double value. 
+```xml
+<NeuralOutputs>
+  <!-- Classification Output -->
+  <NeuralOutput outputLayer="dense_1" />
+    <NeuralOutputField feature="topClass" dataType="string" classes="classes" />
+  </NeuralOutput>
 
-PMML can be used to represent CNN segmentation models.  Semantic segmentation is one of the fundamental tasks in computer vision. In semantic segmentation, the goal is to classify each pixel of the image in a specific category. Formally, semantic segmentation models approximate a mapping function ( *f* ) from an input image (X) to a tensor of object classes (Y). Most modern neural network architectures learn a mapping between the input image and a tensor that describes the class likelihood for each pixel. The final step is to select the class with the largest likelihood for each pixel. The proposed PMML extension introduces a *DiscretizeSegmentation* element that defines this transformation. Specifically, *DiscretizeSegmentation* describes a transformation that takes an input tensor and outputs a tensor containing the most likely pixel classes.
+  <!-- Regression Output -->
+  <NeuralOutput outputLayer="dense_2">
+  	<NeuralOutputField feature="value" dataType="double" />
+  </NeuralOutput>
+  
+  <!-- Localization Output -->
+  <NeuralOutput outputLayer="dense_2">
+  	<NeuralOutputField feature="value" dataType="tensor" />
+  <NeuralOutput>
+
+  <!-- Segmentation Output -->
+  <NeuralOutput outputLayer="batch_1">
+  	<NeuralOutputField feature="segmentation" dataType="tensor" classes="classes" />
+  </NeuralOutput>
+</NeuralOutputs>
+```
+
+
+
+PMML can be used to represent CNN classification models. Classification models approximate a mapping function ( *f* ) from input variables ( X ) to a discrete output variable ( *y* ). The output variables are often called labels or categories. The mapping function predicts the class or category for a given observation. For example, an image can be classified as belonging to one of two classes: “cat” or “dog”. It is common for classification models to predict a continuous value as the probability of a given example belonging to each output class. To output the class with the highest probablilty a *NeuralOutputField* with feature="topClass" can be used.
+
+PMML can also be used to represent CNN regression models. Formally, regression models approximate a mapping function ( *f* ) from input variables ( X ) to a continuous output variable ( Y ). A continuous output variable is a real-value, such as an integer or floating-point value, or a tensor of continuous values. A *NeuralOutputField* element with feature="value" can be used to directly output a numerical value from a neural network layer.
+
+PMML can be used to represent CNN segmentation models.  Semantic segmentation is one of the fundamental tasks in computer vision. In semantic segmentation, the goal is to classify each pixel of the image in a specific category. Formally, semantic segmentation models approximate a mapping function ( *f* ) from an input image (X) to a tensor of object classes (Y). Most modern neural network architectures learn a mapping between the input image and a tensor that describes the class likelihood for each pixel. The final step is to select the class with the largest likelihood for each pixel. A *NeuralOutputField* element with feature="segmentation" can be used to directly output a tensor of class indexes.
+
+The schema for *NeuralOutput* is shown below:
+
+```xml
+<xs:element name="NeuralOutputs">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element maxOccurs="unbounded" ref="NeuralOutput"/>
+    </xs:sequence>
+    <xs:attribute name="numberOfOutputs" type="xs:nonNegativeInteger"/>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="NeuralOutput">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="DerivedField" minOccurs="0" />
+      <xs:element ref="NeuralOutputField" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="outputNeuron" type="NN-NEURON-IDREF"/>
+    <xs:attribute name="outputLayer" type="xs:string"/>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="NeuralOutputField">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="feature" type="NN-OUTPUT-FEATURE" use="required"/>
+    <xs:attribute name="dataType" type="DATATYPE" use="required"/>
+    <xs:attribute name="classes" type="xs:string"/>
+  </xs:complexType>
+</xs:element>
+
+<xs:simpleType name="NN-OUTPUT-FEATURE">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="topClass"/>
+    <xs:enumeration value="value"/>
+    <xs:enumeration value="segmentation"/>
+  </xs:restriction>
+</xs:simpleType>
+```
 
 
 
@@ -285,23 +427,23 @@ In this example, PMML is used to represent a CNN model to classify hand-written 
       <Value value="Nine"/>
     </DataField>
   </DataDictionary>
-  <ConvolutionalNeuralNetwork modelName="Deep Neural Network" functionName="classification" numberOfLayers="6">
+  <DeepNetwork modelName="MNIST" modelType="CNN" functionName="classification" numberOfLayers="6">
     <MiningSchema>
       <MiningField name="image" usageType="active"/>
       <MiningField name="class" usageType="predicted"/>
     </MiningSchema>
-    <NetworkOutputs>
-      <NetworkOutput>
-        <OutputField dataType="string" feature="topClass"/>
-      </NetworkOutput>
-    </NetworkOutputs>
-    <NetworkInputs layerType="InputLayer" name="input_2">
-      <NetworkInput>
-        <InputSize>
-          <Array n="3" type="int">14 14 1</Array>
-        </InputSize>
-      </NetworkInput>
-    </NetworkInputs>
+    <NeuralInputs>
+      <NeuralInput id="input" name="input_2">
+        <DerivedField dataType="tensor" optype="continuous">
+          <FieldRef field="image"/>
+        </DerivedField>
+      </NeuralInput>
+    </NeuralInputs>
+    <NeuralOutputs>
+      <NeuralOutput outputLayer="dense_3" >
+        <NeuralOutputField feature="topClass" dataType="string" classes="classes" />
+      </NeuralOutput>
+  	</NeuralOutputs>
     <NetworkLayer activation="relu" layerType="Convolution" name="conv2d_2" padding="valid" use_bias="True">
       <InboundNodes>
         <Array n="1" type="string">input_2</Array>
@@ -363,7 +505,6 @@ In this example, PMML is used to represent a CNN model to classify hand-written 
     <Weights encoding="hdf5" href="small_model.h5"/>
   </DeepNetwork>
 </PMML>
-
 ```
 
  The weights are stored using the HDF5 format, which is a binary key-value format. HDF5 is not human readable but can be converted to a human-readable format like JSON for display purposes. The contents of the HDF5 file are shown in JSON below:

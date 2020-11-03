@@ -3304,26 +3304,21 @@
 <xs:element name="DeepNetwork">
   <xs:complexType>
     <xs:sequence>
+      <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="MiningSchema"/>
       <xs:element ref="LocalTransformations" minOccurs="0"/>
-      <xs:element name="Outputs">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="OutputField">
-              <xs:complexType>
-                <xs:attribute name="dataType" type="xs:string" use="required" />
-                <xs:attribute name="feature" type="xs:string" use="required" />
-              </xs:complexType>
-            </xs:element>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
+
+      <xs:element ref="NeuralInputs"/>
+      <xs:element ref="NeuralOutputs"/>
+      
       <xs:element maxOccurs="unbounded" name="NetworkLayer">
         <xs:complexType>
           <xs:sequence>
-            <xs:element minOccurs="0" name="InboundNodes">
+            <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element minOccurs="1" name="InboundNodes">
               <xs:complexType>
                 <xs:sequence>
+                  <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
                   <xs:element name="Array" type="ArrayType"/>
                 </xs:sequence>
               </xs:complexType>
@@ -3331,6 +3326,7 @@
             <xs:element minOccurs="0" name="TargetShape">
               <xs:complexType>
                 <xs:sequence>
+                  <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
                   <xs:element name="Array" type="ArrayType"/>
                 </xs:sequence>
               </xs:complexType>
@@ -3338,6 +3334,7 @@
             <xs:element minOccurs="0" name="PoolSize">
               <xs:complexType>
                 <xs:sequence>
+                  <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
                   <xs:element name="Array" type="ArrayType"/>
                 </xs:sequence>
               </xs:complexType>
@@ -3345,6 +3342,7 @@
             <xs:element minOccurs="0" name="Size">
               <xs:complexType>
                 <xs:sequence>
+                  <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
                   <xs:element name="Array" type="ArrayType"/>
                 </xs:sequence>
               </xs:complexType>
@@ -3352,6 +3350,7 @@
             <xs:element minOccurs="0" name="Strides">
               <xs:complexType>
                 <xs:sequence>
+                  <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
                   <xs:element name="Array" type="ArrayType"/>
                 </xs:sequence>
               </xs:complexType>
@@ -3359,6 +3358,7 @@
             <xs:element minOccurs="0" name="ConvolutionalKernel">
               <xs:complexType>
                 <xs:sequence>
+                  <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
                   <xs:element minOccurs="0" name="DilationRate">
                     <xs:complexType>
                       <xs:sequence>
@@ -3369,6 +3369,7 @@
                   <xs:element name="KernelSize">
                     <xs:complexType>
                       <xs:sequence>
+                        <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
                         <xs:element name="Array" type="ArrayType"/>
                       </xs:sequence>
                     </xs:complexType>
@@ -3376,6 +3377,7 @@
                   <xs:element name="KernelStride">
                     <xs:complexType>
                       <xs:sequence>
+                        <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
                         <xs:element name="Array" type="ArrayType"/>
                       </xs:sequence>
                     </xs:complexType>
@@ -3387,6 +3389,7 @@
             <xs:element minOccurs="0" name="Padding">
               <xs:complexType>
                 <xs:sequence>
+                  <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
                   <xs:element name="Array" type="ArrayType"/>
                 </xs:sequence>
               </xs:complexType>
@@ -3394,6 +3397,7 @@
             <xs:element minOccurs="0" name="InputSize">
               <xs:complexType>
                 <xs:sequence>
+                  <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
                   <xs:element name="Array" type="ArrayType"/>
                 </xs:sequence>
               </xs:complexType>
@@ -3445,6 +3449,14 @@
   </xs:restriction>
 </xs:simpleType>
 
+<xs:simpleType name="NN-OUTPUT-FEATURE">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="topClass"/>
+    <xs:enumeration value="value"/>
+    <xs:enumeration value="segmentation"/>
+  </xs:restriction>
+</xs:simpleType>
+
 <xs:simpleType name="NN-NEURON-ID">
   <xs:restriction base="xs:string"/>
 </xs:simpleType>
@@ -3452,6 +3464,7 @@
 <xs:simpleType name="NN-NEURON-IDREF">
   <xs:restriction base="xs:string"/>
 </xs:simpleType>
+
 <xs:element name="NeuralInput">
   <xs:complexType>
     <xs:sequence>
@@ -3459,8 +3472,10 @@
       <xs:element ref="DerivedField"/>
     </xs:sequence>
     <xs:attribute name="id" type="NN-NEURON-ID" use="required"/>
+    <xs:attribute name="name" type="xs:string"/>
   </xs:complexType>
 </xs:element>
+
 <xs:element name="Neuron">
   <xs:complexType>
     <xs:sequence>
@@ -3487,11 +3502,14 @@
   <xs:complexType>
     <xs:sequence>
       <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element ref="DerivedField"/>
+      <xs:element ref="DerivedField" minOccurs="0" />
+      <xs:element ref="NeuralOutputField" minOccurs="0" />
     </xs:sequence>
-    <xs:attribute name="outputNeuron" type="NN-NEURON-IDREF" use="required"/>
+    <xs:attribute name="outputNeuron" type="NN-NEURON-IDREF"/>
+    <xs:attribute name="outputLayer" type="NN-NEURON-IDREF"/>
   </xs:complexType>
 </xs:element>
+
 <xs:element name="DataDictionary">
   <xs:complexType>
     <xs:sequence>
@@ -3502,6 +3520,18 @@
     <xs:attribute name="numberOfFields" type="xs:nonNegativeInteger"/>
   </xs:complexType>
 </xs:element>
+
+<xs:element name="NeuralOutputField">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="Extension" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="feature" type="NN-OUTPUT-FEATURE" use="required"/>
+    <xs:attribute name="dataType" type="DATATYPE" use="required"/>
+    <xs:attribute name="classes" type="xs:string"/>
+  </xs:complexType>
+</xs:element>
+
 
 <xs:element name="DataField">
   <xs:complexType>

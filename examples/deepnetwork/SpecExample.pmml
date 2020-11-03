@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<PMML version="5.0" xmlns="http://www.dmg.org/PMML-5_0">
+  <Header copyright="Copyright (c) 2020 NIST" description="Simple model to detect hand-written digits">
+    <Timestamp>2020-04-15 10:40:56</Timestamp>
+  </Header>
+  <DataDictionary numberOfFields="2">
+    <DataField channels="1" dataType="tensor" height="14" name="I" optype="categorical" width="14"/>
+    <DataField dataType="string" name="class" optype="categorical">
+      <Value value="Zero"/>
+      <Value value="One"/>
+      <Value value="Two"/>
+      <Value value="Three"/>
+      <Value value="Four"/>
+      <Value value="Five"/>
+      <Value value="Six"/>
+      <Value value="Seven"/>
+      <Value value="Eight"/>
+      <Value value="Nine"/>
+    </DataField>
+  </DataDictionary>
+  <DeepNetwork modelName="MNIST" modelType="CNN" functionName="classification" numberOfLayers="6">
+    <MiningSchema>
+      <MiningField name="image" usageType="active"/>
+      <MiningField name="class" usageType="predicted"/>
+    </MiningSchema>
+    <NeuralInputs>
+      <NeuralInput id="input" name="input_2">
+        <DerivedField dataType="tensor" optype="continuous">
+          <FieldRef field="image"/>
+        </DerivedField>
+      </NeuralInput>
+    </NeuralInputs>
+    <NeuralOutputs>
+      <NeuralOutput outputLayer="dense_3" >
+        <NeuralOutputField feature="topClass" dataType="string" classes="classes" />
+      </NeuralOutput>
+  	</NeuralOutputs>
+    <NetworkLayer activation="relu" layerType="Convolution" name="conv2d_2" padding="valid" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">input_2</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="1">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer activation="relu" layerType="Convolution" name="conv2d_3" padding="valid" use_bias="True">
+      <InboundNodes>
+        <Array n="1" type="string">conv2d_2</Array>
+      </InboundNodes>
+      <ConvolutionalKernel channels="1">
+        <DilationRate>
+          <Array n="2" type="int">1 1</Array>
+        </DilationRate>
+        <KernelSize>
+          <Array n="2" type="int">3 3</Array>
+        </KernelSize>
+        <KernelStride>
+          <Array n="2" type="int">1 1</Array>
+        </KernelStride>
+      </ConvolutionalKernel>
+    </NetworkLayer>
+    <NetworkLayer layerType="MaxPooling" name="max_pooling2d_1">
+      <InboundNodes>
+        <Array n="1" type="string">conv2d_3</Array>
+      </InboundNodes>
+      <PoolSize>
+        <Array n="2" type="int">2 2</Array>
+      </PoolSize>
+      <Strides>
+        <Array n="2" type="int">2 2</Array>
+      </Strides>
+    </NetworkLayer>
+    <NetworkLayer layerType="Flatten" name="flatten_1">
+      <InboundNodes>
+        <Array n="1" type="string">max_pooling2d_1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="relu" channels="16" layerType="Dense" name="dense_2">
+      <InboundNodes>
+        <Array n="1" type="string">flatten_1</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <NetworkLayer activation="softmax" channels="10" layerType="Dense" name="dense_3">
+      <InboundNodes>
+        <Array n="1" type="string">dense_2</Array>
+      </InboundNodes>
+    </NetworkLayer>
+    <Weights encoding="hdf5" href="small_model.h5"/>
+  </DeepNetwork>
+</PMML>
+
